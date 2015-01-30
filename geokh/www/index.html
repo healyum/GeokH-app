@@ -75,7 +75,7 @@
                 </div>
                 <div class="qr_code">
                     <p>Quand la balise est trouvée</p>
-                    <button>Flashez le code</button>
+                    <button id="btn_flash">Flashez le code</button>
                     <img src="" alt="QR code">
                 </div>
             </section>
@@ -136,7 +136,7 @@
                     <p class="valeur">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vitae nibh tincidunt, molestie nibh ac, faucibus augue. Praesent metus nulla, ultricies a convallis nec, iaculis blandit nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam faucibus feugiat imperdiet. Quisque lobortis rutrum justo ut pulvinar.
                     </p>
-                    <button class="correct modal">voir l'indice</button>
+                    <button class="correct modal" disabled="disabled">voir l'indice</button>
                     <button id="btn_compass">Continuer (balise suivante)</button>
                     <button id="btn_entrepreneurs">Continuer (entrepreneur)</button>
                 </div>
@@ -184,7 +184,7 @@
                             
                         </div>
                     </div>
-                    <button class="indices modal">voir l'indice</button>
+                    <button class="indices modal" disabled="disabled">voir les indices</button>
                     <button id="btn_entrepreneur_mystere">C'est cet entrepreneur</button>
                 </div>
             </section>
@@ -214,6 +214,7 @@
                     <p class="valeur"><span>XXXX</span></p>
                     <p> points</p>
                 </div>
+                <button id="btn_scores">Voir les scores</button>
             </section>  
 
 
@@ -248,8 +249,8 @@
                     <span>Points </span>
                     <span class="valeur">XXXXXX</span>
                 </p>
-                <button class="stats modal">mes statistiques</button>
-                <button id="btn_credits">C'est cet entrepreneur</button>
+                <button class="stats modal" disabled="disabled" >mes statistiques</button>
+                <button id="btn_credits">Finir la parite</button>
             </section>  
 
 
@@ -265,7 +266,8 @@
         <footer>
             
         </footer>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
     </body>
+        <script type="text/javascript" src="js/jquery-2.1.3.min.js"></script>
+        <!-- <script type="text/javascript" src="cordova.js"></script> -->
+        <script type="text/javascript" src="js/index.js"></script>
 </html>

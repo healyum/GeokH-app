@@ -41,7 +41,7 @@ header {
     -webkit-overflow-scrolling: touch; 
     display: none;
 }
-#entrepreneur_mystere.view { display: block; }
+/*#entrepreneur_mystere.view { display: block; }*/
 
 footer {
     position: absolute;

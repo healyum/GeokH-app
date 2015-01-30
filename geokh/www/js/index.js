@@ -18,10 +18,11 @@
  */
 var app = {
     // Application Constructor
-    initialize: function() {
+    initialize: function initialize() {
         console.log("initializing.");
+        this.showView("#accueil");
         //this.bindEvents();
-    }/* ,
+    },/* 
     // Bind Event Listeners
     //
     // Bind any events that are required on startup. Common events are:
@@ -48,6 +49,52 @@ var app = {
         console.log('Received Event: ' + id);
     }
     */
+    showView: function showView(view_id) {
+        $(".view").hide();
+        $(view_id).show();
+    }
 };
 
 app.initialize();
+
+window.onload = function () {
+    /*ENCHAINEMENT D'ECRAN PROVISOIRE*/
+    $('#btn_connexion').click(function() {
+        app.showView("#connexion");
+    });
+
+    $('#form_connexion').submit( function( event ) {
+        app.showView("#compass");
+        event.preventDefault();
+    });
+
+    $('#btn_flash').click(function() {
+        app.showView("#question");
+    });
+
+    $('#form_question').submit( function( event ) {
+        app.showView("#reponse");
+        event.preventDefault();
+    });
+
+    $('#btn_compass').click(function() {
+        app.showView("#compass");
+    });
+    $('#btn_entrepreneurs').click(function() {
+        app.showView("#entrepreneurs");
+    });
+
+    $('#btn_entrepreneur_mystere').click(function() {
+        app.showView("#entrepreneur_mystere");
+    });
+
+    $('#btn_scores').click(function() {
+        app.showView("#scores");
+    });
+
+    $('#btn_credits').click(function() {
+        app.showView("#credits");
+    });
+
+    
+}
