@@ -9,11 +9,10 @@
         <title>GeoK'H</title>
     </head>
     <body>
-        <header>
-            <h1>GeoK'H</h1>
-        </header>
-
-        <section class="app">
+        <section class="app">            
+            <header>
+                <h1><img src="img/GeoKH.png" alt="Geok'H"></h1>
+            </header>
             <!-- -------------------------- -->
             <!--            accueil         -->
             <!-- -------------------------- -->
@@ -30,7 +29,10 @@
             <!-- -------------------------- -->
             <section class="view" id="connexion">
                 <form method="post" action="" id="form_connexion">
-                    <input type="text" name="" id="form_equipe" placeholder="Equipe" />
+                    <div class="inpt_text">
+                        <label for="form_equipe">Equipe : </label>
+                        <input type="text" name="" id="form_equipe" />
+                    </div>                        
                     <div id="form_niveau" class="form_groupe">
                         <p>Niveau :</p>
                         <input type="checkbox" name="form_niveau[]" id="form_niveau1" value="1" /><label for="form_niveau1">Débutant</label>
@@ -39,9 +41,9 @@
                     <div id="form_parcours" class="form_groupe">
                         <p>Parcours :</p>
                         <input type="radio" name="form_parcours" id="form_parcours1" value="1" /><label for="form_parcours1">1</label>
-                        <input type="radio" name="form_parcours" id="form_parcours2" value="2" /><label for="form_parcours2">2</labe2>
-                        <input type="radio" name="form_parcours" id="form_parcours3" value="3" /><label for="form_parcours3">3</labe3>
-                        <input type="radio" name="form_parcours" id="form_parcours4" value="4" /><label for="form_parcours4">4</labe4>
+                        <input type="radio" name="form_parcours" id="form_parcours2" value="2" /><label for="form_parcours2">2</label>
+                        <input type="radio" name="form_parcours" id="form_parcours3" value="3" /><label for="form_parcours3">3</label>
+                        <input type="radio" name="form_parcours" id="form_parcours4" value="4" /><label for="form_parcours4">4</label>
                     </div>
                     <input type="submit" name="submit" value="Lancer la partie" class="form_submit" />
                 </form>
@@ -64,7 +66,11 @@
                     <p>Conseil : </p>
                     <p class="valeur">Lorem ipsum sit amet, consectetur adipiscing elit.</p>
                 </div>
-                <img src="" alt="Compass ICI" />
+                <img src="" alt="Compass ICI" style="
+                    clear: both;
+                    margin: 0px;
+                    width: 100%;
+                ">
                 <div class="distance">
                     <p>Distance :</p>
                     <p class="valeur"><span>XXX</span> m</p>
@@ -73,11 +79,12 @@
                     <p>Précision :</p>
                     <p class="valeur"><span>XXX</span> m</p>
                 </div>
-                <div class="qr_code">
+
+                <button id="btn_flash">Flashez le code</button>
+                <!--<div class="qr_code">
                     <p>Quand la balise est trouvée</p>
-                    <button id="btn_flash">Flashez le code</button>
                     <img src="" alt="QR code">
-                </div>
+                </div>-->
             </section>
 
 

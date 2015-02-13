@@ -1,7 +1,16 @@
 /**
  * Style de l'application GeoK'H
  * Auteurs : Goblot Pauline et Bauduin Raphael
+ * 
+ * Organisation : 
+ * 1. General
+ * 2. Accueil
+ * 3. Lancement d'une partie
  */
+
+/****************************************/
+/* 1. General                           */
+/****************************************/
 * {
     -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
 }
@@ -18,28 +27,51 @@ body {
     padding:0px;
 }
 
-header {
+.app {
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+}
+
+.app header {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     text-align: center;
-    height: 60px;
+    height: 120px;
+} 
+
+.app header h1 {
+    margin: 0;
 }
 
-.app {
-    position: absolute;
-    top: 60px; left: 0; bottom: 0; right: 0;
+.app header img {
+    height: 100px;
+    padding: 10px 0;
 }
 
 .view {
     position: absolute;
-    top: 0; left: 0; bottom: 0; right: 0;
+    top: 120px; left: 0; bottom: 0; right: 0;
     padding: 14px 28px;
     overflow-x: hidden;
     overflow-y: scoll;
     -webkit-overflow-scrolling: touch; 
     display: none;
+    text-align: center;
+}
+
+button, input[type='submit'] {
+    margin: 0;
+    text-transform: uppercase;
+    border: none;
+    right: 0;
+    left: 0;
+    height: 45px;
+    line-height: 45px;
+    width: 100%;
+    font-weight: bold;
+    position: absolute;
 }
 /*#entrepreneur_mystere.view { display: block; }*/
 
@@ -50,4 +82,119 @@ footer {
     left: 0;
     height: 0;
     background: blue;
+}
+
+/****************************************/
+/* 2. Accueil                           */
+/****************************************/
+#btn_connexion {
+    bottom: 50px;
+    background: #38b449;
+    color: #ffffff;
+}
+#btn_connexion:active {
+    background: #2da038;
+}
+
+/****************************************/
+/* 3. Lancement d'une partie            */
+/****************************************/
+.inpt_text, .form_groupe {
+    margin: 20px 0px;
+} 
+
+.inpt_text {
+    border: 1px solid #D0D0D0;
+    padding: 0 7px;
+}
+
+.inpt_text input {
+    border: 0;
+    box-shadow: 0 0 0 transparent;
+    height: 33px;
+    line-height: 33px;
+}
+.inpt_text input:focus {
+    outline: 0;
+}
+
+.inpt_text label {
+    display: inline-block;
+    width: 65px;
+}
+
+.form_groupe {
+    height: 37px;
+    line-height: 37px;
+}
+
+.form_groupe p {
+    margin: 0 0 0 8px;
+    display: inline-block;
+    width: 65px;
+}
+
+.form_groupe label {
+    height: 37px;
+    line-height: 37px;
+    display: inline-block;
+    margin: 0 13px 0 5px;
+}
+#form_parcours.form_groupe label {
+    margin: 0 8px 0 4px;
+}
+
+#form_connexion input[type='submit'] {
+    bottom: 50px;
+    background: #38b449;
+    color: #ffffff;
+}
+#form_connexion input[type='submit']:active {
+    background: #2da038;
+}
+
+
+/****************************************/
+/* 4. recherche d'une balise            */
+/****************************************/
+#compass .score,
+#compass .distance {
+    float: left;
+}
+
+#compass .temps,
+#compass .precision {
+    float: right;
+}
+
+#compass .conseil {
+    clear: both;
+    text-align: left;
+}
+
+#compass .score p,
+#compass .temps p,
+#compass .distance p,
+#compass .precision p {
+    margin: 12px 0 0;
+}
+
+#compass .score p.valeur,
+#compass .temps p.valeur,
+#compass .temps p.distance,
+#compass .temps p.precision {
+    margin: 7px 0 20px;
+}
+
+.conseil p {
+    margin: 0 0 7px;
+}
+
+#btn_flash {
+    bottom: 20px;
+    background: #38b449;
+    color: #ffffff;
+}
+#btn_flash:active {
+    background: #2da038;
 }
