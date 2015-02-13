@@ -34,12 +34,12 @@
                     </div>                        
                     <div id="form_niveau" class="form_groupe">
                         <p>Niveau :</p>
-                        <input type="checkbox" name="form_niveau[]" id="form_niveau1" value="1" /><label for="form_niveau1">Débutant</label>
-                        <input type="checkbox" name="form_niveau[]" id="form_niveau2" value="2" /><label for="form_niveau2">Avancé</label>
+                        <input type="radio" name="form_niveau" id="form_niveau1" value="1" checked="checked" /><label for="form_niveau1">Débutant</label>
+                        <input type="radio" name="form_niveau" id="form_niveau2" value="2" /><label for="form_niveau2">Avancé</label>
                     </div>
                     <div id="form_parcours" class="form_groupe">
                         <p>Parcours :</p>
-                        <input type="radio" name="form_parcours" id="form_parcours1" value="1" /><label for="form_parcours1">1</label>
+                        <input type="radio" name="form_parcours" id="form_parcours1" value="1" checked="checked" /><label for="form_parcours1">1</label>
                         <input type="radio" name="form_parcours" id="form_parcours2" value="2" /><label for="form_parcours2">2</label>
                         <input type="radio" name="form_parcours" id="form_parcours3" value="3" /><label for="form_parcours3">3</label>
                         <input type="radio" name="form_parcours" id="form_parcours4" value="4" /><label for="form_parcours4">4</label>
@@ -55,7 +55,7 @@
             <section class="view" id="compass">
                 <div class="score">
                     <p>Score :</p>
-                    <p class="valeur"><span>XXXX</span></p>
+                    <p class="valeur"><span></span></p>
                 </div>
                 <div class="temps">
                     <p>Temps :</p>
@@ -65,11 +65,16 @@
                     <p>Conseil : </p>
                     <p class="valeur">Lorem ipsum sit amet, consectetur adipiscing elit.</p>
                 </div>
-                <img src="" alt="Compass ICI" style="
+                <!--<img src="" alt="Compass ICI" style="
                     clear: both;
                     margin: 0px;
                     width: 100%;
-                ">
+                ">-->
+                <img src="img/compass.svg" alt="" id="compass_elt" style="
+                    clear: both;
+                    margin: 0px;
+                    width: 100%;">
+
                 <div class="distance">
                     <p>Distance :</p>
                     <p class="valeur"><span>XXX</span> m</p>
@@ -93,21 +98,19 @@
             <section class="view" id="question">
                 <div class="score">
                     <p>Score :</p>
-                    <p class="valeur"><span>XXXX</span></p>
+                    <p class="valeur"><span></span></p>
                 </div>
-                <div class="difficulté">
+                <div class="difficulte">
                     <p>Difficulté :</p>
-                    <p class="valeur">XXXX</p>
+                    <p class="valeur"><span></span></p>
                 </div>
                 <div class="lib_question">
                     <p>Question :</p>
-                    <p class="valeur">
-                        
-                    </p>
+                    <p class="valeur"><span></span></p>
                 </div>
                 <form method="post" action="" id="form_question">
-                    <div class="repones">
-                        <input type="checkbox" name="form_reponse[]" id="form_reponse1" value="1" /><label for="form_reponse1">Réponse 1</label>
+                    <div class="reponses">
+                        
                     </div>
                     <div class="pari">
                         <label for="form_pari">Parier</label>
@@ -132,16 +135,14 @@
                 </div>
                 <div class="score">
                     <p>Score :</p>
-                    <p class="bonus">+<span>XXX</span></p>
+                    <p class="bonus correct">+<span>XXX</span></p>
                     <p class="valeur"><span>XXXX</span></p>
                     <p> points</p>
                 </div>
                 <div class="retour">
                     <p class="correct">Complément :</p>
                     <p class="errone">Réponse :</p>
-                    <p class="valeur">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vitae nibh tincidunt, molestie nibh ac, faucibus augue. Praesent metus nulla, ultricies a convallis nec, iaculis blandit nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam faucibus feugiat imperdiet. Quisque lobortis rutrum justo ut pulvinar.
-                    </p>
+                    <p class="valeur"></p>
                     <button class="correct modal" disabled="disabled">voir l'indice</button>
                     <button id="btn_compass">Continuer (balise suivante)</button>
                     <button id="btn_entrepreneurs">Continuer (entrepreneur)</button>
@@ -155,40 +156,9 @@
             <section class="view" id="entrepreneurs">
                 <div class="entrepreneurs_wrapper">
                     <p>Qui est l'enrtepreneur mystère?</p>
-                    <div class="ents_miniatures">
-                        <a href="" id="ent_min_1">
-                            <img src="img/user.svg" alt="" class="ent_min" />
-                        </a>
-                        <a href="" id="ent_min_2">
-                            <img src="img/user.svg" alt="" class="ent_min" />
-                        </a>
-                        <a href="" id="ent_min_3">
-                            <img src="img/user.svg" alt="" class="ent_min" />
-                        </a>
-                        <a href="" id="ent_min_4">
-                            <img src="img/user.svg" alt="" class="ent_min" />
-                        </a>
+                    <div class="ents_miniatures">                        
                     </div>
                     <div id="ents_presentation">
-                        <div id="ent_pres_1">
-                            <p class="ent_nom">
-                                Nom Prénom : 
-                            </p>
-                            <div class="ent_desc">
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vitae nibh tincidunt, molestie nibh ac, faucibus augue.
-                                </p>
-                            </div>
-                        </div>
-                        <div id="ent_pres_2">
-                            
-                        </div>
-                        <div id="ent_pres_3">
-                            
-                        </div>
-                        <div id="ent_pres_3">
-                            
-                        </div>
                     </div>
                     <button class="indices modal" disabled="disabled">voir les indices</button>
                     <button id="btn_entrepreneur_mystere">C'est cet entrepreneur</button>
@@ -274,9 +244,12 @@
         </footer>
     </body>
         <script type="text/javascript" src="js/jquery-2.1.3.min.js"></script>
-         <script type="text/javascript" src="vendors/angularjs/angular.min.js"></script>
-        <script type="text/javascript" src="vendors/ngCordova/ng-cordova.js"></script>
+        <script type="text/javascript" src="js/jQueryRotate.min.js"></script>
         <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/app.js"></script>
+        <script type="text/javascript" src="js/balises.js"></script>
+        <script type="text/javascript" src="js/entrepreneurs.js"></script>
+        <script type="text/javascript" src="js/questions.js"></script>
+        <script type="text/javascript" src="js/geodesie.js"></script>
+        <script type="text/javascript" src="js/compass.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
 </html>
