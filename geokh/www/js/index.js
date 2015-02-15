@@ -10,11 +10,12 @@ var app = {
     parcours: 1,
     balise_courante : 10,
     question_courante : "",
+    entrepreneur_select : "",
 
 
     // Application Constructor
     initialize: function initialize() {
-        console.log("initializing.");
+        //console.log("initializing.");
         this.showView("#accueil");
         //this.bindEvents();
     },/* 
@@ -51,6 +52,13 @@ var app = {
     },
     rotate: function rotate(_angle){
         $('#compass_elt').rotate(_angle);
+    },
+    showEnt : function showEnt(ent){
+        if (app.entrepreneur_select != ""){
+            $("#entrepreneurs #ents_presentation #"+app.entrepreneur_select).hide();
+        }
+        $("#entrepreneurs #ents_presentation #"+ent).show();
+        app.entrepreneur_select = ent;
     }
 };
 
@@ -137,8 +145,8 @@ window.onload = function () {
         $('#reponse .retour .valeur').html("");
         for(var p in retours){
             //$('#reponse .retour .valeur')
-            console.log(typeof retours[p]);
-            console.log(retours[p]);
+            //console.log(typeof retours[p]);
+            //console.log(retours[p]);
             if(typeof retours[p] == "string"){
                 $('#reponse .retour .valeur').append(retours[p]);
             }else {
@@ -168,23 +176,38 @@ window.onload = function () {
     });
     $('#btn_entrepreneurs').click(function() {
         app.showView("#entrepreneurs");
-        var entrepreneurs = entrepreneurs.entrepreneurs;
+        var entrepreneurs_liste = entrepreneurs.entrepreneurs;
+        var html_miniatures = "";
+        var html_entrepreneur = "";
 
-        for(var i in entrepreneurs){
-            var html_minitaures = '<a href="#" onclick="/*fonction showEnt(id_ent)*/return false;">'
-                                    +'<img src="img/user.svg" alt="'+entrepreneurs[i].prenom+''+entrepreneurs[i].nom+'" class="ent_min" />'
+        for(var i in entrepreneurs_liste){
+            html_miniatures += '<a href="#" onclick="app.showEnt(\''+i+'\'); return false;">'
+                                    +'<img src="img/user.svg" alt="'+entrepreneurs_liste[i].prenom+' '+entrepreneurs_liste[i].nom+'" class="ent_min" />'
                                     +'</a>';
-            var html_entrepreneur = '<div id="ent_pres"'+i+'>'
-                                    + '<p class="ent_nom">'+entrepreneurs[i].prenom+''+entrepreneurs[i].nom+'</p>'
-                                    + '<div class="ent_desc">'
-                                    +   '<p>';
+            html_entrepreneur += '<div id="'+i+'" style="display: none;">'
+                                    + '<p class="ent_nom">'+entrepreneurs_liste[i].prenom+' '+entrepreneurs_liste[i].nom+'</p>'
+                                    + '<div class="ent_desc">';
             //ici il faut ajouter les questions et les réponses dans html_entrepreneur
-            html_entrepreneur += '</p>'
-                                + '</div>';
+            for (var j in entrepreneurs_liste[i].interview){
+                //console.log(entrepreneurs_liste[i].interview[j].question);
+                html_entrepreneur += '<p class="ent_question">'+entrepreneurs_liste[i].interview[j].question+'</p>';
+
+                for (var k in entrepreneurs_liste[i].interview[j].reponses){
+                    //console.log(entrepreneurs_liste[i].interview[j].reponses[k]);
+                    html_entrepreneur += '<p class="ent_reponse">'+entrepreneurs_liste[i].interview[j].reponses[k]+'</p>';
+                }
+            }
+
+            html_entrepreneur += '</div></div>';
 
             //les appends (le clear avant)
-        }
+            
+        };
+        $('#entrepreneurs .ents_miniatures').html(html_miniatures);
+        $('#entrepreneurs #ents_presentation').html(html_entrepreneur); // pourquoi ID au lieu de class ?
     });
+
+    
 
     $('#btn_entrepreneur_mystere').click(function() {
         app.showView("#entrepreneur_mystere");
