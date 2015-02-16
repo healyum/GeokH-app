@@ -204,7 +204,7 @@ var questions = {
         },
         "question_10" : {
             "theme" : "Etude de marché",
-            "objectifs" : "Les éléments à étudier pour uneétude de marché.",
+            "objectifs" : "Les éléments à étudier pour une étude de marché.",
             "type" : "QCM",
             "difficulte" : "2",         
             "question" : "Parmi ces propositions, trouvez les éléments à étudier d’une étude de marché ?",

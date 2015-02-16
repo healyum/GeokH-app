@@ -8,9 +8,12 @@ var app = {
     equipe: "",
     niveau: 1,
     parcours: 1,
-    balise_courante : 10,
+    balise_courante : 8,
     question_courante : "",
     entrepreneur_select : "",
+    entrepreneur_aTrouver : "entrepreneur_1",
+    nb_balises_trouvees : 0,
+    nb_reponses_trouvees : 0,
 
 
     // Application Constructor
@@ -90,6 +93,7 @@ window.onload = function () {
 
     $('#btn_flash').click(function() {
         app.showView("#question");
+        app.nb_balises_trouvees++;
         $('#question .score .valeur span').text(app.score);
 
         app.question_courante = balises.balises["balise_"+app.balise_courante].question;
@@ -135,6 +139,7 @@ window.onload = function () {
             $("#reponse .errone").hide();
             $("#reponse .correct").show();
             $('#reponse .score .bonus span').text($('#form_pari').val());
+            app.nb_reponses_trouvees++;
         }else {
             $("#reponse .errone").show();
             $("#reponse .correct").hide();
@@ -204,17 +209,45 @@ window.onload = function () {
             
         };
         $('#entrepreneurs .ents_miniatures').html(html_miniatures);
-        $('#entrepreneurs #ents_presentation').html(html_entrepreneur); // pourquoi ID au lieu de class ?
+        $('#entrepreneurs #ents_presentation').html(html_entrepreneur);
     });
 
     
 
     $('#btn_entrepreneur_mystere').click(function() {
         app.showView("#entrepreneur_mystere");
+        var nb_points_correct = 50;
+        if (app.entrepreneur_select == app.entrepreneur_aTrouver){
+            $("#entrepreneur_mystere .correction .correct").show();
+            $("#entrepreneur_mystere .correction .errone").hide();
+            $("#entrepreneur_mystere .score .bonus span").html(nb_points_correct);
+            $("#entrepreneur_mystere .score .bonus").show();
+            app.score += nb_points_correct;
+        }else{
+            $("#entrepreneur_mystere .correction .errone").show();
+            $("#entrepreneur_mystere .correction .correct").hide();
+            $("#entrepreneur_mystere .score .bonus").hide();
+        };
+        $("#entrepreneur_mystere .ent_presentation .ent_nom").html(entrepreneurs.entrepreneurs[app.entrepreneur_aTrouver].nom);
+        $("#entrepreneur_mystere .ent_presentation .ent_prenom").html(entrepreneurs.entrepreneurs[app.entrepreneur_aTrouver].prenom);
+
+        $("#entrepreneur_mystere .score .valeur").html(app.score);
     });
 
     $('#btn_scores').click(function() {
         app.showView("#scores");
+        $("#scores .niveau .valeur").html(app.niveau);
+        //$("#scores .niveau .temps").html();
+        $("#scores .balises .valeur").html(app.nb_balises_trouvees);
+        $("#scores .balises .maximum").html(Object.keys(balises.balises).length);
+
+        $("#scores .reponses .valeur").html(app.nb_reponses_trouvees);
+        $("#scores .reponses .maximum").html(Object.keys(balises.balises).length);
+
+        $("#scores .paris .valeur").html();
+
+        $("#scores .points .valeur").html(app.score);
+
     });
 
     $('#btn_credits').click(function() {
