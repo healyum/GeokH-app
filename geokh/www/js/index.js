@@ -104,11 +104,11 @@ window.onload = function () {
         $('#form_question .reponses').html('');
         if(questions.questions[app.question_courante].type == "QCM"){
             for(var i=0; i < questions.questions[app.question_courante].propositions.length; i++){
-                $('#form_question .reponses').append( '<input type="checkbox" name="form_reponse[]" id="form_reponse'+(i+1)+'" value="'+(i+1)+'" /><label for="form_reponse'+(i+1)+'">'+questions.questions[app.question_courante].propositions[i]+'</label>' );
+                $('#form_question .reponses').append( '<div class="form_groupe"><input type="checkbox" name="form_reponse[]" id="form_reponse'+(i+1)+'" value="'+(i+1)+'" /><label for="form_reponse'+(i+1)+'">'+questions.questions[app.question_courante].propositions[i]+'</label></div>' );
             }
         }else if(questions.questions[app.question_courante].type == "QCU"){
             for(var i=0; i < questions.questions[app.question_courante].propositions.length; i++){
-                $('#form_question .reponses').append( '<input type="radio" name="form_reponse" id="form_reponse'+(i+1)+'" value="'+(i+1)+'" /><label for="form_reponse'+(i+1)+'">'+questions.questions[app.question_courante].propositions[i]+'</label>' );
+                $('#form_question .reponses').append( '<div class="form_groupe"><input type="radio" name="form_reponse" id="form_reponse'+(i+1)+'" value="'+(i+1)+'" /><label for="form_reponse'+(i+1)+'">'+questions.questions[app.question_courante].propositions[i]+'</label></div>' );
             }
         }
     });
@@ -210,6 +210,7 @@ window.onload = function () {
         };
         $('#entrepreneurs .ents_miniatures').html(html_miniatures);
         $('#entrepreneurs #ents_presentation').html(html_entrepreneur);
+        app.showEnt("entrepreneur_1");
     });
 
     
