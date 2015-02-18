@@ -14,16 +14,11 @@ compass.data.destination = {};
 
 compass.onSuccessLocation = function onSuccessLocation(_position) {
     compass.data.position = _position;
-
-    //document.getElementById("latitude").innerHTML = compass.data.position.coords.latitude;
-    //document.getElementById("longitude").innerHTML = compass.data.position.coords.longitude;
-    //document.getElementById("accuracy").innerHTML = compass.data.position.coords.accuracy;
-
-    $('#compass .precision .valeur span').text(Math.round(compass.data.position.coords.accuracy));
     
+    app.updatePrecision(Math.round(compass.data.position.coords.accuracy));
+
     actualPosition = new LatLon(compass.data.position.coords.latitude, compass.data.position.coords.longitude);
-    $('#compass .distance .valeur span').text(Math.round(actualPosition.distanceTo(compass.data.destination)*1000));
-    //document.getElementById("bearingto").innerHTML = actualPosition.bearingTo(m5);
+    app.updateDistance(Math.round(actualPosition.distanceTo(compass.data.destination)*1000));
 
 }
 compass.onErrorLocation = function onErrorLocation(error){
@@ -37,17 +32,17 @@ compass.onErrorLocation = function onErrorLocation(error){
 
 compass.onSuccessOrientation = function onSuccessOrientation(_heading) {
     compass.data.heading = _heading;
-    //document.getElementById("heading").innerHTML = Math.round(compass.data.heading.magneticHeading*100)/100;
-
     var angle = actualPosition.bearingTo(m5) - compass.data.heading.magneticHeading
-    //document.getElementById("angle").innerHTML = angle;
     app.rotate(Math.round(angle));
-}
+};
 compass.onErrorOrientation = function onErrorOrientation(error){
     alert('code: '    + error.code    + '\n' +
           'message: ' + error.message + '\n');
-}
+};
 
+compass.stopLocation = function stopLocation(){
+  navigator.geolocation.clearWatch();
+};
 
 compass.activateLocation = function activateLocation(){
     if(navigator.geolocation){

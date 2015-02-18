@@ -229,10 +229,10 @@ var questions = {
             "difficulte" : "1",         
             "question" : "Trouvez l’entrepreneur mystère qui correspond aux indices trouvés.",
             "propositions" : [
-                "Charles CORNILLE",
-                "Maud",
-                "Thierry",
-                "Cindy"
+                "entrepreneur_1",
+                "entrepreneur_2",
+                "entrepreneur_3"/*,
+                "entrepreneur_4"*/
             ],
             "reponses" : [],
             "retour" : []
