@@ -1,5 +1,5 @@
 # GeoK'H
-GeoK'H est une application de géocatching proposée par le [Hubhouse](http://www.univ-lille1.fr/etudes/hubhouse).
+GeoK'H est une application de geocatching proposée par le [Hubhouse](http://www.univ-lille1.fr/etudes/hubhouse).
 C'est une application basée sur Cordova, développée avec les technologies HTML5, CSS3 et Javascript.
 
 ## Pré-requis
@@ -14,9 +14,9 @@ Cloner le projet grâce à la commande :
 ## Lancement du projet
 Se positioner dans le dossier "geokh" où se trouve les dossiers hooks, plugins, www et le fichier config.xml
 
-Pour plus d'informations sur le lancement d'un projet Cordova, suivre la procedure disponible sur la [documentation](http://cordova.apache.org/docs/en/4.0.0/guide_cli_index.md.html#The%20Command-Line%20Interface)
+Pour plus d'informations sur le lancement d'un projet Cordova, suivre la procédure disponible sur la [documentation](http://cordova.apache.org/docs/en/4.0.0/guide_cli_index.md.html#The%20Command-Line%20Interface)
 
-lister les platformes disponibles :
+lister les plateformes disponibles :
 
     $ cordova platforms ls
 
@@ -35,9 +35,9 @@ lancer le projet sur une plateforme (android pour l'exemple) :
 A noter que cette commande commence par compiler l'application pour la plateforme.
 
 ## Architecture
-Comme le projet est une application cordova, elle est développée comme un site web "one-page". Chaque vue correspond donc à une section dans le fichier [index.html](https://github.com/raphaelbauduin/geokh/blob/master/geokh/www/index.html).
+Comme le projet est une application cordova, il est développé comme un site web "one-page". Chaque vue correspond donc à une section dans le fichier [index.html](https://github.com/raphaelbauduin/geokh/blob/master/geokh/www/index.html).
 
-La gestion des enchaiements de vues et des interactions utilisateurs se fait grâce à l'objet javascript `app`, définit dans le fichier [index.js](https://github.com/raphaelbauduin/geokh/blob/master/geokh/www/js/index.js).  
+La gestion des enchainements de vues et des interactions utilisateurs se fait grâce à l'objet javascript `app`, définit dans le fichier [index.js](https://github.com/raphaelbauduin/geokh/blob/master/geokh/www/js/index.js).  
 La fonction `initialize()` va charger les données nécessaires au bon fonctionnement du jeu (les balises, les questions et les entrepreneurs).  
 L'enchainement des vues est géré par la fonction `showView(view_id)` qui affiche la vue `view_id` et appelle la bonne fonction `showXXXView()` qui fait les calculs et les chargements spécifiques à la vue affichée.  
 
