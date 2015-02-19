@@ -7,7 +7,7 @@ C'est une application basée sur Cordova, développée avec les technologies HTM
 Pour plus d'information sur l'installation, suivre la [documentation](http://cordova.apache.org/docs/en/4.0.0/guide_cli_index.md.html#The%20Command-Line%20Interface)
 
 ## Installation
-Cloner le projet grace à la commande :
+Cloner le projet grâce à la commande :
 
     $ git clone https://github.com/raphaelbauduin/geokh.git
 
