@@ -40,4 +40,5 @@ Comme le projet est une application cordova, elle est développée comme un site
 La gestion des enchaiements de vues et des interactions utilisateurs se fait grâce à l'objet javascript `app`, définit dans le fichier [index.js](https://github.com/raphaelbauduin/geokh/blob/master/geokh/www/js/index.js).  
 La fonction `initialize()` va charger les données nécessaires au bon fonctionnement du jeu (les balises, les questions et les entrepreneurs).  
 L'enchainement des vues est géré par la fonction `showView(view_id)` qui affiche la vue `view_id` et appelle la bonne fonction `showXXXView()` qui fait les calculs et les chargements spécifiques à la vue affichée.  
+
 La gestion de la partie compas et géologalisation se fait dans l'objet javascript `compass`, définit dans le fichier [compass.js](https://github.com/raphaelbauduin/geokh/blob/master/geokh/www/js/compass.js).
