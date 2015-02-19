@@ -21,6 +21,7 @@ lister les platformes disponibles :
     $ cordova platforms ls
 
 ajouter une platforme : 
+
     $ cordova platform add android
 
 ## Architecture
