@@ -3,7 +3,7 @@ GeoK'H est une application de géocatching proposée par le [Hubhouse](http://ww
 C'est une application basée sur Cordova, développée avec les technologies HTML5, CSS3 et Javascript.
 
 ## Pré-requis
-[Cordova](http://www.cordova.apache.org) 4.2.0 ou supérieur. 
+[Cordova](http://www.cordova.apache.org) 4.2.0 ou supérieur.   
 Pour plus d'information sur l'installation, suivre la [documentation](http://cordova.apache.org/docs/en/4.0.0/guide_cli_index.md.html#The%20Command-Line%20Interface)
 
 ## Installation
