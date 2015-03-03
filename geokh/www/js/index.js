@@ -55,6 +55,9 @@ var app = {
             case "#compass":
                 this.showBaliseView();
                 break;
+			case "#qr_code":
+                this.showQrCodeView();
+                break;
             case "#question":
                 this.showQuestionBaliseView();
                 break;
@@ -104,6 +107,24 @@ var app = {
             $("#btn_flash").show();
         } 
     },
+	/*
+	 * Charge les informations pour la vue de question
+	 */
+	showQrCodeView : function showQrCodeView(){
+		alert('ShowQRCode');
+		$('#btn_question').hide();
+		cordova.plugins.barcodeScanner.scan(
+			function (result) {
+				//TODO check si code = balise recherchée
+				$("#qr_code_result").html("Code scanné : " + result.text);
+				$('#btn_question').show();
+			}, 
+			function (error) {
+				$("#qr_code_result").html("Scanning failed: " + error);
+			}
+		);
+	},
+	
     /*
      * Charge les informations pour la vue de question 
      */
@@ -318,7 +339,13 @@ window.onload = function () {
     });
 
     $('#btn_flash').click(function() {
+        app.showView("#qr_code");
+		 event.preventDefault();
+    });
+	
+	$('#btn_question').click(function() {
         app.showView("#question");
+		 event.preventDefault();
     });
 
     $('#form_question').submit( function( event ) {
