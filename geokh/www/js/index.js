@@ -111,12 +111,16 @@ var app = {
 	 * Charge les informations pour la vue de question
 	 */
 	showQrCodeView : function showQrCodeView(){
-		alert('ShowQRCode');
-		$('#btn_question').hide();
+		$('#btn_question').show();
+		$("#qr_code_result").html("Flash du QR Code");
 		cordova.plugins.barcodeScanner.scan(
 			function (result) {
 				//TODO check si code = balise recherchée
-				$("#qr_code_result").html("Code scanné : " + result.text);
+				if (result.text == ""){
+					$("#qr_code_result").html("Aucun code flashé");
+				}else {
+					$("#qr_code_result").html("Code flashé : " + result.text);
+				}
 				$('#btn_question').show();
 			}, 
 			function (error) {
