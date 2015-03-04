@@ -368,3 +368,14 @@ footer {
     display: inline-block;
     width: 250px;
 }
+
+
+
+/* error */
+input.error {
+    background: red;
+    color: white;
+}
+label.error {
+    color: red;
+}

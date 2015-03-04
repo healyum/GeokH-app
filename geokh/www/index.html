@@ -1,260 +1,294 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="msapplication-tap-highlight" content="no" />
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <title>GeoK'H</title>
-    </head>
-    <body>
-        <section class="app">            
-            <header>
-                <h1><img src="img/GeoKH.png" alt="Geok'H"></h1>
-            </header>
-            <!-- -------------------------- -->
-            <!--            accueil         -->
-            <!-- -------------------------- -->
-            <section class="view" id="accueil">            
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vitae nibh tincidunt, molestie nibh ac, faucibus augue. Praesent metus nulla, ultricies a convallis nec, iaculis blandit nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam faucibus feugiat imperdiet. Quisque lobortis rutrum justo ut pulvinar.
-                </p>
-                <button id="btn_connexion">Jouer</button>
-            </section>
-
-            
-            <!-- -------------------------- -->
-            <!--   Lancement d'une partie   -->
-            <!-- -------------------------- -->
-            <section class="view" id="connexion">
-                <form method="post" action="" id="form_connexion">
-                    <div class="inpt_text">
-                        <label for="form_equipe">Equipe : </label>
-                        <input type="text" name="" id="form_equipe" />
-                    </div>                        
-                    <div id="form_niveau" class="form_groupe">
-                        <p>Niveau :</p>
-                        <input type="radio" name="form_niveau" id="form_niveau1" value="1" checked="checked" /><label for="form_niveau1">Débutant</label>
-                        <!--
-                        <input type="radio" name="form_niveau" id="form_niveau2" value="2" /><label for="form_niveau2">Avancé</label>
-                        -->
-                    </div>
-                    <div id="form_parcours" class="form_groupe">
-                        <p>Parcours :</p>
-                        <input type="radio" name="form_parcours" id="form_parcours1" value="1" checked="checked" /><label for="form_parcours1">1</label>
-                        <!--
-                        <input type="radio" name="form_parcours" id="form_parcours2" value="2" /><label for="form_parcours2">2</label>
-                        <input type="radio" name="form_parcours" id="form_parcours3" value="3" /><label for="form_parcours3">3</label>
-                        <input type="radio" name="form_parcours" id="form_parcours4" value="4" /><label for="form_parcours4">4</label>
-                        -->
-                    </div>
-                    <input type="submit" name="submit" value="Lancer la partie" class="form_submit" />
-                </form>
-            </section>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="msapplication-tap-highlight" content="no"/>
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, target-densitydpi=device-dpi"/>
+    <link rel="stylesheet" type="text/css" href="css/index.css"/>
+    <title>GeoK'H</title>
+</head>
+<body>
+<section class="app">
+    <header>
+        <h1><img src="img/GeoKH.png" alt="Geok'H"></h1>
+    </header>
+    <!-- -------------------------- -->
+    <!--            accueil         -->
+    <!-- -------------------------- -->
+    <section class="view" id="accueil">
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vitae nibh tincidunt, molestie nibh ac,
+            faucibus augue. Praesent metus nulla, ultricies a convallis nec, iaculis blandit nunc. Class aptent taciti
+            sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam faucibus feugiat imperdiet.
+            Quisque lobortis rutrum justo ut pulvinar.
+        </p>
+        <button id="btn_connexion">Jouer</button>
+    </section>
 
 
-            <!-- -------------------------- -->
-            <!--   recherche d'une balise   -->
-            <!-- -------------------------- -->
-            <section class="view" id="compass">
-                <div class="score">
-                    <p>Score :</p>
-                    <p class="valeur"><span></span></p>
-                </div>
-                <div class="temps">
-                    <p>Temps :</p>
-                    <p class="valeur">X:XX:XX</p>
-                </div>
-                <div class="conseil">
-                    <p>Conseil : </p>
-                    <p class="valeur">Lorem ipsum sit amet, consectetur adipiscing elit.</p>
-                </div>
-                <img src="img/compass.svg" alt="" id="compass_elt">
-
-                <div class="distance">
-                    <p>Distance :</p>
-                    <p class="valeur"><span>XXX</span> m</p>
-                </div>
-                <div class="precision">
-                    <p>Précision :</p>
-                    <p class="valeur"><span>XXX</span> m</p>
-                </div>
-
-                <button id="btn_flash">Flashez le code</button>
-                <button id="btn_entrepreneurs">Flashez le code</button>
-                
-            </section>
-
-			<!-- -------------------------- -->
-            <!--   QR Code Reader           -->
-            <!-- -------------------------- -->
-			<section class="view" id="qr_code">
-				<div id="qr_code_result">
-				</div>
-				<button id="btn_question">Confirmer</button>
-			</section>
-			
-			
-			
-
-            <!-- -------------------------- -->
-            <!--   question d'une balise    -->
-            <!-- -------------------------- -->
-            <section class="view" id="question">
-                <div class="score">
-                    <p>Score :</p>
-                    <p class="valeur"><span></span></p>
-                </div>
-                <div class="difficulte">
-                    <p>Difficulté :</p>
-                    <p class="valeur"><span></span></p>
-                </div>
-                <div class="lib_question">
-                    <p>Question :</p>
-                    <p class="valeur"><span></span></p>
-                </div>
-                <form method="post" action="" id="form_question">
-                    <div class="reponses">
-                        
-                    </div>
-                    <div class="pari">
-                        <label for="form_pari">Parier</label>
-                        <select name="form_pari" id="form_pari">
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                            <option value="150">150</option>
-                        </select>
-                        <span>points</span>
-                        <input type="submit" name="submit" value="Répondre" class="form_submit" />
-                    </div>
-                </form>
-            </section>
+    <!-- -------------------------- -->
+    <!--   Lancement d'une partie   -->
+    <!-- -------------------------- -->
+    <section class="view" id="connexion">
+        <form method="post" action="" id="form_connexion">
+            <div class="inpt_text">
+                <label for="form_equipe">Equipe : </label>
+                <input type="text" name="form_equipe" id="form_equipe" required>
+            </div>
+            <div id="form_niveau" class="form_groupe">
+                <p>Niveau :</p>
+                <input type="radio" name="form_niveau" id="form_niveau1" value="1" checked="checked"/><label
+                    for="form_niveau1">Débutant</label>
+                <!--
+                <input type="radio" name="form_niveau" id="form_niveau2" value="2" /><label for="form_niveau2">Avancé</label>
+                -->
+            </div>
+            <div id="form_parcours" class="form_groupe">
+                <p>Parcours :</p>
+                <input type="radio" name="form_parcours" id="form_parcours1" value="1" checked="checked"/><label
+                    for="form_parcours1">1</label>
+                <!--
+                <input type="radio" name="form_parcours" id="form_parcours2" value="2" /><label for="form_parcours2">2</label>
+                <input type="radio" name="form_parcours" id="form_parcours3" value="3" /><label for="form_parcours3">3</label>
+                <input type="radio" name="form_parcours" id="form_parcours4" value="4" /><label for="form_parcours4">4</label>
+                -->
+            </div>
+            <input type="submit" name="submit" value="Lancer la partie" class="form_submit"/>
+        </form>
+    </section>
 
 
-            <!-- ---------------------------------- -->
-            <!-- reponse à la question d'une balise -->
-            <!-- ---------------------------------- -->
-            <section class="view" id="reponse">
-                <div class="correction">
-                    <p class="correct">Bonne réponse.</p>
-                    <p class="errone">Mauvaise réponse.</p>
-                </div>
-                <div class="score">
-                    <p>Score :</p>
-                    <p class="valeur"><span>XXXX</span></p>
-                    <p> points</p>
-                    <p class="bonus correct">+<span>XXX</span></p>
-                </div>
-                <div class="retour">
-                    <p class="correct">Complément :</p>
-                    <p class="errone">Réponse :</p>
-                    <p class="valeur"></p>
-                    <button class="correct modal" disabled="disabled">voir l'indice</button>
-                    <button id="btn_compass">Continuer</button>
-                </div>
-            </section>
+    <!-- -------------------------- -->
+    <!--   recherche d'une balise   -->
+    <!-- -------------------------- -->
+    <section class="view" id="compass">
+        <div class="score">
+            <p>Score :</p>
+
+            <p class="valeur"><span></span></p>
+        </div>
+        <div class="temps">
+            <p>Temps :</p>
+
+            <p class="valeur" id="timerdec"></p>
+        </div>
+        <div class="conseil">
+            <p>Conseil : </p>
+
+            <p class="valeur">Lorem ipsum sit amet, consectetur adipiscing elit.</p>
+        </div>
+        <img src="img/compass.svg" alt="" id="compass_elt">
+
+        <div class="distance">
+            <p>Distance :</p>
+
+            <p class="valeur"><span>XXX</span> m</p>
+        </div>
+        <div class="precision">
+            <p>Précision :</p>
+
+            <p class="valeur"><span>XXX</span> m</p>
+        </div>
+
+        <button id="btn_flash">Flashez le code</button>
+        <button id="btn_entrepreneurs">Flashez le code</button>
+
+    </section>
+
+    <!-- -------------------------- -->
+    <!--   QR Code Reader           -->
+    <!-- -------------------------- -->
+    <section class="view" id="qr_code">
+        <div id="qr_code_result">
+        </div>
+        <button id="btn_question">Confirmer</button>
+    </section>
 
 
-            <!-- ---------------------------------- -->
-            <!--      listes des entrepreneurs      -->
-            <!-- ---------------------------------- -->
-            <section class="view" id="entrepreneurs">
-                <div class="entrepreneurs_wrapper">
-                    <p id="lib_question"></p>
-                    <div class="ents_miniatures">
-                    </div>
-                    <div id="ents_presentation">
-                    </div>
-                    <button class="indices modal" disabled="disabled">voir les indices</button>
-                    <button id="btn_entrepreneur_mystere">C'est cet entrepreneur</button>
-                </div>
-            </section>
+    <!-- -------------------------- -->
+    <!--   question d'une balise    -->
+    <!-- -------------------------- -->
+    <section class="view" id="question">
+        <div class="score">
+            <p>Score :</p>
+
+            <p class="valeur"><span></span></p>
+        </div>
+        <div class="difficulte">
+            <p>Difficulté :</p>
+
+            <p class="valeur"><span></span></p>
+        </div>
+        <div class="lib_question">
+            <p>Question :</p>
+
+            <p class="valeur"><span></span></p>
+        </div>
+        <form method="post" action="" id="form_question">
+            <div class="reponses">
+
+            </div>
+            <div class="pari">
+                <label for="form_pari">Parier</label>
+                <select name="form_pari" id="form_pari">
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="150">150</option>
+                </select>
+                <span>points</span>
+                <input type="submit" name="submit" value="Répondre" class="form_submit"/>
+            </div>
+        </form>
+    </section>
 
 
-            <!-- ---------------------------------- -->
-            <!--      l'entrepreneur mystere        -->
-            <!-- ---------------------------------- -->
-            <section class="view" id="entrepreneur_mystere">
-                <div class="correction">
-                    <p class="correct">Bonne réponse.</p>
-                    <p class="errone">Mauvaise réponse.</p>
-                </div>
-                <p>L'entrepreneur mystère est : </p>
-                <div class="ent_presentation">
-                    <img src="img/user.svg" alt="" class="ent_img" />
-                    <p class="ent_nom"></p>
-                    <p class="ent_prenom"></p>
-                </div>
-                <p>Les informations : </p>
-                <div class="slideshow">
-                    
-                </div>
-                <div class="score">
-                    <p>Score :</p>
-                    <p class="bonus">+<span>XXX</span></p>
-                    <p class="valeur"><span>XXXX</span></p>
-                    <p> points</p>
-                </div>
-                <button id="btn_scores">Voir les scores</button>
-            </section>  
+    <!-- ---------------------------------- -->
+    <!-- reponse à la question d'une balise -->
+    <!-- ---------------------------------- -->
+    <section class="view" id="reponse">
+        <div class="correction">
+            <p class="correct">Bonne réponse.</p>
+
+            <p class="errone">Mauvaise réponse.</p>
+        </div>
+        <div class="score">
+            <p>Score :</p>
+
+            <p class="valeur"><span>XXXX</span></p>
+
+            <p> points</p>
+
+            <p class="bonus correct">+<span>XXX</span></p>
+        </div>
+        <div class="retour">
+            <p class="correct">Complément :</p>
+
+            <p class="errone">Réponse :</p>
+
+            <p class="valeur"></p>
+            <button class="correct modal" disabled="disabled">voir l'indice</button>
+            <button id="btn_compass">Continuer</button>
+        </div>
+    </section>
 
 
-            <!-- ---------------------------------- -->
-            <!--            Scores finaux           -->
-            <!-- ---------------------------------- -->
-            <section class="view" id="scores">
-                <p>Scores :</p>
-                <p class="niveau">
-                    <span>Niveau </span>
-                    <span class="valeur">x</span>
-                </p>
-                <p class="temps">
-                    <span>Temps </span>
-                    <span class="valeur">X:XX:XX</span>
-                </p>
-                <p class="balises">
-                    <span>Balises </span>
-                    <span class="valeur">XX</span> / 
-                    <span class="maximum">XX</span>
-                </p>
-                <p class="reponses">
-                    <span>Bonnes réponses </span>
-                    <span class="valeur">XX </span> / 
-                    <span class="maximum">XX</span>
-                </p>
-                <!--<p class="paris">
-                    <span>Paris </span>
-                    <span class="valeur">XXXXX</span>
-                </p>-->
-                <p class="points">
-                    <span>Points </span>
-                    <span class="valeur">XXXXXX</span>
-                </p>
-                <button class="stats modal" disabled="disabled" >mes statistiques</button>
-                <button id="btn_credits">Finir la partie</button>
-            </section>  
+    <!-- ---------------------------------- -->
+    <!--      listes des entrepreneurs      -->
+    <!-- ---------------------------------- -->
+    <section class="view" id="entrepreneurs">
+        <div class="entrepreneurs_wrapper">
+            <p id="lib_question"></p>
+
+            <div class="ents_miniatures">
+            </div>
+            <div id="ents_presentation">
+            </div>
+            <button class="indices modal" disabled="disabled">voir les indices</button>
+            <button id="btn_entrepreneur_mystere">C'est cet entrepreneur</button>
+        </div>
+    </section>
 
 
-            <!-- ---------------------------------- -->
-            <!--                Credits             -->
-            <!-- ---------------------------------- -->
-            <section class="view" id="credits">
-                <p>Crédits :</p>
-                <div class="credits"></div>
-            </section>
-        </section>  
+    <!-- ---------------------------------- -->
+    <!--      l'entrepreneur mystere        -->
+    <!-- ---------------------------------- -->
+    <section class="view" id="entrepreneur_mystere">
+        <div class="correction">
+            <p class="correct">Bonne réponse.</p>
 
-        <footer>
-            
-        </footer>
-    </body>
-        <script type="text/javascript" src="js/jquery-2.1.3.min.js"></script>
-        <script type="text/javascript" src="js/jQueryRotate.min.js"></script>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/balises.js"></script>
-        <script type="text/javascript" src="js/entrepreneurs.js"></script>
-        <script type="text/javascript" src="js/questions.js"></script>
-        <script type="text/javascript" src="js/geodesie.js"></script>
-        <script type="text/javascript" src="js/compass.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
+            <p class="errone">Mauvaise réponse.</p>
+        </div>
+        <p>L'entrepreneur mystère est : </p>
+
+        <div class="ent_presentation">
+            <img src="img/user.svg" alt="" class="ent_img"/>
+
+            <p class="ent_nom"></p>
+
+            <p class="ent_prenom"></p>
+        </div>
+        <p>Les informations : </p>
+
+        <div class="slideshow">
+
+        </div>
+        <div class="score">
+            <p>Score :</p>
+
+            <p class="bonus">+<span>XXX</span></p>
+
+            <p class="valeur"><span>XXXX</span></p>
+
+            <p> points</p>
+        </div>
+        <button id="btn_scores">Voir les scores</button>
+    </section>
+
+
+    <!-- ---------------------------------- -->
+    <!--            Scores finaux           -->
+    <!-- ---------------------------------- -->
+    <section class="view" id="scores">
+        <p>Scores :</p>
+
+        <p class="niveau">
+            <span>Niveau </span>
+            <span class="valeur">x</span>
+        </p>
+
+        <p class="temps">
+            <span>Temps </span>
+            <span class="valeur">X:XX:XX</span>
+        </p>
+
+        <p class="balises">
+            <span>Balises </span>
+            <span class="valeur">XX</span> /
+            <span class="maximum">XX</span>
+        </p>
+
+        <p class="reponses">
+            <span>Bonnes réponses </span>
+            <span class="valeur">XX </span> /
+            <span class="maximum">XX</span>
+        </p>
+        <!--<p class="paris">
+            <span>Paris </span>
+            <span class="valeur">XXXXX</span>
+        </p>-->
+        <p class="points">
+            <span>Points </span>
+            <span class="valeur">XXXXXX</span>
+        </p>
+        <button class="stats modal" disabled="disabled">mes statistiques</button>
+        <button id="btn_credits">Finir la partie</button>
+    </section>
+
+
+    <!-- ---------------------------------- -->
+    <!--                Credits             -->
+    <!-- ---------------------------------- -->
+    <section class="view" id="credits">
+        <p>Crédits :</p>
+
+        <div class="credits"></div>
+    </section>
+</section>
+
+<footer>
+
+</footer>
+</body>
+<script type="text/javascript" src="js/jquery-2.1.3.min.js"></script>
+<script type="text/javascript" src="js/jQueryRotate.min.js"></script>
+<script type="text/javascript" src="js/jquery.validate.js"></script>
+<script type="text/javascript" src="js/jquery.timer.js"></script>
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="js/balises.js"></script>
+<script type="text/javascript" src="js/entrepreneurs.js"></script>
+<script type="text/javascript" src="js/questions.js"></script>
+<script type="text/javascript" src="js/geodesie.js"></script>
+<script type="text/javascript" src="js/compass.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
 </html>
