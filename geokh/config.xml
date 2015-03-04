@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.hubhouse.geokh" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.hubhouse.geokh" version="0.0.1" xmlns="http://www.w3.org/ns/widgets">
     <name>GeokH</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
@@ -7,6 +7,12 @@
     <author email="dev@cordova.apache.org" href="http://cordova.io">
         Apache Cordova Team
     </author>
-    <content src="index.html" />
-    <access origin="*" />
+    <content src="index.html"/>
+    /*
+    KeepRunning (boolean, defaults to true): Determines whether the application stays running in the background even
+    after a pause event fires. Setting this to false does not kill the app after a pause event, but simply halts
+    execution of code within the cordova webview while the app is in the background.
+    */
+    <preference name="KeepRunning" value="false"/>
+    <access origin="*"/>
 </widget>
