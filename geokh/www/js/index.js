@@ -28,6 +28,7 @@ var app = {
     entrepreneur_aTrouver: "entrepreneur_1",
     nb_balises_trouvees: 0,
     nb_reponses_trouvees: 0,
+    alreadyused: false,
 
 
     // Application Constructor
@@ -101,25 +102,49 @@ var app = {
         compass.data.destination = new LatLon(this.balises["balise_" + this.balise_courante].latitude, this.balises["balise_" + this.balise_courante].longitude);
 
 
-        //timer
-        var $countdown;
+        // Stopwatch element on the page
+        var $stopwatch;
+
+        // Timer speed in milliseconds
         var incrementTime = 70;
-        var currentTime = 300000; // 5 minutes (in milliseconds)
 
-        $(function () {
-            // Setup the timer
-            $countdown = $('#timerdec');
-            this.timer = $.timer(updateTimer, incrementTime, true);
+        // Current timer position in milliseconds
+        var currentTime = 0;
 
-        });
+
+        // Start the timer
+        if (!this.alreadyused) {
+            $stopwatch = $('#timer');
+            timer = $.timer(updateTimer, incrementTime, true);
+            this.alreadyused = true;
+        }
+        // Output time and increment
+        function updateTimer() {
+            var timeString = formatTime(currentTime);
+            $stopwatch.html(timeString);
+            currentTime += incrementTime;
+        }
+
+        // Reset timer
+        //if needed
+        this.resetStopwatch = function () {
+            currentTime = 0;
+            timer.stopwatch();
+        };
+
+        this.stopwatch = function () {
+            timer.stop().once();
+        }
 
         // Common functions
         function pad(number, length) {
             var str = '' + number;
-            while (str.length < length) {str = '0' + str;}
+            while (str.length < length) {
+                str = '0' + str;
+            }
             return str;
         }
-        
+
         function formatTime(time) {
             time = time / 10;
             var min = parseInt(time / 6000),
@@ -127,25 +152,7 @@ var app = {
                 hundredths = pad(time - (sec * 100) - (min * 6000), 2);
             return (min > 0 ? pad(min, 2) : "00") + ":" + pad(sec, 2) + ":" + hundredths;
         }
-        
-        function updateTimer() {
 
-            // Output timer position
-            var timeString = formatTime(currentTime);
-            $countdown.html(timeString);
-
-            // If timer is complete, trigger alert
-            if (currentTime == 0) {
-                this.timer.stop();
-                alert('Temps terminé !');
-                return;
-            }
-
-            // Increment timer position
-            currentTime -= incrementTime;
-            if (currentTime < 0) currentTime = 0;
-
-        }
 
         if (this.balise_courante == (Object.keys(this.balises).length)) {
             $("#btn_entrepreneurs").show();
@@ -160,21 +167,21 @@ var app = {
      * Verifie les infos de formulaires de connexion
      */
     showConnexionView: function showConnexionView() {
-       /*
-        $('#form_connexion').validate({
-            rules: {
-                form_equipe: {
-                    required: true,
-                    minlength: 3
-                }
-            },
-            messages: {
-                form_equipe: {
-                    required: "Merci d'entrer un nom d'équipe."
-                }
-            }
-        });
-        */
+        /*
+         $('#form_connexion').validate({
+         rules: {
+         form_equipe: {
+         required: true,
+         minlength: 3
+         }
+         },
+         messages: {
+         form_equipe: {
+         required: "Merci d'entrer un nom d'équipe."
+         }
+         }
+         });
+         */
     },
     /*
      * Charge les informations pour la vue de question
