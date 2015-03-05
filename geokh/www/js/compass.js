@@ -36,7 +36,7 @@ compass.onSuccessOrientation = function onSuccessOrientation(_heading) {
     compass.data.heading = _heading;
     var angle = actualPosition.bearingTo(m5) - compass.data.heading.magneticHeading
     app.rotate(Math.round(angle));
-	alert('Orient ok');
+	//alert('Orient ok');
 };
 compass.onErrorOrientation = function onErrorOrientation(error){
     alert('Error orientation : \n' +
