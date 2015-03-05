@@ -84,6 +84,8 @@ var app = {
      * charge les informations pour la vue de recherche de balise
      */
     showBaliseView: function showBaliseView() {
+		compass.stopLocation();
+		compass.stopOrientation();
         //lancement de la recherche de position et de l'orientation
         compass.activateLocation();
         compass.activateOrientation();
@@ -200,7 +202,8 @@ var app = {
      * Charge les informations pour la vue de question 
      */
     showQuestionBaliseView: function showQuestionBaliseView() {
-        //compass.stopLocation();
+        compass.stopLocation();
+		compass.stopOrientation();
         this.nb_balises_trouvees++;
 
         //si on est à la dernière balise, l'affichage de la question est différent
