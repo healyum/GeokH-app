@@ -24,6 +24,7 @@
             Quisque lobortis rutrum justo ut pulvinar.
         </p>
         <button id="btn_connexion">Jouer</button>
+
     </section>
 
 
@@ -167,8 +168,11 @@
             <p class="errone">Réponse :</p>
 
             <p class="valeur"></p>
-            <button class="correct modal" disabled="disabled">voir l'indice</button>
-            <button id="btn_compass">Continuer</button>
+
+            <p class="indice" id="reponse_indice"></p>
+
+            <button class="left" id="modal_reponse" disabled="disabled">voir l'indice</button>
+            <button id="btn_compass" class="right">Continuer</button>
         </div>
     </section>
 
@@ -239,7 +243,7 @@
 
         <p class="temps">
             <span>Temps </span>
-            <span class="valeur">X:XX:XX</span>
+            <span class="valeur" id="timer"></span>
         </p>
 
         <p class="balises">

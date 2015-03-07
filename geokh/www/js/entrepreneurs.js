@@ -247,7 +247,7 @@ var entrepreneurs = {
                 "indice_8" : "La persévérance",
                 "indice_9" : "L’accompagnement",
                 "indice_10" : "La trésorerie",
-                "indice_10" : "foncer. C’est pas pour rien qu’on est jeunes ! faut y aller !"
+                "indice_11": "foncer. C’est pas pour rien qu’on est jeunes ! faut y aller !"
             }
         }
         /* Structure vide d'un entrepreneur

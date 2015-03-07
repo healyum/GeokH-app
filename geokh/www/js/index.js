@@ -25,10 +25,12 @@ var app = {
     question_courante: "",
     //
     entrepreneur_select: "",
-    entrepreneur_aTrouver: "entrepreneur_1",
+    entrepreneur_aTrouver: "entrepreneur_",
     nb_balises_trouvees: 0,
     nb_reponses_trouvees: 0,
-    alreadyused: false,
+    isTimerloaded: false,
+    bonnesReponsesUser: [],
+    currentTime: 0,
 
 
     // Application Constructor
@@ -40,6 +42,13 @@ var app = {
         //chargement des entrepreneurs
         this.entrepreneurs = entrepreneurs.entrepreneurs;
 
+        //permet de définir un entrepeneur a trouver de maniere aleatoire parmis tous disponibles
+        var nombreEntrepreneurs = Object.keys(this.entrepreneurs).length;
+        this.entrepreneur_aTrouver += randomIntFromInterval(1, nombreEntrepreneurs);
+
+        //cacher tous les indices
+        $(".indice").hide();
+        
         //affichage de la première vue
         this.showView("#accueil");
     },
@@ -85,8 +94,8 @@ var app = {
      * charge les informations pour la vue de recherche de balise
      */
     showBaliseView: function showBaliseView() {
-		compass.stopLocation();
-		compass.stopOrientation();
+        compass.stopLocation();
+        compass.stopOrientation();
         //lancement de la recherche de position et de l'orientation
         compass.activateLocation();
         compass.activateOrientation();
@@ -109,26 +118,25 @@ var app = {
         var incrementTime = 70;
 
         // Current timer position in milliseconds
-        var currentTime = 0;
 
 
         // Start the timer
-        if (!this.alreadyused) {
+        if (!this.isTimerloaded) {
             $stopwatch = $('#timer');
             timer = $.timer(updateTimer, incrementTime, true);
-            this.alreadyused = true;
+            this.isTimerloaded = true;
         }
         // Output time and increment
         function updateTimer() {
-            var timeString = formatTime(currentTime);
+            var timeString = formatTime(this.currentTime);
             $stopwatch.html(timeString);
-            currentTime += incrementTime;
+            this.currentTime += incrementTime;
         }
 
         // Reset timer
         //if needed
         this.resetStopwatch = function () {
-            currentTime = 0;
+            this.currentTime = 0;
             timer.stopwatch();
         };
 
@@ -210,7 +218,7 @@ var app = {
      */
     showQuestionBaliseView: function showQuestionBaliseView() {
         compass.stopLocation();
-		compass.stopOrientation();
+        compass.stopOrientation();
         this.nb_balises_trouvees++;
 
         //si on est à la dernière balise, l'affichage de la question est différent
@@ -250,6 +258,7 @@ var app = {
             ;
             $('#entrepreneurs .ents_miniatures').html(html_miniatures);
             $('#entrepreneurs #ents_presentation').html(html_entrepreneur);
+            //on montre la premiere page pour commencer, hardcode ok
             this.showEnt("entrepreneur_1");
 
         } else {
@@ -312,13 +321,24 @@ var app = {
             //on ajoute les points que l'utilisateur a parié
             this.score += $('#form_pari').val() * 1;
 
+
             $("#reponse .errone").hide();
             $("#reponse .correct").show();
             $('#reponse .score .bonus span').text($('#form_pari').val());
 
+            //on laisse le bouton ouvert
+            $('#modal_reponse').prop('disabled', false);
+
             //on augmente le nombre de bonnes réponses pour les statistiques finales
             this.nb_reponses_trouvees++;
+            this.bonnesReponsesUser.push(this.question_courante);
+
+            var indice = this.entrepreneurs[this.entrepreneur_aTrouver].indices["indice_" + this.balise_courante];
+            $('#reponse_indice').text(indice);
+            
         } else {
+            //disable le bouton d'indice
+            $('#modal_reponse').prop('disabled', true);
             $("#reponse .errone").show();
             $("#reponse .correct").hide();
         }
@@ -345,6 +365,7 @@ var app = {
                 $('#reponse .retour .valeur').append(liste);
             }
         }
+
 
         this.balise_courante++;
     },
@@ -385,6 +406,11 @@ var app = {
         $("#scores .paris .valeur").html();
 
         $("#scores .points .valeur").html(this.score);
+
+        this.stopwatch();
+        var timeString = formatTime(this.currentTime);
+        $("#temps_final").html(timeString);
+        
     },
     /*
      * Anime l'image de compass pour qu'il indique tous le temps la bonne direction
@@ -459,5 +485,14 @@ window.onload = function () {
         app.showView("#credits");
     });
 
+    $('#modal_reponse').click(function () {
+        alert($("#reponse_indice").text());
+    });
+    
 
+
+}
+
+function randomIntFromInterval(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
 }

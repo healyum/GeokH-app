@@ -80,10 +80,16 @@ input[type='submit'] {
     background: #38b449;
     color: #ffffff;
 }
-button:active, 
+
+button:active,
 input[type='submit']:active {
     background: #2da038;
 }
+
+button:disabled {
+    background: #2c7f3b;
+}
+
 
 .correction .errone {
     color: #d71920;
@@ -310,10 +316,21 @@ footer {
     margin: 0;
 }
 
-#reponsre .retour ul {
+#reponse .retour ul {
     margin: 5px 0;
     padding: 0 0 0 18px;
 }
+
+.right {
+    width: 50%;
+    left: 50%;
+}
+
+.left {
+    width: 50%;
+}
+
+
 
 /*****************************************/
 /* 7. listes des entrepreneurs           */              
