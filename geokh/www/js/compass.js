@@ -10,70 +10,66 @@ compass.data.actualPosition = {};
 compass.data.heading = {};
 
 compass.data.destination = {};
-var idWatchLoc=0;
-var idWatchOrient=0;
+var idWatchLoc = 0;
+var idWatchOrient = 0;
 
 compass.onSuccessLocation = function onSuccessLocation(_position) {
     compass.data.position = _position;
-    
+
     app.updatePrecision(Math.round(compass.data.position.coords.accuracy));
 
     actualPosition = new LatLon(compass.data.position.coords.latitude, compass.data.position.coords.longitude);
-    app.updateDistance(Math.round(actualPosition.distanceTo(compass.data.destination)*1000));
+    app.updateDistance(Math.round(actualPosition.distanceTo(compass.data.destination) * 1000));
 
 }
-compass.onErrorLocation = function onErrorLocation(error){
+compass.onErrorLocation = function onErrorLocation(error) {
     alert('Error Location : \n' +
-		  'code: '    + error.code    + '\n' +
-          'message: ' + error.message + '\n');
+    'code: ' + error.code + '\n' +
+    'message: ' + error.message + '\n');
 }
-
-
-
 
 
 compass.onSuccessOrientation = function onSuccessOrientation(_heading) {
     compass.data.heading = _heading;
     var angle = actualPosition.bearingTo(m5) - compass.data.heading.magneticHeading
     app.rotate(Math.round(angle));
-	//alert('Orient ok');
+    //alert('Orient ok');
 };
-compass.onErrorOrientation = function onErrorOrientation(error){
+compass.onErrorOrientation = function onErrorOrientation(error) {
     alert('Error orientation : \n' +
-		  'code: '    + error.code    + '\n' +
-          'message: ' + error.message + '\n');
+    'code: ' + error.code + '\n' +
+    'message: ' + error.message + '\n');
 };
 
-compass.stopLocation = function stopLocation(){
-  navigator.geolocation.clearWatch(idWatchLoc);
+compass.stopLocation = function stopLocation() {
+    navigator.geolocation.clearWatch(idWatchLoc);
 };
 
 
+compass.activateLocation = function activateLocation() {
+    if (navigator.geolocation) {
 
-compass.activateLocation = function activateLocation(){
-    if(navigator.geolocation){
-      
-      var options = {maximumAge: 0, timeout:1500, enableHighAccuracy: true};
-      idWatchLoc = navigator.geolocation.watchPosition(compass.onSuccessLocation, 
-                                               compass.onErrorLocation,
-                                               options);
-   }else{
-      alert("Geolocation not available!");
-   }
+        var options = {maximumAge: 0, timeout: 1500, enableHighAccuracy: true};
+        idWatchLoc = navigator.geolocation.watchPosition(compass.onSuccessLocation,
+            compass.onErrorLocation,
+            options);
+    } else {
+        alert("Geolocation not available!");
+    }
 };
 
-compass.stopOrientation = function stopOrientation(){
-  navigator.compass.clearWatch(idWatchOrient);
+compass.stopOrientation = function stopOrientation() {
+    navigator.compass.clearWatch(idWatchOrient);
 };
 
-compass.activateOrientation = function activateOrientation(){
-    if(navigator.compass){
-      var options = {
-        frequency: 1500
-      }; // Update every 1.5 seconds
-      idWatchOrient = navigator.compass.watchHeading(compass.onSuccessOrientation, 
-                                               compass.onErrorOrientation, options);
-   }else{
-      alert("Orientation not available!");
-   }
+compass.activateOrientation = function activateOrientation() {
+    if (navigator.compass) {
+        var options = {
+            frequency: 1500
+        }; // Update every 1.5 seconds
+        idWatchOrient = navigator.compass.watchHeading(compass.onSuccessOrientation,
+            compass.onErrorOrientation, options);
+    } else {
+        alert("Orientation not available!");
+    }
 };

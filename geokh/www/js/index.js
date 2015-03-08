@@ -31,6 +31,7 @@ var app = {
     isTimerloaded: false,
     bonnesReponsesUser: [],
     currentTime: 0,
+    debugOnBrowser: false,
 
 
     // Application Constructor
@@ -48,7 +49,7 @@ var app = {
 
         //cacher tous les indices
         $(".indice").hide();
-        
+
         //affichage de la première vue
         this.showView("#accueil");
     },
@@ -94,12 +95,13 @@ var app = {
      * charge les informations pour la vue de recherche de balise
      */
     showBaliseView: function showBaliseView() {
-        compass.stopLocation();
-        compass.stopOrientation();
-        //lancement de la recherche de position et de l'orientation
-        compass.activateLocation();
-        compass.activateOrientation();
-
+        if (app.debugOnBrowser == false) {
+            compass.stopLocation();
+            compass.stopOrientation();
+            //lancement de la recherche de position et de l'orientation
+            compass.activateLocation();
+            compass.activateOrientation();
+        }
         //affichage du score actuel
         $('#compass .score .valeur span').text(this.score);
 
@@ -110,7 +112,6 @@ var app = {
         //la distance et la précision sont mises à jour par les fonctions updateDistance() et updatePrecision()
         compass.data.destination = new LatLon(this.balises["balise_" + this.balise_courante].latitude, this.balises["balise_" + this.balise_courante].longitude);
 
-
         // Stopwatch element on the page
         var $stopwatch;
 
@@ -118,47 +119,19 @@ var app = {
         var incrementTime = 70;
 
         // Current timer position in milliseconds
-
+        // Output time and increment
+        var uptdateTimer = function updateTimer() {
+            var timeString = formatTime(app.currentTime);
+            $stopwatch.html(timeString);
+            app.currentTime += incrementTime;
+        }
 
         // Start the timer
         if (!this.isTimerloaded) {
+            app.currentTime = 0;
             $stopwatch = $('#timer');
-            timer = $.timer(updateTimer, incrementTime, true);
+            timer = $.timer(uptdateTimer, incrementTime, true);
             this.isTimerloaded = true;
-        }
-        // Output time and increment
-        function updateTimer() {
-            var timeString = formatTime(this.currentTime);
-            $stopwatch.html(timeString);
-            this.currentTime += incrementTime;
-        }
-
-        // Reset timer
-        //if needed
-        this.resetStopwatch = function () {
-            this.currentTime = 0;
-            timer.stopwatch();
-        };
-
-        this.stopwatch = function () {
-            timer.stop().once();
-        }
-
-        // Common functions
-        function pad(number, length) {
-            var str = '' + number;
-            while (str.length < length) {
-                str = '0' + str;
-            }
-            return str;
-        }
-
-        function formatTime(time) {
-            time = time / 10;
-            var min = parseInt(time / 6000),
-                sec = parseInt(time / 100) - (min * 60),
-                hundredths = pad(time - (sec * 100) - (min * 6000), 2);
-            return (min > 0 ? pad(min, 2) : "00") + ":" + pad(sec, 2) + ":" + hundredths;
         }
 
 
@@ -190,6 +163,8 @@ var app = {
          }
          });
          */
+
+
     },
     /*
      * Charge les informations pour la vue de question
@@ -197,28 +172,37 @@ var app = {
     showQrCodeView: function showQrCodeView() {
         $('#btn_question').show();
         $("#qr_code_result").html("Flash du QR Code");
-        cordova.plugins.barcodeScanner.scan(
-            function (result) {
-                //TODO check si code = balise recherchée
-                if (result.text == "") {
-                    $("#qr_code_result").html("Aucun code flashé");
-                } else {
-                    $("#qr_code_result").html("Code flashé : " + result.text);
+        if (app.debugOnBrowser == false) {
+            cordova.plugins.barcodeScanner.scan(
+                function (result) {
+                    //TODO check si code = balise recherchée
+                    if (result.text == "") {
+                        $("#qr_code_result").html("Aucun code flashé");
+                    } else {
+                        $("#qr_code_result").html("Code flashé : " + result.text);
+                    }
+                    $('#btn_question').show();
+                },
+                function (error) {
+                    $("#qr_code_result").html("Scanning failed: " + error);
                 }
-                $('#btn_question').show();
-            },
-            function (error) {
-                $("#qr_code_result").html("Scanning failed: " + error);
-            }
-        );
+            );
+
+        } else {
+            $('#btn_question').show();
+
+        }
+
     },
 
     /*
      * Charge les informations pour la vue de question 
      */
     showQuestionBaliseView: function showQuestionBaliseView() {
-        compass.stopLocation();
-        compass.stopOrientation();
+        if (app.debugOnBrowser == false) {
+            compass.stopLocation();
+            compass.stopOrientation();
+        }
         this.nb_balises_trouvees++;
 
         //si on est à la dernière balise, l'affichage de la question est différent
@@ -335,7 +319,7 @@ var app = {
 
             var indice = this.entrepreneurs[this.entrepreneur_aTrouver].indices["indice_" + this.balise_courante];
             $('#reponse_indice').text(indice);
-            
+
         } else {
             //disable le bouton d'indice
             $('#modal_reponse').prop('disabled', true);
@@ -407,10 +391,10 @@ var app = {
 
         $("#scores .points .valeur").html(this.score);
 
-        this.stopwatch();
-        var timeString = formatTime(this.currentTime);
-        $("#temps_final").html(timeString);
-        
+        stopwatch();
+        var timeString = formatTime(app.currentTime);
+        $("#timer_final").html(timeString);
+
     },
     /*
      * Anime l'image de compass pour qu'il indique tous le temps la bonne direction
@@ -488,11 +472,31 @@ window.onload = function () {
     $('#modal_reponse').click(function () {
         alert($("#reponse_indice").text());
     });
-    
 
 
 }
 
 function randomIntFromInterval(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+// Common functions
+function pad(number, length) {
+    var str = '' + number;
+    while (str.length < length) {
+        str = '0' + str;
+    }
+    return str;
+}
+
+function formatTime(time) {
+    time = time / 10;
+    var min = parseInt(time / 6000),
+        sec = parseInt(time / 100) - (min * 60),
+        hundredths = pad(time - (sec * 100) - (min * 6000), 2);
+    return (min > 0 ? pad(min, 2) : "00") + ":" + pad(sec, 2) + ":" + hundredths;
+}
+
+function stopwatch() {
+    timer.stop().once();
 }
