@@ -32,6 +32,7 @@ var app = {
     bonnesReponsesUser: [],
     currentTime: 0,
     debugOnBrowser: false,
+    nb_points_correct: 500,
 
 
     // Application Constructor
@@ -172,15 +173,21 @@ var app = {
     showQrCodeView: function showQrCodeView() {
         $('#btn_question').show();
         $("#qr_code_result").html("Flash du QR Code");
+        var parcoursText = this.parcours > 9 ? "" : "0";
+        var baliseText = this.balise_courante > 9 ? "" : "0";
+        var textATrouver = "balise_" + baliseText + this.balise_courante + "_parcours_" + parcoursText + this.parcours;
         if (app.debugOnBrowser == false) {
             cordova.plugins.barcodeScanner.scan(
                 function (result) {
                     //TODO check si code = balise recherchée
                     if (result.text == "") {
                         $("#qr_code_result").html("Aucun code flashé");
+                    } else if (result.text == textATrouver) {
+                        $("#qr_code_result").html("Bonne balise ! Félicitations ! <br> Code flashé : ");
                     } else {
-                        $("#qr_code_result").html("Code flashé : " + result.text);
+                        $("#qr_code_result").html("Mauvaise balise ! : " + result.text);
                     }
+
                     $('#btn_question').show();
                 },
                 function (error) {
@@ -289,26 +296,41 @@ var app = {
 
         //test si l'utilisateur a donne la(les) bonne(s) reponse(s).
         //s'il n'y a pas le même nombre de réponses entre l'utilisateur et celles du fichier alors l'utilisateur n'a pas la bonne réponse.
-        var is_correct = true;
-        if (reponses_courantes.length == nb_reponses) {
-            var i = 0;
-            while (is_correct && i < nb_reponses) {
-                //comme les réponses sont toujours dans le même ordre il suffit de comparer la réponse de l'utlisateur à celle du fichier au même indice.
-                is_correct = reponses_courantes[i] == this.questions[this.question_courante].reponses[i];
-                i++;
-            }
-        } else {
-            is_correct = false;
+        var is_correct = false;
+        var is_all_correct = true;
+        var nbOfCorrectAnswers = 0;
+        var i = 0;
+
+        while (i < reponses_courantes.length) {
+            is_correct = $.inArray(reponses_courantes[i], this.questions[this.question_courante].reponses) > -1 ? true : false;
+            if (is_correct) nbOfCorrectAnswers++;
+            if (is_correct == false) is_all_correct = false;
+            i++;
         }
 
-        if (is_correct) {
-            //on ajoute les points que l'utilisateur a parié
-            this.score += $('#form_pari').val() * 1;
+        var scoreToAdd = 0;
+        //si tout les reponses fournies sont bonnes
+        if (is_all_correct && reponses_courantes.length > 0) {
+
+
+            //si on a tout donné de correct
+            //on peut simplifé en gardant la seconde expression, mais pour des soucis de clarté on préfere gardé si par la suite
+            //il y a d'autre changements concernant les points
+            if (nb_reponses == nbOfCorrectAnswers) {
+                //on ajoute les points que l'utilisateur a parié
+                //multiplié par le niveau de la question
+                this.score += scoreToAdd = $('#form_pari').val() * this.questions[this.question_courante].difficulte;
+            } else {
+                //on ajoute les points que l'utilisateur a parié
+                //multiplié par le niveau de la question
+                //multiplié par un ratio de bonne réponses
+                this.score += scoreToAdd = $('#form_pari').val() * this.questions[this.question_courante].difficulte * (nbOfCorrectAnswers / nb_reponses);
+            }
 
 
             $("#reponse .errone").hide();
             $("#reponse .correct").show();
-            $('#reponse .score .bonus span').text($('#form_pari').val());
+            $('#reponse .score .bonus span').text(scoreToAdd);
 
             //on laisse le bouton ouvert
             $('#modal_reponse').prop('disabled', false);
@@ -321,10 +343,14 @@ var app = {
             $('#reponse_indice').text(indice);
 
         } else {
+            //retrait des points pariés
+            this.score -= $('#form_pari').val() * this.questions[this.question_courante].difficulte;
+
             //disable le bouton d'indice
             $('#modal_reponse').prop('disabled', true);
             $("#reponse .errone").show();
             $("#reponse .correct").hide();
+            $('#reponse .score .bonus span').text(scoreToAdd);
         }
 
         //mise a jour du score actuel
@@ -357,14 +383,14 @@ var app = {
      * Charge les informations pour la vue de l'entrepreneur mystere
      */
     showEntrepreneurMystereView: function showEntrepreneurMystereView() {
-        var nb_points_correct = 50;
+
         //si l'utilisateur a choisi le bon entrepreneur
         if (this.entrepreneur_select == this.entrepreneur_aTrouver) {
             $("#entrepreneur_mystere .correction .correct").show();
             $("#entrepreneur_mystere .correction .errone").hide();
             $("#entrepreneur_mystere .score .bonus span").html(nb_points_correct);
             $("#entrepreneur_mystere .score .bonus").show();
-            this.score += nb_points_correct;
+            this.score += this.nb_points_correct;
         } else {
             $("#entrepreneur_mystere .correction .errone").show();
             $("#entrepreneur_mystere .correction .correct").hide();
@@ -469,10 +495,21 @@ window.onload = function () {
         app.showView("#credits");
     });
 
-    $('#modal_reponse').click(function () {
-        alert($("#reponse_indice").text());
+    $('#btn_quitter').click(function () {
+        window.plugins.insomnia.allowSleepAgain();
+        exitFromApp();
     });
 
+    $('#modal_reponse').click(function () {
+
+        navigator.notification.confirm(
+            $("#reponse_indice").text(),  // message
+            null,                  // callback to invoke
+            'Indice',            // title
+            ['merci !']            // buttonLabels
+        );
+
+    });
 
 }
 
@@ -500,3 +537,49 @@ function formatTime(time) {
 function stopwatch() {
     timer.stop().once();
 }
+
+
+onLoad();
+// keep awake the app
+window.plugins.insomnia.keepAwake(everthingOk, errorNotOk);
+
+function everthingOk() {
+    console.log("Insomnia up");
+}
+
+function errorNotOk() {
+    console.log("Insomnia error");
+}
+
+function onLoad() {
+    document.addEventListener("deviceready", onDeviceReady, false);
+}
+
+// Cordova is loaded and it is now safe to call Cordova methods
+//
+function onDeviceReady() {
+    // Register the event listener
+    document.addEventListener("backbutton", onBackKeyDown, false);
+}
+
+// Handle the back button
+//
+
+function exitFromApp() {
+    navigator.app.exitApp();
+}
+
+function onBackKeyDown(e) {
+
+    navigator.notification.confirm("Êtes-vous certains de vouloir quitter l'application ?  toutes progressions seront supprimées.", onConfirm, "Confirmation", "Quitter,Rester");
+    // Prompt the user with the choice
+}
+
+function onConfirm(button) {
+    if (button == 2) {//If User selected No, then we just do nothing
+        return;
+    } else {
+        exitFromApp();
+    }
+}
+

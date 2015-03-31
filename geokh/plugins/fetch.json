@@ -1,0 +1,27 @@
+{
+  "nl.x-services.plugins.insomnia": {
+    "source": {
+      "type": "git",
+      "url": "https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git",
+      "subdir": "."
+    }
+  },
+  "se.sanitarium.cordova.exitapp": {
+    "source": {
+      "type": "registry",
+      "id": "se.sanitarium.cordova.exitapp"
+    }
+  },
+  "org.apache.cordova.dialogs": {
+    "source": {
+      "type": "registry",
+      "id": "org.apache.cordova.dialogs"
+    }
+  },
+  "com.cmpsoft.mobile.plugin.exitapp": {
+    "source": {
+      "type": "registry",
+      "id": "com.cmpsoft.mobile.plugin.exitapp"
+    }
+  }
+}
