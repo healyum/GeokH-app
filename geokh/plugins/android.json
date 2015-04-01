@@ -13,11 +13,11 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Compass\"><param name=\"android-package\" value=\"org.apache.cordova.deviceorientation.CompassListener\" /></feature>",
+                            "xml": "<feature name=\"Insomnia\"><param name=\"android-package\" value=\"nl.xservices.plugins.Insomnia\" /></feature>",
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Insomnia\"><param name=\"android-package\" value=\"nl.xservices.plugins.Insomnia\" /></feature>",
+                            "xml": "<feature name=\"Compass\"><param name=\"android-package\" value=\"org.apache.cordova.deviceorientation.CompassListener\" /></feature>",
                             "count": 1
                         },
                         {
@@ -557,16 +557,16 @@
         "com.phonegap.plugins.barcodescanner": {
             "PACKAGE_NAME": "com.hubhouse.geokh"
         },
-        "org.apache.cordova.device-orientation": {
-            "PACKAGE_NAME": "com.hubhouse.geokh"
-        },
-        "org.apache.cordova.geolocation": {
-            "PACKAGE_NAME": "com.hubhouse.geokh"
-        },
         "nl.x-services.plugins.insomnia": {
             "PACKAGE_NAME": "com.hubhouse.geokh"
         },
+        "org.apache.cordova.device-orientation": {
+            "PACKAGE_NAME": "com.hubhouse.geokh"
+        },
         "org.apache.cordova.dialogs": {
+            "PACKAGE_NAME": "com.hubhouse.geokh"
+        },
+        "org.apache.cordova.geolocation": {
             "PACKAGE_NAME": "com.hubhouse.geokh"
         }
     },

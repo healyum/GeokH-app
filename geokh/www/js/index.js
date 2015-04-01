@@ -172,7 +172,7 @@ var app = {
      */
     showQrCodeView: function showQrCodeView() {
         $('#btn_question').hide();
-		$('#btn_compass_retour').show();
+        $('#btn_compass_retour').show();
         $("#qr_code_result").html("Flash du QR Code");
         var parcoursText = this.parcours > 9 ? "" : "0";
         var baliseText = this.balise_courante > 9 ? "" : "0";
@@ -184,8 +184,8 @@ var app = {
                         $("#qr_code_result").html("Aucun code flashé");
                     } else if (result.text == textATrouver) {
                         $("#qr_code_result").html("Bonne balise ! Félicitations !");
-						$('#btn_question').show();
-						$('#btn_compass_retour').hide();
+                        $('#btn_question').show();
+                        $('#btn_compass_retour').hide();
                     } else {
                         $("#qr_code_result").html("Mauvaise balise !");
                     }
@@ -195,7 +195,7 @@ var app = {
                     $("#qr_code_result").html("Scanning failed: " + error);
                 }
             );
-		}
+        }
 
     },
 
@@ -246,6 +246,16 @@ var app = {
             ;
             $('#entrepreneurs .ents_miniatures').html(html_miniatures);
             $('#entrepreneurs #ents_presentation').html(html_entrepreneur);
+
+            $('#modal_all_indice').prop('disabled', false);
+            var indices = "";
+            for (var i = 0; i < this.bonnesReponsesUser.length; i++) {
+                var indiceBonneRep = this.bonnesReponsesUser[i];
+                indices += (i + 1) + " -> " + indiceBonneRep + "\n";
+            }
+            $('#all_founded_indice').text(indices);
+
+
             //on montre la premiere page pour commencer, hardcode ok
             this.showEnt("entrepreneur_1");
 
@@ -316,12 +326,16 @@ var app = {
             if (nb_reponses == nbOfCorrectAnswers) {
                 //on ajoute les points que l'utilisateur a parié
                 //multiplié par le niveau de la question
-                this.score += scoreToAdd = $('#form_pari').val() * this.questions[this.question_courante].difficulte;
+                scoreToAdd = $('#form_pari').val() * this.questions[this.question_courante].difficulte;
+                scoreToAdd = Math.round(scoreToAdd);
+                this.score += scoreToAdd;
             } else {
                 //on ajoute les points que l'utilisateur a parié
                 //multiplié par le niveau de la question
                 //multiplié par un ratio de bonne réponses
-                this.score += scoreToAdd = $('#form_pari').val() * this.questions[this.question_courante].difficulte * (nbOfCorrectAnswers / nb_reponses);
+                scoreToAdd = $('#form_pari').val() * this.questions[this.question_courante].difficulte * (nbOfCorrectAnswers / nb_reponses);
+                scoreToAdd = Math.round(scoreToAdd);
+                this.score += scoreToAdd;
             }
 
 
@@ -334,10 +348,14 @@ var app = {
 
             //on augmente le nombre de bonnes réponses pour les statistiques finales
             this.nb_reponses_trouvees++;
-            this.bonnesReponsesUser.push(this.question_courante);
+
+            //la bonne reponse de l'utilisateur, utilisé pour garder les questions pour lesquelles ont peut afficher tous les indices a la fin !
+
 
             var indice = this.entrepreneurs[this.entrepreneur_aTrouver].indices["indice_" + this.balise_courante];
             $('#reponse_indice').text(indice);
+            this.bonnesReponsesUser.push(indice);
+
 
         } else {
             //retrait des points pariés
@@ -385,9 +403,9 @@ var app = {
         if (this.entrepreneur_select == this.entrepreneur_aTrouver) {
             $("#entrepreneur_mystere .correction .correct").show();
             $("#entrepreneur_mystere .correction .errone").hide();
-            $("#entrepreneur_mystere .score .bonus span").html(nb_points_correct);
+            $("#entrepreneur_mystere .score .bonus span").html(app.nb_points_correct);
             $("#entrepreneur_mystere .score .bonus").show();
-            this.score += this.nb_points_correct;
+            this.score += app.nb_points_correct;
         } else {
             $("#entrepreneur_mystere .correction .errone").show();
             $("#entrepreneur_mystere .correction .correct").hide();
@@ -464,15 +482,15 @@ window.onload = function () {
         app.showView("#question");
         event.preventDefault();
     });
-	
+
 
     $('#form_question').submit(function (event) {
         app.showView("#reponse");
 
         event.preventDefault();
     });
-	
-	$('#btn_compass_retour').click(function () {
+
+    $('#btn_compass_retour').click(function () {
         app.showView("#compass");
         event.preventDefault();
     });
@@ -515,6 +533,21 @@ window.onload = function () {
 
     });
 
+    $('#modal_all_indice').click(function () {
+
+        navigator.notification.confirm(
+            $("#all_founded_indice").text(),  // message
+            null,                  // callback to invoke
+            'Indices',            // title
+            ['merci !']            // buttonLabels
+        );
+
+    });
+
+    onLoad();
+// keep awake the app
+    window.plugins.insomnia.keepAwake(everthingOk, errorNotOk);
+
 }
 
 function randomIntFromInterval(min, max) {
@@ -542,10 +575,6 @@ function stopwatch() {
     timer.stop().once();
 }
 
-
-onLoad();
-// keep awake the app
-window.plugins.insomnia.keepAwake(everthingOk, errorNotOk);
 
 function everthingOk() {
     console.log("Insomnia up");
