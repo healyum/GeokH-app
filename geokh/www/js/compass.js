@@ -13,6 +13,9 @@ compass.data.destination = {};
 var idWatchLoc = 0;
 var idWatchOrient = 0;
 
+var countErrorsLoc = 0;
+var countErrorsOr = 0;
+
 compass.onSuccessLocation = function onSuccessLocation(_position) {
     compass.data.position = _position;
 
@@ -23,9 +26,12 @@ compass.onSuccessLocation = function onSuccessLocation(_position) {
 
 }
 compass.onErrorLocation = function onErrorLocation(error) {
-    alert('Error Location : \n' +
-    'code: ' + error.code + '\n' +
-    'message: ' + error.message + '\n');
+	countErrorsLoc++;
+	if (countErrorsLoc == 5){
+		alert('Error Location, non disponible : \n' +
+		'code: ' + error.code + '\n' +
+		'message: ' + error.message + '\n');
+	}
 }
 
 
@@ -36,9 +42,12 @@ compass.onSuccessOrientation = function onSuccessOrientation(_heading) {
     //alert('Orient ok');
 };
 compass.onErrorOrientation = function onErrorOrientation(error) {
-    alert('Error orientation : \n' +
-    'code: ' + error.code + '\n' +
-    'message: ' + error.message + '\n');
+	countErrorsOr++;
+	if (countErrorsOr == 5){
+		alert('Error orientation, non disponible : \n' +
+		'code: ' + error.code + '\n' +
+		'message: ' + error.message + '\n');
+	}
 };
 
 compass.stopLocation = function stopLocation() {

@@ -171,7 +171,8 @@ var app = {
      * Charge les informations pour la vue de question
      */
     showQrCodeView: function showQrCodeView() {
-        $('#btn_question').show();
+        $('#btn_question').hide();
+		$('#btn_compass_retour').show();
         $("#qr_code_result").html("Flash du QR Code");
         var parcoursText = this.parcours > 9 ? "" : "0";
         var baliseText = this.balise_courante > 9 ? "" : "0";
@@ -179,26 +180,22 @@ var app = {
         if (app.debugOnBrowser == false) {
             cordova.plugins.barcodeScanner.scan(
                 function (result) {
-                    //TODO check si code = balise recherchée
                     if (result.text == "") {
                         $("#qr_code_result").html("Aucun code flashé");
                     } else if (result.text == textATrouver) {
-                        $("#qr_code_result").html("Bonne balise ! Félicitations ! <br> Code flashé : ");
+                        $("#qr_code_result").html("Bonne balise ! Félicitations !");
+						$('#btn_question').show();
+						$('#btn_compass_retour').hide();
                     } else {
-                        $("#qr_code_result").html("Mauvaise balise ! : " + result.text);
+                        $("#qr_code_result").html("Mauvaise balise !");
                     }
 
-                    $('#btn_question').show();
                 },
                 function (error) {
                     $("#qr_code_result").html("Scanning failed: " + error);
                 }
             );
-
-        } else {
-            $('#btn_question').show();
-
-        }
+		}
 
     },
 
@@ -467,12 +464,19 @@ window.onload = function () {
         app.showView("#question");
         event.preventDefault();
     });
+	
 
     $('#form_question').submit(function (event) {
         app.showView("#reponse");
 
         event.preventDefault();
     });
+	
+	$('#btn_compass_retour').click(function () {
+        app.showView("#compass");
+        event.preventDefault();
+    });
+
 
     $('#btn_compass').click(function () {
         app.showView("#compass");
