@@ -528,7 +528,7 @@ window.onload = function () {
             $("#reponse_indice").text(),  // message
             null,                  // callback to invoke
             'Indice',            // title
-            ['merci !']            // buttonLabels
+            ['Merci !']            // buttonLabels
         );
 
     });
@@ -539,7 +539,7 @@ window.onload = function () {
             $("#all_founded_indice").text(),  // message
             null,                  // callback to invoke
             'Indices',            // title
-            ['merci !']            // buttonLabels
+            ['Merci !']            // buttonLabels
         );
 
     });
@@ -604,7 +604,7 @@ function exitFromApp() {
 
 function onBackKeyDown(e) {
 
-    navigator.notification.confirm("Êtes-vous certains de vouloir quitter l'application ?  toutes progressions seront supprimées.", onConfirm, "Confirmation", "Quitter,Rester");
+    navigator.notification.confirm("Êtes-vous certains de vouloir quitter l'application ?  Toute progression sera supprimée.", onConfirm, "Confirmation", "Quitter,Rester");
     // Prompt the user with the choice
 }
 
