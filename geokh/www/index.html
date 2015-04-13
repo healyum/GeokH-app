@@ -49,8 +49,8 @@
             </div>
             <div id="form_parcours" class="form_groupe">
                 <p>Parcours :</p>
-                <input type="radio" name="form_parcours" id="form_parcours1" value="1" checked="checked"/><label
-                    for="form_parcours1">1</label>
+                <input type="radio" name="form_parcours" id="form_parcours1" value="1" checked="checked"/>
+                <label for="form_parcours1">1</label>
                 <!--
                 <input type="radio" name="form_parcours" id="form_parcours2" value="2" /><label for="form_parcours2">2</label>
                 <input type="radio" name="form_parcours" id="form_parcours3" value="3" /><label for="form_parcours3">3</label>
@@ -66,34 +66,37 @@
     <!--   recherche d'une balise   -->
     <!-- -------------------------- -->
     <section class="view" id="compass">
-        <div class="score">
-            <p>Score :</p>
+        <div>
+            <div class="score">
+                <p>Score :</p>
 
-            <p class="valeur"><span></span></p>
-        </div>
-        <div class="temps">
-            <p>Temps :</p>
+                <p class="valeur"><span></span></p>
+            </div>
+            <div class="temps">
+                <p>Temps :</p>
 
-            <p class="valeur" id="timer"></p>
-        </div>
-        <div class="conseil">
-            <p>Conseil : </p>
+                <p class="valeur" id="timer"></p>
+            </div>
+            <div class="conseil">
+                <p>Conseil : </p>
 
-            <p class="valeur">Lorem ipsum sit amet, consectetur adipiscing elit.</p>
-        </div>
-        <img src="img/compass.svg" alt="" id="compass_elt">
-
-        <div class="distance">
-            <p>Distance :</p>
-
-            <p class="valeur"><span>XXX</span> m</p>
-        </div>
-        <div class="precision">
-            <p>Précision :</p>
-
-            <p class="valeur"><span>XXX</span> m</p>
+                <p class="valeur">Lorem ipsum sit amet, consectetur adipiscing elit.</p>
+            </div>
         </div>
 
+        <div><img src="img/compass.svg" alt="" id="compass_elt"></div>
+        <div>
+            <div class="distance">
+                <p>Distance :</p>
+
+                <p class="valeur"><span>XXX</span> m</p>
+            </div>
+            <div class="precision">
+                <p>Précision :</p>
+
+                <p class="valeur"><span>XXX</span> m</p>
+            </div>
+        </div>
         <button id="btn_flash">Flashez le code</button>
         <button id="btn_entrepreneurs">Flashez le code</button>
 
@@ -106,7 +109,7 @@
         <div id="qr_code_result">
         </div>
         <button id="btn_question">Confirmer</button>
-		<button id="btn_compass_retour">Retour</button>
+        <button id="btn_compass_retour">Retour</button>
     </section>
 
 
@@ -195,6 +198,7 @@
             <br>
             <br>
             <br>
+
             <p class="indice" id="all_founded_indice"></p>
             <button class="indices left" id="modal_all_indice" disabled="disabled">voir les indices</button>
             <button class="right" id="btn_entrepreneur_mystere">C'est cet entrepreneur</button>

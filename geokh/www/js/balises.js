@@ -8,8 +8,8 @@
 var balises = {
     "balises": {
         "balise_1": {
-            "latitude": "50.610983",
-            "longitude": "3.139500",
+            "latitude": "50.6112333",
+            "longitude": "3.13945",
             "question": "question_1",
             "indice": "Dans l’un des 3 arbres"
         },
@@ -20,8 +20,8 @@ var balises = {
             "indice": "Entre le buisson et le rocher"
         },
         "balise_3": { //pa sure de la localisation
-            "latitude": "50.609750",
-            "longitude": "3.143083",
+            "latitude": "50.6098167",
+            "longitude": "3.14301666",
             "question": "question_3",
             "indice": "Panneau respecter l’écologie, entre le rocher et le buisson"
         },
@@ -44,8 +44,8 @@ var balises = {
             "indice": "SN5, dans l’arbre"
         },
         "balise_7": {
-            "latitude": "50.608567",
-            "longitude": "3.141083",
+            "latitude": "50.6085667",
+            "longitude": "3.14185",
             "question": "question_7",
             "indice": "Respecter les équilibres écologiques, En dessous du rocher"
         },
@@ -62,8 +62,8 @@ var balises = {
             "indice": "Sous le panneau de polytech"
         },
         "balise_10": {
-            "latitude": "50.610300",
-            "longitude": "3.134650",
+            "latitude": "50.6104833",
+            "longitude": "3.1346",
             "question": "question_10",
             "indice": "Derrière le panneau télécom Lille"
         },

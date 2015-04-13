@@ -33,6 +33,7 @@ var app = {
     currentTime: 0,
     debugOnBrowser: false,
     nb_points_correct: 500,
+    actualView: "",
 
 
     // Application Constructor
@@ -51,6 +52,7 @@ var app = {
         //cacher tous les indices
         $(".indice").hide();
 
+
         //affichage de la première vue
         this.showView("#accueil");
     },
@@ -60,6 +62,7 @@ var app = {
     showView: function showView(view_id) {
         $(".view").hide();
         $(view_id).show();
+        this.actualView = view_id;
         switch (view_id) {
             case "#connexion":
                 this.showConnexionView();
@@ -96,6 +99,7 @@ var app = {
      * charge les informations pour la vue de recherche de balise
      */
     showBaliseView: function showBaliseView() {
+        this.isTimerloaded = true;
         if (app.debugOnBrowser == false) {
             compass.stopLocation();
             compass.stopOrientation();
@@ -113,28 +117,8 @@ var app = {
         //la distance et la précision sont mises à jour par les fonctions updateDistance() et updatePrecision()
         compass.data.destination = new LatLon(this.balises["balise_" + this.balise_courante].latitude, this.balises["balise_" + this.balise_courante].longitude);
 
-        // Stopwatch element on the page
-        var $stopwatch;
 
-        // Timer speed in milliseconds
-        var incrementTime = 70;
-
-        // Current timer position in milliseconds
-        // Output time and increment
-        var uptdateTimer = function updateTimer() {
-            var timeString = formatTime(app.currentTime);
-            $stopwatch.html(timeString);
-            app.currentTime += incrementTime;
-        }
-
-        // Start the timer
-        if (!this.isTimerloaded) {
-            app.currentTime = 0;
-            $stopwatch = $('#timer');
-            timer = $.timer(uptdateTimer, incrementTime, true);
-            this.isTimerloaded = true;
-        }
-
+        startTimer();
 
         if (this.balise_courante == (Object.keys(this.balises).length)) {
             $("#btn_entrepreneurs").show();
@@ -461,7 +445,6 @@ var app = {
     }
 };
 
-app.initialize();
 
 window.onload = function () {
     $('#btn_connexion').click(function () {
@@ -522,31 +505,7 @@ window.onload = function () {
         exitFromApp();
     });
 
-    $('#modal_reponse').click(function () {
-
-        navigator.notification.confirm(
-            $("#reponse_indice").text(),  // message
-            null,                  // callback to invoke
-            'Indice',            // title
-            ['Merci !']            // buttonLabels
-        );
-
-    });
-
-    $('#modal_all_indice').click(function () {
-
-        navigator.notification.confirm(
-            $("#all_founded_indice").text(),  // message
-            null,                  // callback to invoke
-            'Indices',            // title
-            ['Merci !']            // buttonLabels
-        );
-
-    });
-
     onLoad();
-// keep awake the app
-    window.plugins.insomnia.keepAwake(everthingOk, errorNotOk);
 
 }
 
@@ -567,7 +526,8 @@ function formatTime(time) {
     time = time / 10;
     var min = parseInt(time / 6000),
         sec = parseInt(time / 100) - (min * 60),
-        hundredths = pad(time - (sec * 100) - (min * 6000), 2);
+        hundredths = Math.ceil(pad(time - (sec * 100) - (min * 6000), 2));
+    hundredths = (hundredths < 10 || hundredths == 100 ? "00" : hundredths);
     return (min > 0 ? pad(min, 2) : "00") + ":" + pad(sec, 2) + ":" + hundredths;
 }
 
@@ -593,25 +553,182 @@ function onLoad() {
 function onDeviceReady() {
     // Register the event listener
     document.addEventListener("backbutton", onBackKeyDown, false);
+    document.addEventListener("pause", onPause, false);
+    document.addEventListener("resume", onResume, false);
+
+    $('#modal_reponse').click(function () {
+
+        navigator.notification.confirm(
+            $("#reponse_indice").text(),  // message
+            null,                  // callback to invoke
+            'Indice',            // title
+            ['Merci !']            // buttonLabels
+        );
+
+    });
+
+    $('#modal_all_indice').click(function () {
+
+        navigator.notification.confirm(
+            $("#all_founded_indice").text(),  // message
+            null,                  // callback to invoke
+            'Indices',            // title
+            ['Merci !']            // buttonLabels
+        );
+
+    });
+
+
+// keep awake the app
+    window.plugins.insomnia.keepAwake(everthingOk, errorNotOk);
+
+    //initialize the app
+    app.initialize();
+
+    var isInit = window.localStorage.getItem("isInit");
+    if (isInit != null) {
+        navigator.notification.confirm("Une sauvegarde semble exister, voulez-vous continuer ?", onConfirmStorage, "Confirmation", "Continuer,Recommencer");
+    }
+
+    //save the app avery 10 secs
+    window.setInterval(function () {
+        saveLocalStorage();
+    }, 10000);
+
+
 }
 
-// Handle the back button
-//
+
+function startTimer() {
+    // Stopwatch element on the page
+    var $stopwatch;
+
+    // Timer speed in milliseconds
+    var incrementTime = 70;
+
+    // Current timer position in milliseconds
+    // Output time and increment
+    var uptdateTimer = function updateTimer() {
+        var timeString = formatTime(app.currentTime);
+        $stopwatch.html(timeString);
+        app.currentTime += incrementTime;
+    }
+
+    // Start the timer
+    if (!this.isTimerloaded) {
+        app.currentTime = 0;
+        this.isTimerloaded = true;
+        $stopwatch = $('#timer');
+        timer = $.timer(uptdateTimer, incrementTime, true);
+    }
+
+
+}
+
+function onConfirmStorage(button) {
+    if (button == 1) {
+        //continuer
+        loadLocalStorage();
+    } else if (button == 2) {
+        //reinit
+        reinitLocalStorage();
+    }
+}
+
+function reinitLocalStorage() {
+    //delete local storage
+    window.localStorage.clear();
+}
+
+function loadLocalStorage() {
+    app.score = parseFloat(window.localStorage.getItem("score"));
+    app.equipe = String(window.localStorage.getItem("equipe"));
+    app.niveau = parseInt(window.localStorage.getItem("niveau"));
+    app.parcours = parseInt(window.localStorage.getItem("parcours"));
+    app.balises = jQuery.parseJSON(window.localStorage.getItem("balises"));
+    app.questions = jQuery.parseJSON(window.localStorage.getItem("questions"));
+    app.entrepreneurs = jQuery.parseJSON(window.localStorage.getItem("entrepreneurs"));
+    app.balise_courante = parseInt(window.localStorage.getItem("balise_courante"));
+    app.question_courante = parseInt(window.localStorage.getItem("question_courante"));
+    app.entrepreneur_select = String(window.localStorage.getItem("entrepreneur_select"));
+    app.entrepreneur_aTrouver = String(window.localStorage.getItem("entrepreneur_aTrouver"));
+    app.nb_balises_trouvees = parseInt(window.localStorage.getItem("nb_balises_trouvees"));
+    app.nb_reponses_trouvees = parseInt(window.localStorage.getItem("nb_reponses_trouvees"));
+    app.isTimerloaded = Boolean(window.localStorage.getItem("isTimerloaded"));
+    //reinit -> always launch
+    app.isTimerloaded = false;
+    startTimer();
+
+    var tab = String(window.localStorage.getItem("bonnesReponsesUser"));
+    app.bonnesReponsesUser = tab.split(",");
+    app.currentTime = parseInt(window.localStorage.getItem("currentTime"));
+    //app.debugOnBrowser = window.localStorage.getItem("debugOnBrowser");
+    var d = new Date();
+    var now = d.getTime();
+    var local = parseInt(window.localStorage.getItem("localTime"));
+    var diff = Math.ceil(Math.abs(now - local));
+
+    app.currentTime = parseInt(diff) + app.currentTime;
+    app.currentTime = parseInt(app.currentTime);
+
+    app.nb_points_correct = parseInt(window.localStorage.getItem("nb_points_correct"));
+    var backupView = app.actualView;
+    app.actualView = String(window.localStorage.getItem("actualView"));
+    if (app.actualView != backupView) {
+        app.showView(app.actualView);
+    }
+
+
+}
+
+function saveLocalStorage() {
+
+
+    window.localStorage.setItem("score", String(app.score));
+    window.localStorage.setItem("equipe", String(app.equipe));
+    window.localStorage.setItem("niveau", String(app.niveau));
+    window.localStorage.setItem("parcours", String(app.parcours));
+    window.localStorage.setItem("balises", JSON.stringify(app.balises));
+    window.localStorage.setItem("questions", JSON.stringify(app.questions));
+    window.localStorage.setItem("entrepreneurs", JSON.stringify(app.entrepreneurs));
+    window.localStorage.setItem("balise_courante", String(app.balise_courante));
+    window.localStorage.setItem("question_courante", String(app.question_courante));
+    window.localStorage.setItem("entrepreneur_select", String(app.entrepreneur_select));
+    window.localStorage.setItem("entrepreneur_aTrouver", String(app.entrepreneur_aTrouver));
+    window.localStorage.setItem("nb_balises_trouvees", String(app.nb_balises_trouvees));
+    window.localStorage.setItem("nb_reponses_trouvees", String(app.nb_reponses_trouvees));
+    window.localStorage.setItem("isTimerloaded", String(app.isTimerloaded));
+    window.localStorage.setItem("bonnesReponsesUser", String(app.bonnesReponsesUser));
+    window.localStorage.setItem("currentTime", String(app.currentTime));
+    var d = new Date();
+    var n = d.getTime();
+    window.localStorage.setItem("localTime", String(n));
+    //window.localStorage.setItem("debugOnBrowser",app.debugOnBrowser);
+    window.localStorage.setItem("nb_points_correct", String(app.nb_points_correct));
+    window.localStorage.setItem("actualView", String(app.actualView));
+    window.localStorage.setItem("isInit", "true");
+}
+
+function onPause() {
+    saveLocalStorage();
+}
+
+function onResume() {
+    loadLocalStorage();
+}
 
 function exitFromApp() {
+    //reinitLocalStorage();
+    saveLocalStorage();
     navigator.app.exitApp();
 }
 
 function onBackKeyDown(e) {
-
-    navigator.notification.confirm("Êtes-vous certains de vouloir quitter l'application ?  Toute progression sera supprimée.", onConfirm, "Confirmation", "Quitter,Rester");
-    // Prompt the user with the choice
+    navigator.notification.confirm("Êtes-vous certains de vouloir quitter l'application ?", onConfirm, "Confirmation", "Rester,Sauver et Quitter");
 }
 
 function onConfirm(button) {
-    if (button == 2) {//If User selected No, then we just do nothing
-        return;
-    } else {
+    if (button == 2) {
         exitFromApp();
     }
 }

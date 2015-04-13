@@ -9,4 +9,9 @@
     </author>
     <content src="index.html"/>
     <access origin="*"/>
+
+    <icon src="www/img/logo.png" platform="android" density="ldpi"/>
+    <icon src="www/img/logo.png" platform="android" density="mdpi"/>
+    <icon src="www/img/logo.png" platform="android" density="hdpi"/>
+    <icon src="www/img/logo.png" platform="android" density="xhdpi"/>
 </widget>

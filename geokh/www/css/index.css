@@ -23,7 +23,6 @@ body {
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
-    font-size:12px;
     height:100%;
     width:100%;
     margin:0px;
@@ -58,7 +57,7 @@ body {
     top: 120px; left: 0; bottom: 0; right: 0;
     padding: 14px 28px;
     overflow-x: hidden;
-    overflow-y: scoll;
+    overflow-y: auto;
     -webkit-overflow-scrolling: touch; 
     display: none;
     text-align: center;
@@ -72,8 +71,8 @@ input[type='submit'] {
     right: 0;
     left: 0;
     bottom: 0;
-    height: 45px;
-    line-height: 45px;
+    height: 55px;
+    font-size: 110%;
     width: 100%;
     font-weight: bold;
     position: fixed;    
@@ -185,7 +184,7 @@ footer {
 
 #compass .distance,
 #compass .precision {
-    margin: 175px 0 45px 0;
+    margin: 0px 0 45px 0;
 }
 
 #compass .conseil {
@@ -214,8 +213,7 @@ footer {
 
 #compass_elt {
     clear: both;
-    margin: 0;
-    width: 165px;
+    width: 80%;
 }
 
 #btn_flash {
