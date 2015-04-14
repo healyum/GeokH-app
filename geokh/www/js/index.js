@@ -524,11 +524,12 @@ function pad(number, length) {
 
 function formatTime(time) {
     time = time / 10;
-    var min = parseInt(time / 6000),
+    var hours = parseInt(time / (60 * 6000)),
+        min = parseInt(time / 6000),
         sec = parseInt(time / 100) - (min * 60),
         hundredths = Math.ceil(pad(time - (sec * 100) - (min * 6000), 2));
     hundredths = (hundredths < 10 || hundredths == 100 ? "00" : hundredths);
-    return (min > 0 ? pad(min, 2) : "00") + ":" + pad(sec, 2) + ":" + hundredths;
+    return (hours > 0 ? pad(hours, 2) : "00") + ":" + (min > 0 ? pad(min, 2) : "00") + ":" + pad(sec, 2); //+ ":" + hundredths;
 }
 
 function stopwatch() {
