@@ -8,7 +8,7 @@
 var balises = {
     "balises": {
         "balise_1": {
-            "latitude": "50.6112333",
+            "latitude": "50.61233333",
             "longitude": "3.13945",
             "question": "question_1",
             "indice": "Dans l’un des 3 arbres"
@@ -19,7 +19,7 @@ var balises = {
             "question": "question_2",
             "indice": "Entre le buisson et le rocher"
         },
-        "balise_3": { //pa sure de la localisation
+        "balise_3": { 
             "latitude": "50.6098167",
             "longitude": "3.14301666",
             "question": "question_3",

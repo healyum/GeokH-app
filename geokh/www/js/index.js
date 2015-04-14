@@ -13,6 +13,8 @@ var app = {
     niveau: 1,
     //parcours choisit
     parcours: 1,
+	//l'ordre des balises du parcours
+	parcoursOrdre : [],
     //les balises a chercher
     balises: {},
     //les questions a poser
@@ -20,7 +22,7 @@ var app = {
     //les entrepreneurs
     entrepreneurs: {},
     //prochaine balise cherchée
-    balise_courante: 1,
+    balise_courante: 0,
     //prochaine balise question posée
     question_courante: "",
     //
@@ -111,11 +113,11 @@ var app = {
         $('#compass .score .valeur span').text(this.score);
 
         //affichage du conseil pour trouver la balise
-        $('#compass .conseil .valeur').text(this.balises["balise_" + this.balise_courante].indice);
+        $('#compass .conseil .valeur').text(this.balises["balise_" + this.parcoursOrdre[this.balise_courante]].indice);
 
         //définition du point gps de la balise
         //la distance et la précision sont mises à jour par les fonctions updateDistance() et updatePrecision()
-        compass.data.destination = new LatLon(this.balises["balise_" + this.balise_courante].latitude, this.balises["balise_" + this.balise_courante].longitude);
+        compass.data.destination = new LatLon(this.balises["balise_" + this.parcoursOrdre[this.balise_courante]].latitude, this.balises["balise_" + this.parcoursOrdre[this.balise_courante]].longitude);
 
 
         startTimer();
@@ -133,21 +135,22 @@ var app = {
      * Verifie les infos de formulaires de connexion
      */
     showConnexionView: function showConnexionView() {
-        /*
-         $('#form_connexion').validate({
-         rules: {
-         form_equipe: {
-         required: true,
-         minlength: 3
-         }
-         },
-         messages: {
-         form_equipe: {
-         required: "Merci d'entrer un nom d'équipe."
-         }
-         }
-         });
-         */
+        
+		this.parcoursOrdre = [1,2,3,4,5,6,7,8,9,10,11];
+		
+        $("input[name=form_parcours]").change(function(event){
+			 app.parcours = $('input[name=form_parcours]:checked').val();
+			 if (app.parcours == "1"){
+				 app.parcoursOrdre = [1,2,3,4,5,6,7,8,9,10,11];
+			 } else if (app.parcours == "2"){
+				 app.parcoursOrdre = [10,1,2,9,8,5,6,4,3,7,11];
+			 } else {
+				 app.parcoursOrdre = [2,7,5,6,4,3,8,9,10,1,11];
+			 }
+		 });
+
+	
+		
 
 
     },
@@ -159,8 +162,8 @@ var app = {
         $('#btn_compass_retour').show();
         $("#qr_code_result").html("Flash du QR Code");
         var parcoursText = this.parcours > 9 ? "" : "0";
-        var baliseText = this.balise_courante > 9 ? "" : "0";
-        var textATrouver = "balise_" + baliseText + this.balise_courante + "_parcours_" + parcoursText + this.parcours;
+        var baliseText = this.parcoursOrdre[this.balise_courante] > 9 ? "" : "0";
+        var textATrouver = "balise_" + baliseText + this.parcoursOrdre[this.balise_courante] + "_parcours_" + parcoursText + 1;
         if (app.debugOnBrowser == false) {
             cordova.plugins.barcodeScanner.scan(
                 function (result) {
@@ -197,7 +200,7 @@ var app = {
         if (this.balise_courante == (Object.keys(this.balises).length)) {
 
             //récupération des informations sur la question à afficher 
-            this.question_courante = this.balises["balise_" + this.balise_courante].question;
+            this.question_courante = this.balises["balise_" + this.parcoursOrdre[this.balise_courante]].question;
 
             //affichage de la question
             $('#entrepreneurs .lib_question').text(this.questions[this.question_courante].question);
@@ -248,7 +251,7 @@ var app = {
             $('#question .score .valeur span').text(this.score);
 
             //récupération des informations sur la question à afficher 
-            this.question_courante = this.balises["balise_" + this.balise_courante].question;
+            this.question_courante = this.balises["balise_" + this.parcoursOrdre[this.balise_courante]].question;
 
             //affichage de la difficutlé
             $('#question .difficulte .valeur span').text(this.questions[this.question_courante].difficulte);
@@ -336,7 +339,7 @@ var app = {
             //la bonne reponse de l'utilisateur, utilisé pour garder les questions pour lesquelles ont peut afficher tous les indices a la fin !
 
 
-            var indice = this.entrepreneurs[this.entrepreneur_aTrouver].indices["indice_" + this.balise_courante];
+            var indice = this.entrepreneurs[this.entrepreneur_aTrouver].indices["indice_" + this.parcoursOrdre[this.balise_courante]];
             $('#reponse_indice').text(indice);
             this.bonnesReponsesUser.push(indice);
 
