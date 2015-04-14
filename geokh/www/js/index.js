@@ -122,7 +122,7 @@ var app = {
 
         startTimer();
 
-        if (this.balise_courante == (Object.keys(this.balises).length)) {
+        if (this.balise_courante == (Object.keys(this.balises).length) -1) {
             $("#btn_entrepreneurs").show();
             $("#btn_flash").hide();
         } else {
@@ -197,7 +197,7 @@ var app = {
         this.nb_balises_trouvees++;
 
         //si on est à la dernière balise, l'affichage de la question est différent
-        if (this.balise_courante == (Object.keys(this.balises).length)) {
+        if (this.balise_courante == (Object.keys(this.balises).length) -1 ) {
 
             //récupération des informations sur la question à afficher 
             this.question_courante = this.balises["balise_" + this.parcoursOrdre[this.balise_courante]].question;
@@ -410,10 +410,10 @@ var app = {
     showScoreView: function showScoreView() {
         $("#scores .niveau .valeur").html(this.niveau);
         $("#scores .balises .valeur").html(this.nb_balises_trouvees);
-        $("#scores .balises .maximum").html(Object.keys(this.balises).length);
+        $("#scores .balises .maximum").html(Object.keys(this.balises).length -1 );
 
         $("#scores .reponses .valeur").html(this.nb_reponses_trouvees);
-        $("#scores .reponses .maximum").html(Object.keys(this.balises).length);
+        $("#scores .reponses .maximum").html(Object.keys(this.balises).length -1);
 
         $("#scores .paris .valeur").html();
 
@@ -650,6 +650,8 @@ function loadLocalStorage() {
     app.equipe = String(window.localStorage.getItem("equipe"));
     app.niveau = parseInt(window.localStorage.getItem("niveau"));
     app.parcours = parseInt(window.localStorage.getItem("parcours"));
+	var tabOrdre = String(window.localStorage.getItem("parcoursOrdre"));
+    app.parcoursOrdre = tabOrdre.split(",");
     app.balises = jQuery.parseJSON(window.localStorage.getItem("balises"));
     app.questions = jQuery.parseJSON(window.localStorage.getItem("questions"));
     app.entrepreneurs = jQuery.parseJSON(window.localStorage.getItem("entrepreneurs"));
@@ -693,6 +695,7 @@ function saveLocalStorage() {
     window.localStorage.setItem("equipe", String(app.equipe));
     window.localStorage.setItem("niveau", String(app.niveau));
     window.localStorage.setItem("parcours", String(app.parcours));
+	window.localStorage.setItem("parcoursOrdre", String(app.parcoursOrdre));
     window.localStorage.setItem("balises", JSON.stringify(app.balises));
     window.localStorage.setItem("questions", JSON.stringify(app.questions));
     window.localStorage.setItem("entrepreneurs", JSON.stringify(app.entrepreneurs));
