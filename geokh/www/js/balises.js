@@ -56,8 +56,8 @@ var balises = {
             "indice": "Dans l’arbre"
         },
         "balise_9": {
-            "latitude": "50.608433",
-            "longitude": "3.138683",
+            "latitude": "50.6084333",
+            "longitude": "3.13481666",
             "question": "question_9",
             "indice": "Sous le panneau de polytech"
         },

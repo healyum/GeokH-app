@@ -13,8 +13,8 @@ var app = {
     niveau: 1,
     //parcours choisit
     parcours: 1,
-	//l'ordre des balises du parcours
-	parcoursOrdre : [],
+    //l'ordre des balises du parcours
+    parcoursOrdre: [],
     //les balises a chercher
     balises: {},
     //les questions a poser
@@ -122,35 +122,26 @@ var app = {
 
         startTimer();
 
-        if (this.balise_courante == (Object.keys(this.balises).length) -1) {
-            $("#btn_entrepreneurs").show();
-            $("#btn_flash").hide();
-        } else {
-            $("#btn_entrepreneurs").hide();
-            $("#btn_flash").show();
-        }
+
     },
 
     /*
      * Verifie les infos de formulaires de connexion
      */
     showConnexionView: function showConnexionView() {
-        
-		this.parcoursOrdre = [1,2,3,4,5,6,7,8,9,10,11];
-		
-        $("input[name=form_parcours]").change(function(event){
-			 app.parcours = $('input[name=form_parcours]:checked').val();
-			 if (app.parcours == "1"){
-				 app.parcoursOrdre = [1,2,3,4,5,6,7,8,9,10,11];
-			 } else if (app.parcours == "2"){
-				 app.parcoursOrdre = [10,1,2,9,8,5,6,4,3,7,11];
-			 } else {
-				 app.parcoursOrdre = [2,7,5,6,4,3,8,9,10,1,11];
-			 }
-		 });
 
-	
-		
+        this.parcoursOrdre = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+
+        $("input[name=form_parcours]").change(function (event) {
+            app.parcours = $('input[name=form_parcours]:checked').val();
+            if (app.parcours == "1") {
+                app.parcoursOrdre = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+            } else if (app.parcours == "2") {
+                app.parcoursOrdre = [10, 1, 2, 9, 8, 5, 6, 4, 3, 7, 11];
+            } else {
+                app.parcoursOrdre = [2, 7, 5, 6, 4, 3, 8, 9, 10, 1, 11];
+            }
+        });
 
 
     },
@@ -159,6 +150,7 @@ var app = {
      */
     showQrCodeView: function showQrCodeView() {
         $('#btn_question').hide();
+        $("#btn_entrepreneurs").hide();
         $('#btn_compass_retour').show();
         $("#qr_code_result").html("Flash du QR Code");
         var parcoursText = this.parcours > 9 ? "" : "0";
@@ -173,6 +165,10 @@ var app = {
                         $("#qr_code_result").html("Bonne balise ! Félicitations !");
                         $('#btn_question').show();
                         $('#btn_compass_retour').hide();
+                        if (this.balise_courante == (Object.keys(this.balises).length) - 1) {
+                            $("#btn_entrepreneurs").show();
+                            $('#btn_question').hide();
+                        }
                     } else {
                         $("#qr_code_result").html("Mauvaise balise !");
                     }
@@ -197,7 +193,7 @@ var app = {
         this.nb_balises_trouvees++;
 
         //si on est à la dernière balise, l'affichage de la question est différent
-        if (this.balise_courante == (Object.keys(this.balises).length) -1 ) {
+        if (this.balise_courante == (Object.keys(this.balises).length) - 1) {
 
             //récupération des informations sur la question à afficher 
             this.question_courante = this.balises["balise_" + this.parcoursOrdre[this.balise_courante]].question;
@@ -313,21 +309,24 @@ var app = {
             if (nb_reponses == nbOfCorrectAnswers) {
                 //on ajoute les points que l'utilisateur a parié
                 //multiplié par le niveau de la question
+                $("#reponse .correct").show();
+                $("#reponse .partial").hide();
                 scoreToAdd = $('#form_pari').val() * this.questions[this.question_courante].difficulte;
-                scoreToAdd = Math.round(scoreToAdd);
-                this.score += scoreToAdd;
             } else {
                 //on ajoute les points que l'utilisateur a parié
                 //multiplié par le niveau de la question
                 //multiplié par un ratio de bonne réponses
+                $("#reponse .partial").show();
+                $("#reponse .correct").show();
                 scoreToAdd = $('#form_pari').val() * this.questions[this.question_courante].difficulte * (nbOfCorrectAnswers / nb_reponses);
-                scoreToAdd = Math.round(scoreToAdd);
-                this.score += scoreToAdd;
             }
+
+            scoreToAdd = Math.round(scoreToAdd);
+            this.score += scoreToAdd;
 
 
             $("#reponse .errone").hide();
-            $("#reponse .correct").show();
+
             $('#reponse .score .bonus span').text(scoreToAdd);
 
             //on laisse le bouton ouvert
@@ -343,6 +342,14 @@ var app = {
             $('#reponse_indice').text(indice);
             this.bonnesReponsesUser.push(indice);
 
+            //notif indice bonne réponse
+            navigator.notification.confirm(
+                $("#reponse_indice").text(),  // message
+                null,                  // callback to invoke
+                'Indice',            // title
+                ['Merci !']            // buttonLabels
+            );
+
 
         } else {
             //retrait des points pariés
@@ -352,6 +359,7 @@ var app = {
             $('#modal_reponse').prop('disabled', true);
             $("#reponse .errone").show();
             $("#reponse .correct").hide();
+            $("#reponse .partial").hide();
             $('#reponse .score .bonus span').text(scoreToAdd);
         }
 
@@ -410,10 +418,10 @@ var app = {
     showScoreView: function showScoreView() {
         $("#scores .niveau .valeur").html(this.niveau);
         $("#scores .balises .valeur").html(this.nb_balises_trouvees);
-        $("#scores .balises .maximum").html(Object.keys(this.balises).length -1 );
+        $("#scores .balises .maximum").html(Object.keys(this.balises).length - 1);
 
         $("#scores .reponses .valeur").html(this.nb_reponses_trouvees);
-        $("#scores .reponses .maximum").html(Object.keys(this.balises).length -1);
+        $("#scores .reponses .maximum").html(Object.keys(this.balises).length - 1);
 
         $("#scores .paris .valeur").html();
 
@@ -561,16 +569,6 @@ function onDeviceReady() {
     document.addEventListener("pause", onPause, false);
     document.addEventListener("resume", onResume, false);
 
-    $('#modal_reponse').click(function () {
-
-        navigator.notification.confirm(
-            $("#reponse_indice").text(),  // message
-            null,                  // callback to invoke
-            'Indice',            // title
-            ['Merci !']            // buttonLabels
-        );
-
-    });
 
     $('#modal_all_indice').click(function () {
 
@@ -650,7 +648,7 @@ function loadLocalStorage() {
     app.equipe = String(window.localStorage.getItem("equipe"));
     app.niveau = parseInt(window.localStorage.getItem("niveau"));
     app.parcours = parseInt(window.localStorage.getItem("parcours"));
-	var tabOrdre = String(window.localStorage.getItem("parcoursOrdre"));
+    var tabOrdre = String(window.localStorage.getItem("parcoursOrdre"));
     app.parcoursOrdre = tabOrdre.split(",");
     app.balises = jQuery.parseJSON(window.localStorage.getItem("balises"));
     app.questions = jQuery.parseJSON(window.localStorage.getItem("questions"));
@@ -695,7 +693,7 @@ function saveLocalStorage() {
     window.localStorage.setItem("equipe", String(app.equipe));
     window.localStorage.setItem("niveau", String(app.niveau));
     window.localStorage.setItem("parcours", String(app.parcours));
-	window.localStorage.setItem("parcoursOrdre", String(app.parcoursOrdre));
+    window.localStorage.setItem("parcoursOrdre", String(app.parcoursOrdre));
     window.localStorage.setItem("balises", JSON.stringify(app.balises));
     window.localStorage.setItem("questions", JSON.stringify(app.questions));
     window.localStorage.setItem("entrepreneurs", JSON.stringify(app.entrepreneurs));

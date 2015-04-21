@@ -100,7 +100,7 @@
             </div>
         </div>
         <button id="btn_flash">Flashez le code</button>
-        <button id="btn_entrepreneurs">J'y suis !</button>
+
 
     </section>
 
@@ -111,6 +111,7 @@
         <div id="qr_code_result">
         </div>
         <button id="btn_question">Confirmer</button>
+        <button id="btn_entrepreneurs">J'y suis !</button>
         <button id="btn_compass_retour">Retour</button>
     </section>
 
@@ -141,6 +142,7 @@
             <div class="pari">
                 <label for="form_pari">Parier</label>
                 <select name="form_pari" id="form_pari">
+                    <option value="0">0</option>
                     <option value="50">50</option>
                     <option value="100">100</option>
                     <option value="150">150</option>
@@ -158,6 +160,8 @@
     <section class="view" id="reponse">
         <div class="correction">
             <p class="correct">Bonne réponse.</p>
+
+            <p class="partial">Bonne réponse mais incomplète.</p>
 
             <p class="errone">Mauvaise réponse.</p>
         </div>
@@ -179,8 +183,8 @@
 
             <p class="indice" id="reponse_indice"></p>
 
-            <button class="left" id="modal_reponse" disabled="disabled">voir l'indice</button>
-            <button id="btn_compass" class="right">Continuer</button>
+            <!--<button class="left" id="modal_reponse" disabled="disabled">voir l'indice</button> -->
+            <button id="btn_compass">Continuer</button>
         </div>
     </section>
 

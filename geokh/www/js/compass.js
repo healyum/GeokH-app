@@ -35,7 +35,7 @@ compass.onErrorLocation = function onErrorLocation(error) {
 
 compass.onSuccessOrientation = function onSuccessOrientation(_heading) {
     compass.data.heading = _heading;
-    var angle = actualPosition.bearingTo(m5) - compass.data.heading.magneticHeading
+    var angle = actualPosition.bearingTo(compass.data.destination) - compass.data.heading.magneticHeading
     app.rotate(Math.round(angle));
 };
 compass.onErrorOrientation = function onErrorOrientation(error) {
