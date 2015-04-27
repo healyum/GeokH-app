@@ -16,6 +16,8 @@ var idWatchOrient = 0;
 var countErrorsLoc = 0;
 var countErrorsOr = 0;
 
+var updateTimer = 750;
+
 compass.onSuccessLocation = function onSuccessLocation(_position) {
     compass.data.position = _position;
 
@@ -55,7 +57,7 @@ compass.stopLocation = function stopLocation() {
 compass.activateLocation = function activateLocation() {
     if (navigator.geolocation) {
 
-        var options = {maximumAge: 0, timeout: 1500, enableHighAccuracy: true};
+        var options = {maximumAge: 0, timeout: updateTimer, enableHighAccuracy: true};
         idWatchLoc = navigator.geolocation.watchPosition(compass.onSuccessLocation,
             compass.onErrorLocation,
             options);
@@ -72,8 +74,8 @@ compass.stopOrientation = function stopOrientation() {
 compass.activateOrientation = function activateOrientation() {
     if (navigator.compass) {
         var options = {
-            frequency: 1500
-        }; // Update every 1.5 seconds
+            frequency: updateTimer
+        }; // Update every .5 seconds
         idWatchOrient = navigator.compass.watchHeading(compass.onSuccessOrientation,
             compass.onErrorOrientation, options);
     } else {

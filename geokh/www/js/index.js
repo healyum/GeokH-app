@@ -36,6 +36,7 @@ var app = {
     debugOnBrowser: false,
     nb_points_correct: 500,
     actualView: "",
+    distanceMinToShowIndice: 50,
 
 
     // Application Constructor
@@ -101,6 +102,12 @@ var app = {
      * charge les informations pour la vue de recherche de balise
      */
     showBaliseView: function showBaliseView() {
+
+        //cacher les conseils pour les balises par défaut
+        $('#conseilHide').show();
+        $('#compass .conseil .valeur').hide();
+
+
         this.isTimerloaded = true;
         if (app.debugOnBrowser == false) {
             compass.stopLocation();
@@ -449,6 +456,14 @@ var app = {
         this.entrepreneur_select = ent;
     },
     updateDistance: function updateDistance(distance) {
+
+        if (distance < app.distanceMinToShowIndice) {
+            $('#compass .conseil .valeur').show();
+            $('#conseilHide').hide();
+        } else {
+            $('#conseilHide').show();
+            $('#compass .conseil .valeur').hide();
+        }
         $('#compass .distance .valeur span').text(distance);
     },
     updatePrecision: function updatePrecision(precision) {
@@ -582,6 +597,20 @@ function onDeviceReady() {
     });
 
 
+    $('#btn_pass').click(function () {
+
+        navigator.notification.confirm(
+            "Etes-vous certain de vouloir passer cette balise ? \n Vous allez perdre 150 points !",  // message
+            onConfirmPassBtn,                  // callback to invoke
+            'Passer la balise',            // title
+            ['Oui', 'Non']            // buttonLabels
+        );
+
+    });
+
+
+
+
 // keep awake the app
     window.plugins.insomnia.keepAwake(everthingOk, errorNotOk);
 
@@ -601,6 +630,13 @@ function onDeviceReady() {
 
 }
 
+function onConfirmPassBtn(button) {
+    if (button == 1) {
+        app.balise_courante++;
+        app.score -= 150;
+        app.showView("#compass");
+    }
+}
 
 function startTimer() {
     // Stopwatch element on the page
@@ -726,6 +762,8 @@ function onResume() {
 function exitFromApp() {
     //reinitLocalStorage();
     saveLocalStorage();
+    compass.stopLocation();
+    compass.stopOrientation();
     navigator.app.exitApp();
 }
 

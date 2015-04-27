@@ -82,7 +82,10 @@
             <div class="conseil">
                 <p>Conseil : </p>
 
-                <p class="valeur">Lorem ipsum sit amet, consectetur adipiscing elit.</p>
+                <strong><p class="valeur" style="color: green">Lorem ipsum sit amet, consectetur adipiscing elit.</p>
+                </strong>
+
+                <p id="conseilHide" style="color: red">Indice caché (distance min : 50m.)</p>
             </div>
         </div>
 
@@ -99,7 +102,9 @@
                 <p class="valeur"><span>XXX</span> m</p>
             </div>
         </div>
-        <button id="btn_flash">Flashez le code</button>
+
+        <button id="btn_pass" class="left">Passer la balise</button>
+        <button id="btn_flash" class="right">Flasher le code</button>
 
 
     </section>
@@ -305,7 +310,6 @@
 </body>
 <script type="text/javascript" src="js/jquery-2.1.3.min.js"></script>
 <script type="text/javascript" src="js/jQueryRotate.min.js"></script>
-<script type="text/javascript" src="js/jquery.validate.js"></script>
 <script type="text/javascript" src="js/jquery.timer.js"></script>
 <script type="text/javascript" src="cordova.js"></script>
 <script type="text/javascript" src="js/balises.js"></script>

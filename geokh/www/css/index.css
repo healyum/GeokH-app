@@ -322,10 +322,15 @@ footer {
 .right {
     width: 50%;
     left: 50%;
+    border-top-style: none;
+    border-right-style: none;
+    border-bottom-style: none;
+    border-left: solid #2c7f3b;
 }
 
 .left {
     width: 50%;
+
 }
 
 

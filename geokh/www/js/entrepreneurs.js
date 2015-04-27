@@ -75,18 +75,16 @@ var entrepreneurs = {
                 }
             ],
             "indices": {
-                "indice_1": "2014 d’un Master 2 Chimie Energie et Environnement à l’Université Lille 1",
+                "indice_1": "Diplomé d’un master 2 Chimie Energie et Environnement à Lille 1",
                 "indice_2": "Mon entreprise se nomme Indoor Exp’Air",
                 "indice_3": "« Pourquoi pas moi ? ».",
                 "indice_4": "Il ne faut pas obligatoirement avoir des compétences spécifiques",
-                "indice_5": "le Hubhouse Lille 1 ainsi que de la CCI Grand Lille",
-                "indice_6": "d’être un chef d’entreprise simple et proche de son équipe",
+                "indice_5": "J’ai bénéficié d’un accompagnent par le Hubhouse Lille 1 ainsi que de la CCI Grand Lille",
+                "indice_6": "Je m’efforcerai d’être un chef d’entreprise simple et proche de son équipe",
                 "indice_7": "Proximité, confiance, fiabilité, transparence",
                 "indice_8": "Voir c'est savoir, vouloir c'est pouvoir, oser c'est avoir.",
-                "indice_9": "la motivation",
-                "indice_10": "la confiance en soi",
-                "indice_11": "l’audace, il faut oser et ne pas avoir peur de l’échec.",
-                "indice_12": "Le plus important est d’être accompagné"
+                "indice_9": "Le premier élément indispensable est la motivation",
+                "indice_10": "Le plus important est d'être accompagné",
             }
         },
 
@@ -157,16 +155,16 @@ var entrepreneurs = {
                 }
             ],
             "indices": {
-                "indice_1": "j’ai fait des études de Psychologie à Montpellier",
-                "indice_2": "Ma Fabrique à Projets",
-                "indice_3": "la liberté de créer mon propre emploi",
+                "indice_1": "J’ai fait des études de Psychologie à Montpellier",
+                "indice_2": "Mon projet d'entreprise s'appelle Ma Fabrique à Projets",
+                "indice_3": "C'est la liberté de créer mon propre emploi !",
                 "indice_4": "Tout dépend de l’entreprise que l’on crée",
-                "indice_5": "ACCRE et NACCRE",
-                "indice_6": "fun et accessible",
+                "indice_5": "J'ai pu bénéficier du dispositif ACCRE et NACCRE",
+                "indice_6": "J'espère être fun et accessible",
                 "indice_7": "Dynamisme, bienveillance et esprit ludique",
                 "indice_8": "Quoi que tu rêves d’entreprendre, commence-le. L’audace a du génie, du pouvoir, de la magie",
                 "indice_9": "Etre motivé – Etre audacieux",
-                "indice_10": "être accompagné pour prendre des risques mesurés"
+                "indice_10": "Etre accompagné pour prendre des risques mesurés"
             }
         },
 
@@ -237,17 +235,16 @@ var entrepreneurs = {
                 }
             ],
             "indices": {
-                "indice_1": "diplômée en 2008 d’AgroParisTech",
-                "indice_2": "TechniGrain",
+                "indice_1": "Diplômée en 2008 d’AgroParisTech",
+                "indice_2": "Ma société se nomme TechniGrain",
                 "indice_3": "Gérer mon temps comme je le souhaite",
-                "indice_4": "PATIENT",
-                "indice_5": "master 2 EMI à l’IAE de Lille et par le HubHouse",
+                "indice_4": "Il faut être PATIENT",
+                "indice_5": "J’ai été accompagnée par une coopérative d’activité et d'emploi",
                 "indice_6": "Réactivité, innovation et confiance",
                 "indice_7": "Un client chiant vaut mieux que pas de client du tout.",
-                "indice_8": "La persévérance",
-                "indice_9": "L’accompagnement",
-                "indice_10": "La trésorerie",
-                "indice_11": "foncer. C’est pas pour rien qu’on est jeunes ! faut y aller !"
+                "indice_8": "Un chef d'entreprise dynamique et ambitieux",
+                "indice_9": "La persévérance : il faut vraiment s'accrocher et foncer",
+                "indice_10": "Foncer. C’est pas pour rien qu’on est jeunes ! faut y aller !"
             }
         }
         /* Structure vide d'un entrepreneur
