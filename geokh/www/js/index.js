@@ -107,6 +107,9 @@ var app = {
         $('#conseilHide').show();
         $('#compass .conseil .valeur').hide();
 
+		if (this.balise_courante == (Object.keys(this.balises).length) - 1){
+			$("#btn_pass").attr("disabled", "disabled");
+		}
 
         this.isTimerloaded = true;
         if (app.debugOnBrowser == false) {
@@ -172,7 +175,7 @@ var app = {
                         $("#qr_code_result").html("Bonne balise ! Félicitations !");
                         $('#btn_question').show();
                         $('#btn_compass_retour').hide();
-                        if (this.balise_courante == (Object.keys(this.balises).length) - 1) {
+                        if (app.balise_courante == (Object.keys(app.balises).length) - 1) {
                             $("#btn_entrepreneurs").show();
                             $('#btn_question').hide();
                         }
@@ -193,7 +196,8 @@ var app = {
      * Charge les informations pour la vue de question 
      */
     showQuestionBaliseView: function showQuestionBaliseView() {
-        if (app.debugOnBrowser == false) {
+        
+		if (app.debugOnBrowser == false) {
             compass.stopLocation();
             compass.stopOrientation();
         }
@@ -239,6 +243,7 @@ var app = {
 
             $('#modal_all_indice').prop('disabled', false);
             var indices = "";
+
             for (var i = 0; i < this.bonnesReponsesUser.length; i++) {
                 var indiceBonneRep = this.bonnesReponsesUser[i];
                 indices += (i + 1) + " -> " + indiceBonneRep + "\n";
@@ -348,7 +353,6 @@ var app = {
             var indice = this.entrepreneurs[this.entrepreneur_aTrouver].indices["indice_" + this.parcoursOrdre[this.balise_courante]];
             $('#reponse_indice').text(indice);
             this.bonnesReponsesUser.push(indice);
-
             //notif indice bonne réponse
             navigator.notification.confirm(
                 $("#reponse_indice").text(),  // message
@@ -701,7 +705,7 @@ function loadLocalStorage() {
     startTimer();
 
     var tab = String(window.localStorage.getItem("bonnesReponsesUser"));
-    app.bonnesReponsesUser = tab.split(",");
+    app.bonnesReponsesUser = (!tab.trim()) ? [] : tab.split(",");
     app.currentTime = parseInt(window.localStorage.getItem("currentTime"));
     //app.debugOnBrowser = window.localStorage.getItem("debugOnBrowser");
     var d = new Date();
