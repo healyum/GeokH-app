@@ -69,6 +69,10 @@ body {
     text-align: center;
 }
 
+.dev {
+    text-align: center;
+}
+
 button,
 input[type='submit'] {
     margin: 0;
