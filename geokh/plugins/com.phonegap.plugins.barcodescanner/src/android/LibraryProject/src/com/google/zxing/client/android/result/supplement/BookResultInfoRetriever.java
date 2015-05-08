@@ -42,7 +42,7 @@ final class BookResultInfoRetriever extends SupplementalInfoRetriever {
   private final String isbn;
   private final String source;
   private final Context context;
-  
+
   BookResultInfoRetriever(TextView textView, String isbn, HistoryManager historyManager, Context context) {
     super(textView, historyManager);
     this.isbn = isbn;
@@ -115,7 +115,7 @@ final class BookResultInfoRetriever extends SupplementalInfoRetriever {
     if (pages != null && pages.length() > 0) {
       newTexts.add(pages + "pp.");
     }
-    
+
     String baseBookUri = "http://www.google." + LocaleManager.getBookSearchCountryTLD(context)
         + "/search?tbm=bks&source=zxing&q=";
 

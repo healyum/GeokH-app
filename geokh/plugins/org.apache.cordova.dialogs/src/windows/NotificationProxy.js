@@ -17,7 +17,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
 /*global Windows:true */
 
@@ -27,7 +27,7 @@ var isAlertShowing = false;
 var alertStack = [];
 
 module.exports = {
-    alert:function(win, loseX, args) {
+    alert: function (win, loseX, args) {
 
         if (isAlertShowing) {
             var later = function () {
@@ -44,7 +44,7 @@ module.exports = {
 
         var md = new Windows.UI.Popups.MessageDialog(message, _title);
         md.commands.append(new Windows.UI.Popups.UICommand(_buttonLabel));
-        md.showAsync().then(function() {
+        md.showAsync().then(function () {
             isAlertShowing = false;
             win && win();
 
@@ -55,7 +55,7 @@ module.exports = {
         });
     },
 
-    confirm:function(win, loseX, args) {
+    confirm: function (win, loseX, args) {
 
         if (isAlertShowing) {
             var later = function () {
@@ -74,11 +74,11 @@ module.exports = {
 
             var md = new Windows.UI.Popups.MessageDialog(message, _title);
 
-            buttons.forEach(function(buttonLabel) {
+            buttons.forEach(function (buttonLabel) {
                 md.commands.append(new Windows.UI.Popups.UICommand(buttonLabel));
             });
 
-            md.showAsync().then(function(res) {
+            md.showAsync().then(function (res) {
                 isAlertShowing = false;
                 var result = res ? buttons.indexOf(res.label) + 1 : 0;
                 win && win(result);
@@ -98,7 +98,7 @@ module.exports = {
         }
     },
 
-    beep:function(winX, loseX, args) {
+    beep: function (winX, loseX, args) {
 
         // set a default args if it is not set
         args = args && args.length ? args : ["1"];
@@ -123,4 +123,4 @@ module.exports = {
     }
 };
 
-require("cordova/exec/proxy").add("Notification",module.exports);
+require("cordova/exec/proxy").add("Notification", module.exports);

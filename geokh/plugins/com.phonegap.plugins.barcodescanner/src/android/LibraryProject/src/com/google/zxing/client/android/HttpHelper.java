@@ -45,7 +45,7 @@ public final class HttpHelper {
 
   private HttpHelper() {
   }
-  
+
   public enum ContentType {
     /** HTML-like content type, including HTML, XHTML, etc. */
     HTML,

@@ -71,9 +71,9 @@ public final class VCardResultParser extends ResultParser {
     List<String> title = matchSingleVCardPrefixedField("TITLE", rawText, true, false);
     List<String> url = matchSingleVCardPrefixedField("URL", rawText, true, false);
     List<String> instantMessenger = matchSingleVCardPrefixedField("IMPP", rawText, true, false);
-    return new AddressBookParsedResult(toPrimaryValues(names), 
-                                       null, 
-                                       toPrimaryValues(phoneNumbers), 
+    return new AddressBookParsedResult(toPrimaryValues(names),
+                                       null,
+                                       toPrimaryValues(phoneNumbers),
                                        toTypes(phoneNumbers),
                                        toPrimaryValues(emails),
                                        toTypes(emails),
@@ -97,7 +97,7 @@ public final class VCardResultParser extends ResultParser {
 
     while (i < max) {
 
-      // At start or after newline, match prefix, followed by optional metadata 
+      // At start or after newline, match prefix, followed by optional metadata
       // (led by ;) ultimately ending in colon
       Matcher matcher = Pattern.compile("(?:^|\n)" + prefix + "(?:;([^:]*))?:",
                                         Pattern.CASE_INSENSITIVE).matcher(rawText);
@@ -255,11 +255,11 @@ public final class VCardResultParser extends ResultParser {
     List<List<String>> values = matchVCardPrefixedField(prefix, rawText, trim, parseFieldDivider);
     return values == null || values.isEmpty() ? null : values.get(0);
   }
-  
+
   private static String toPrimaryValue(List<String> list) {
     return list == null || list.isEmpty() ? null : list.get(0);
   }
-  
+
   private static String[] toPrimaryValues(Collection<List<String>> lists) {
     if (lists == null || lists.isEmpty()) {
       return null;
@@ -270,7 +270,7 @@ public final class VCardResultParser extends ResultParser {
     }
     return result.toArray(new String[lists.size()]);
   }
-  
+
   private static String[] toTypes(Collection<List<String>> lists) {
     if (lists == null || lists.isEmpty()) {
       return null;

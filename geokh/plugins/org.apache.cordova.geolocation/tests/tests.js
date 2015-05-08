@@ -17,16 +17,16 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 exports.defineAutoTests = function () {
     var fail = function (done) {
-        expect(true).toBe(false);
-        done();
-    },
-    succeed = function (done) {
-        expect(true).toBe(true);
-        done();
-    };
+            expect(true).toBe(false);
+            done();
+        },
+        succeed = function (done) {
+            expect(true).toBe(true);
+            done();
+        };
     var isWindowsStore = (cordova.platformId == "windows8") || (cordova.platformId == "windows" && !WinJS.Utilities.isPhone);
 
     describe('Geolocation (navigator.geolocation)', function () {
@@ -82,14 +82,14 @@ exports.defineAutoTests = function () {
                     pending();
                 }
                 navigator.geolocation.getCurrentPosition(function (p) {
-                    expect(p.coords).toBeDefined();
-                    expect(p.timestamp).toBeDefined();
-                    done();
-                },
-                fail.bind(null, done),
-                {
-                    maximumAge: 300000 // 5 minutes maximum age of cached position
-                });
+                        expect(p.coords).toBeDefined();
+                        expect(p.timestamp).toBeDefined();
+                        done();
+                    },
+                    fail.bind(null, done),
+                    {
+                        maximumAge: 300000 // 5 minutes maximum age of cached position
+                    });
             });
 
         });
@@ -191,7 +191,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
         };
 
         // Get location
-        watchLocationId = geo.watchPosition(success, fail, { enableHighAccuracy: true });
+        watchLocationId = geo.watchPosition(success, fail, {enableHighAccuracy: true});
         setLocationStatus("Running");
     };
 
@@ -241,7 +241,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
         setLocationStatus("Retrieving location...");
 
         // Get location
-        geo.getCurrentPosition(success, fail, opts || { enableHighAccuracy: true }); //, {timeout: 10000});
+        geo.getCurrentPosition(success, fail, opts || {enableHighAccuracy: true}); //, {timeout: 10000});
 
     };
 
@@ -335,11 +335,11 @@ exports.defineManualTests = function (contentEl, createActionButton) {
             'Expected result: Will update location values with a cached position that is up to 30 seconds old. Verify with time value. Status will read Done.',
         values_info =
             '<h3>Details about each value are listed below in the status box</h3>',
-        note = 
+        note =
             '<h3>Allow use of current location, if prompted</h3>';
 
     contentEl.innerHTML = values_info + location_div + latitude + longitude + altitude + accuracy + heading + speed
-        + altitude_accuracy + time + note + actions;
+    + altitude_accuracy + time + note + actions;
 
     createActionButton('Get Location', function () {
         getLocation(false);
@@ -354,7 +354,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
     }, 'built-in-stopLocation');
 
     createActionButton('Get Location Up to 30 Sec Old', function () {
-        getLocation(false, { maximumAge: 30000 });
+        getLocation(false, {maximumAge: 30000});
     }, 'built-in-getOld');
 
     createActionButton('Get Location', function () {
@@ -370,6 +370,6 @@ exports.defineManualTests = function (contentEl, createActionButton) {
     }, 'cordova-stopLocation');
 
     createActionButton('Get Location Up to 30 Sec Old', function () {
-        getLocation(true, { maximumAge: 30000 });
+        getLocation(true, {maximumAge: 30000});
     }, 'cordova-getOld');
 };

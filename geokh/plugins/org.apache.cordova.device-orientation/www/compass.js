@@ -17,7 +17,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
 var argscheck = require('cordova/argscheck'),
     exec = require('cordova/exec'),
@@ -35,17 +35,17 @@ var argscheck = require('cordova/argscheck'),
          * getting the heading data.
          * @param {CompassOptions} options The options for getting the heading data (not used).
          */
-        getCurrentHeading:function(successCallback, errorCallback, options) {
+        getCurrentHeading: function (successCallback, errorCallback, options) {
             argscheck.checkArgs('fFO', 'compass.getCurrentHeading', arguments);
 
-            var win = function(result) {
+            var win = function (result) {
                 var ch = new CompassHeading(result.magneticHeading, result.trueHeading, result.headingAccuracy, result.timestamp);
                 successCallback(ch);
             };
-            var fail = errorCallback && function(code) {
-                var ce = new CompassError(code);
-                errorCallback(ce);
-            };
+            var fail = errorCallback && function (code) {
+                    var ce = new CompassError(code);
+                    errorCallback(ce);
+                };
 
             // Get heading
             exec(win, fail, "Compass", "getHeading", [options]);
@@ -61,7 +61,7 @@ var argscheck = require('cordova/argscheck'),
          * such as timeout and the frequency of the watch. For iOS, filter parameter
          * specifies to watch via a distance filter rather than time.
          */
-        watchHeading:function(successCallback, errorCallback, options) {
+        watchHeading: function (successCallback, errorCallback, options) {
             argscheck.checkArgs('fFO', 'compass.watchHeading', arguments);
             // Default interval (100 msec)
             var frequency = (options !== undefined && options.frequency !== undefined) ? options.frequency : 100;
@@ -74,7 +74,7 @@ var argscheck = require('cordova/argscheck'),
                 compass.getCurrentHeading(successCallback, errorCallback, options);
             } else {
                 // Start watch timer to get headings
-                timers[id] = window.setInterval(function() {
+                timers[id] = window.setInterval(function () {
                     compass.getCurrentHeading(successCallback, errorCallback);
                 }, frequency);
             }
@@ -86,7 +86,7 @@ var argscheck = require('cordova/argscheck'),
          * Clears the specified heading watch.
          * @param {String} watchId The ID of the watch returned from #watchHeading.
          */
-        clearWatch:function(id) {
+        clearWatch: function (id) {
             // Stop javascript timer & remove from timer list
             if (id && timers[id]) {
                 if (timers[id] != "iOS") {

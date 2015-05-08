@@ -107,11 +107,11 @@ var app = {
         $('#conseilHide').show();
         $('#compass .conseil .valeur').hide();
 
-		$("#numero_balise").html(this.balise_courante + 1);
-		
-		if (this.balise_courante == (Object.keys(this.balises).length) - 1){
-			$("#btn_pass").attr("disabled", "disabled");
-		}
+        $("#numero_balise").html(this.balise_courante + 1);
+
+        if (this.balise_courante == (Object.keys(this.balises).length) - 1) {
+            $("#btn_pass").attr("disabled", "disabled");
+        }
 
         this.isTimerloaded = true;
         if (app.debugOnBrowser == false) {
@@ -198,8 +198,8 @@ var app = {
      * Charge les informations pour la vue de question 
      */
     showQuestionBaliseView: function showQuestionBaliseView() {
-        
-		if (app.debugOnBrowser == false) {
+
+        if (app.debugOnBrowser == false) {
             compass.stopLocation();
             compass.stopOrientation();
         }
@@ -482,14 +482,14 @@ window.onload = function () {
     $('#btn_connexion').click(function () {
         app.showView("#connexion");
     });
-	$('#btn_connexion_cgu').click(function () {
+    $('#btn_connexion_cgu').click(function () {
         app.showView("#connexion");
     });
-	
-	$('#btn_cgu').click(function () {
+
+    $('#btn_cgu').click(function () {
         app.showView("#cgu");
     });
-	
+
 
     $('#form_connexion').submit(function (event) {
         app.showView("#compass");
@@ -623,8 +623,6 @@ function onDeviceReady() {
     });
 
 
-
-
 // keep awake the app
     window.plugins.insomnia.keepAwake(everthingOk, errorNotOk);
 
@@ -648,18 +646,18 @@ function onConfirmPassBtn(button) {
     if (button == 1) {
         app.balise_courante++;
         app.score -= 150;
-		
-		navigator.notification.confirm(
-            "Vous avez passé la " + app.balise_courante + "" + ((app.balise_courante==1)? "re" : "e") +" balise et perdu 150 points !",  // message
+
+        navigator.notification.confirm(
+            "Vous avez passé la " + app.balise_courante + "" + ((app.balise_courante == 1) ? "re" : "e") + " balise et perdu 150 points !",  // message
             null,                  // callback to invoke
-            'Balisée passée',            // title
+            'Balise passée',            // title
             ['Ok']            // buttonLabels
         );
-		
+
         app.showView("#compass");
     }
-	
-	
+
+
 }
 
 function startTimer() {

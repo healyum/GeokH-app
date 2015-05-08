@@ -272,7 +272,7 @@ public abstract class ResultHandler {
     if (aggregatedNotes.length() > 0) {
       putExtra(intent, ContactsContract.Intents.Insert.NOTES, aggregatedNotes.toString());
     }
-    
+
     putExtra(intent, ContactsContract.Intents.Insert.IM_HANDLE, instantMessenger);
     putExtra(intent, ContactsContract.Intents.Insert.POSTAL, address);
     if (addressType != null) {

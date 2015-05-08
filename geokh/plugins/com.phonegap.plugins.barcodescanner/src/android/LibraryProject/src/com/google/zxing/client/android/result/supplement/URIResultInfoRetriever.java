@@ -52,9 +52,9 @@ final class URIResultInfoRetriever extends SupplementalInfoRetriever {
     URI newURI = HttpHelper.unredirect(oldURI);
     int count = 0;
     while (count++ < MAX_REDIRECTS && !oldURI.equals(newURI)) {
-      append(result.getDisplayResult(), 
-             null, 
-             new String[] { redirectString + " : " + newURI }, 
+      append(result.getDisplayResult(),
+             null,
+             new String[] { redirectString + " : " + newURI },
              newURI.toString());
       oldURI = newURI;
       newURI = HttpHelper.unredirect(newURI);

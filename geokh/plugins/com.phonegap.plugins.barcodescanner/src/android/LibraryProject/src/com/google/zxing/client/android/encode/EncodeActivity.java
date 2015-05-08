@@ -114,7 +114,7 @@ public final class EncodeActivity extends Activity {
         return false;
     }
   }
-  
+
   private void share() {
     QRCodeEncoder encoder = qrCodeEncoder;
     if (encoder == null) { // Odd

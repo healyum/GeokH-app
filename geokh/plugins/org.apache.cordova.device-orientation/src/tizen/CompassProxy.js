@@ -17,7 +17,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
 var cordova = require('cordova'),
     CompassHeading = require('org.apache.cordova.device-orientation.CompassHeading'),
@@ -35,7 +35,7 @@ module.exports = {
 
                 if (compassReady) {
                     if (successCallback)
-                        successCallback( new CompassHeading (heading, heading, 0, 0));
+                        successCallback(new CompassHeading(heading, heading, 0, 0));
                     window.removeEventListener("deviceorientation", compassCallback, true);
                 }
                 compassReady = true;

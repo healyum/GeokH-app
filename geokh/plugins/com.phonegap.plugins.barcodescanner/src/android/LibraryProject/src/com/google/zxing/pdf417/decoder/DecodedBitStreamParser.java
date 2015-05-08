@@ -329,7 +329,7 @@ final class DecodedBitStreamParser {
             if (subModeCh == PAL) {
               subMode = Mode.ALPHA;
             } else if (subModeCh == MODE_SHIFT_TO_BYTE_COMPACTION_MODE) {
-              // PS before Shift-to-Byte is used as a padding character, 
+              // PS before Shift-to-Byte is used as a padding character,
               // see 5.4.2.4 of the specification
               result.append((char) byteCompactionData[i]);
             } else if (subModeCh == TEXT_COMPACTION_MODE_LATCH) {
@@ -478,7 +478,7 @@ final class DecodedBitStreamParser {
             code == BEGIN_MACRO_PDF417_OPTIONAL_FIELD ||
             code == MACRO_PDF417_TERMINATOR) {
           codeIndex--;
-          end = true;          
+          end = true;
         }
       }
       if (count % MAX_NUMERIC_CODEWORDS == 0 ||

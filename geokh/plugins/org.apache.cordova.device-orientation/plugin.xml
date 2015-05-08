@@ -18,10 +18,10 @@
   under the License.
 -->
 
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    id="org.apache.cordova.device-orientation"
-    version="0.3.10">
+<plugin xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        id="org.apache.cordova.device-orientation"
+        version="0.3.11">
 
     <name>Device Orientation</name>
     <description>Cordova Device Orientation Plugin</description>
@@ -31,69 +31,69 @@
     <issue>https://issues.apache.org/jira/browse/CB/component/12320637</issue>
 
     <js-module src="www/CompassError.js" name="CompassError">
-        <clobbers target="CompassError" />
+        <clobbers target="CompassError"/>
     </js-module>
 
     <js-module src="www/CompassHeading.js" name="CompassHeading">
-        <clobbers target="CompassHeading" />
+        <clobbers target="CompassHeading"/>
     </js-module>
 
     <js-module src="www/compass.js" name="compass">
-        <clobbers target="navigator.compass" />
+        <clobbers target="navigator.compass"/>
     </js-module>
 
     <!-- firefoxos -->
     <platform name="firefoxos">
         <config-file target="config.xml" parent="/*">
             <feature name="Compass">
-                <param name="firefoxos-package" value="Compass" />
+                <param name="firefoxos-package" value="Compass"/>
             </feature>
-        </config-file>                                         
-        
+        </config-file>
+
         <js-module src="src/firefoxos/compass.js" name="compass-impl">
-          <runs />
+            <runs/>
         </js-module>
     </platform>
 
     <!-- android -->
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
-	        <feature name="Compass">
-	            <param name="android-package" value="org.apache.cordova.deviceorientation.CompassListener"/>
-	        </feature>
-	    </config-file>
-
-	    <config-file target="AndroidManifest.xml" parent="/*">
-	        <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+            <feature name="Compass">
+                <param name="android-package" value="org.apache.cordova.deviceorientation.CompassListener"/>
+            </feature>
         </config-file>
 
-	    <source-file src="src/android/CompassListener.java" target-dir="src/org/apache/cordova/deviceorientation" />
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+        </config-file>
+
+        <source-file src="src/android/CompassListener.java" target-dir="src/org/apache/cordova/deviceorientation"/>
     </platform>
 
     <!-- amazon-fireos -->
     <platform name="amazon-fireos">
         <config-file target="res/xml/config.xml" parent="/*">
-	        <feature name="Compass">
-	            <param name="android-package" value="org.apache.cordova.deviceorientation.CompassListener"/>
-	        </feature>
-	    </config-file>
-
-	    <config-file target="AndroidManifest.xml" parent="/*">
-	        <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+            <feature name="Compass">
+                <param name="android-package" value="org.apache.cordova.deviceorientation.CompassListener"/>
+            </feature>
         </config-file>
 
-	    <source-file src="src/android/CompassListener.java" target-dir="src/org/apache/cordova/deviceorientation" />
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+        </config-file>
+
+        <source-file src="src/android/CompassListener.java" target-dir="src/org/apache/cordova/deviceorientation"/>
     </platform>
-    
+
     <!-- ubuntu -->
     <platform name="ubuntu">
-        <header-file src="src/ubuntu/compass.h" />
-        <source-file src="src/ubuntu/compass.cpp" />
+        <header-file src="src/ubuntu/compass.h"/>
+        <source-file src="src/ubuntu/compass.cpp"/>
         <config-file target="config.xml" parent="/*">
             <feature name="DeviceOrientation">
-                <param policy_group="sensors" policy_version="1" />
+                <param policy_group="sensors" policy_version="1"/>
             </feature>
         </config-file>
     </platform>
@@ -101,9 +101,9 @@
     <!-- blackberry10 -->
     <platform name="blackberry10">
         <config-file target="www/config.xml" parent="/widget">
-            <feature name="Compass" value="Compass" />
+            <feature name="Compass" value="Compass"/>
         </config-file>
-        <source-file src="src/blackberry10/index.js" target-dir="Compass" />
+        <source-file src="src/blackberry10/index.js" target-dir="Compass"/>
     </platform>
 
     <!-- ios -->
@@ -114,10 +114,10 @@
             </feature>
         </config-file>
 
-        <header-file src="src/ios/CDVCompass.h" />
-        <source-file src="src/ios/CDVCompass.m" />
+        <header-file src="src/ios/CDVCompass.h"/>
+        <source-file src="src/ios/CDVCompass.m"/>
 
-        <framework src="CoreLocation.framework" />
+        <framework src="CoreLocation.framework"/>
     </platform>
 
     <!-- wp7 -->
@@ -129,13 +129,13 @@
         </config-file>
 
         <config-file target="Properties/WMAppManifest.xml" parent="/Deployment/App/Capabilities">
-            <Capability Name="ID_CAP_SENSORS" />
+            <Capability Name="ID_CAP_SENSORS"/>
         </config-file>
 
-        <source-file src="src/wp/Compass.cs" />
+        <source-file src="src/wp/Compass.cs"/>
     </platform>
 
-        <!-- wp8 -->
+    <!-- wp8 -->
     <platform name="wp8">
         <config-file target="config.xml" parent="/*">
             <feature name="Compass">
@@ -144,16 +144,16 @@
         </config-file>
 
         <config-file target="Properties/WMAppManifest.xml" parent="/Deployment/App/Capabilities">
-            <Capability Name="ID_CAP_SENSORS" />
+            <Capability Name="ID_CAP_SENSORS"/>
         </config-file>
 
-        <source-file src="src/wp/Compass.cs" />
+        <source-file src="src/wp/Compass.cs"/>
     </platform>
 
-        <!-- windows8 -->
+    <!-- windows8 -->
     <platform name="windows8">
         <js-module src="src/windows8/CompassProxy.js" name="CompassProxy">
-            <merges target="" />
+            <merges target=""/>
         </js-module>
     </platform>
 
@@ -171,7 +171,7 @@
         </js-module>
 
         <js-module src="src/browser/compass.js" name="compass">
-            <merges target="navigator.compass" />
+            <merges target="navigator.compass"/>
         </js-module>
     </platform>
 </plugin>

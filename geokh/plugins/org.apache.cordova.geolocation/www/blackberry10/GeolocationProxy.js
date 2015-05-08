@@ -17,14 +17,14 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
 var idsMap = {},
     geo = cordova.require('cordova/modulemapper').getOriginalSymbol(window, 'navigator.geolocation');
 
 module.exports = {
 
-    getLocation: function(success, error, args) {
+    getLocation: function (success, error, args) {
         var successCallback = function (result) {
             var pos = result.coords;
             pos.timestamp = result.timestamp;
@@ -38,7 +38,7 @@ module.exports = {
         });
     },
 
-    addWatch: function(success, error, args) {
+    addWatch: function (success, error, args) {
         var id = args[0],
             successCallback = function (result) {
                 var pos = result.coords;
@@ -53,13 +53,13 @@ module.exports = {
         idsMap[id] = nativeId;
     },
 
-    clearWatch: function(success, error, args) {
+    clearWatch: function (success, error, args) {
         var id = args[0];
-        if(id in idsMap) {
+        if (id in idsMap) {
             geo.clearWatch(idsMap[id]);
             delete idsMap[id];
         }
-        if(success) {
+        if (success) {
             success();
         }
     }

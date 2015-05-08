@@ -30,5 +30,5 @@ final class DefaultOpenCameraInterface implements OpenCameraInterface {
   public Camera open() {
     return Camera.open();
   }
-  
+
 }

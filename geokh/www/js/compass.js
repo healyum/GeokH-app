@@ -28,10 +28,11 @@ compass.onSuccessLocation = function onSuccessLocation(_position) {
 
 }
 compass.onErrorLocation = function onErrorLocation(error) {
-	countErrorsLoc++;
-	if (countErrorsLoc == 3){
-		navigator.notification.alert('Localisation non disponible', function(){}, 'Erreur', 'Ok' );
-	}
+    countErrorsLoc++;
+    if (countErrorsLoc == 3) {
+        navigator.notification.alert('Localisation non disponible', function () {
+        }, 'Erreur', 'Ok');
+    }
 }
 
 
@@ -41,16 +42,17 @@ compass.onSuccessOrientation = function onSuccessOrientation(_heading) {
     app.rotate(Math.round(angle));
 };
 compass.onErrorOrientation = function onErrorOrientation(error) {
-	countErrorsOr++;
-	if (countErrorsOr == 3){
-		navigator.notification.alert('Orientation non disponible', function(){}, 'Erreur', 'Ok' );
+    countErrorsOr++;
+    if (countErrorsOr == 3) {
+        navigator.notification.alert('Orientation non disponible', function () {
+        }, 'Erreur', 'Ok');
 
-	}
+    }
 };
 
 compass.stopLocation = function stopLocation() {
     navigator.geolocation.clearWatch(idWatchLoc);
-	countErrorsLoc = 0;
+    countErrorsLoc = 0;
 };
 
 
@@ -62,13 +64,14 @@ compass.activateLocation = function activateLocation() {
             compass.onErrorLocation,
             options);
     } else {
-        navigator.notification.alert('Localisation non disponible', function(){}, 'Erreur', 'Ok' );
+        navigator.notification.alert('Localisation non disponible', function () {
+        }, 'Erreur', 'Ok');
     }
 };
 
 compass.stopOrientation = function stopOrientation() {
     navigator.compass.clearWatch(idWatchOrient);
-	countErrorsOr = 0;
+    countErrorsOr = 0;
 };
 
 compass.activateOrientation = function activateOrientation() {
@@ -79,6 +82,7 @@ compass.activateOrientation = function activateOrientation() {
         idWatchOrient = navigator.compass.watchHeading(compass.onSuccessOrientation,
             compass.onErrorOrientation, options);
     } else {
-        navigator.notification.alert('Orientation non disponible', function(){}, 'Erreur', 'Ok' );
+        navigator.notification.alert('Orientation non disponible', function () {
+        }, 'Erreur', 'Ok');
     }
 };

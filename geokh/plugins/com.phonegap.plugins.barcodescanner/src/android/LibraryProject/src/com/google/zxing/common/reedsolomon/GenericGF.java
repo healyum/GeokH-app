@@ -58,7 +58,7 @@ public final class GenericGF {
   public GenericGF(int primitive, int size) {
   	this.primitive = primitive;
     this.size = size;
-    
+
     if (size <= INITIALIZATION_THRESHOLD){
     	initialize();
     }
@@ -84,22 +84,22 @@ public final class GenericGF {
     one = new GenericGFPoly(this, new int[]{1});
     initialized = true;
   }
-  
+
   private void checkInit(){
   	if (!initialized) {
       initialize();
     }
   }
-  
+
   GenericGFPoly getZero() {
   	checkInit();
-  	
+
     return zero;
   }
 
   GenericGFPoly getOne() {
   	checkInit();
-  	
+
     return one;
   }
 
@@ -108,7 +108,7 @@ public final class GenericGF {
    */
   GenericGFPoly buildMonomial(int degree, int coefficient) {
   	checkInit();
-  	
+
     if (degree < 0) {
       throw new IllegalArgumentException();
     }
@@ -134,7 +134,7 @@ public final class GenericGF {
    */
   int exp(int a) {
   	checkInit();
-  	
+
     return expTable[a];
   }
 
@@ -143,7 +143,7 @@ public final class GenericGF {
    */
   int log(int a) {
   	checkInit();
-  	
+
     if (a == 0) {
       throw new IllegalArgumentException();
     }
@@ -155,7 +155,7 @@ public final class GenericGF {
    */
   int inverse(int a) {
   	checkInit();
-  	
+
     if (a == 0) {
       throw new ArithmeticException();
     }
@@ -177,5 +177,5 @@ public final class GenericGF {
   public int getSize() {
   	return size;
   }
-  
+
 }

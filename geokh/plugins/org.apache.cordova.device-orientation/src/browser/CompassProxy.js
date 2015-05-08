@@ -17,11 +17,11 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
 var Compass = {
-    getHeading: function(success, error) {
-        var listener = function() {
+    getHeading: function (success, error) {
+        var listener = function () {
             var orient = {};
             var heading = (Math.round((Math.random() * 360) * 100) / 100);
 

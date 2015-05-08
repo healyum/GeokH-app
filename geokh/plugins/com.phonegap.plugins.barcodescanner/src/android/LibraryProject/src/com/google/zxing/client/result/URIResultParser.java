@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 
 /**
  * Tries to parse results that are a URI of some kind.
- * 
+ *
  * @author Sean Owen
  */
 public final class URIResultParser extends ResultParser {

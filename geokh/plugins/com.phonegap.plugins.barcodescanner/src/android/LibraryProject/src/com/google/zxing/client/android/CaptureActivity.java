@@ -223,7 +223,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
             cameraManager.setManualFramingRect(width, height);
           }
         }
-        
+
         String customPromptMessage = intent.getStringExtra(Intents.Scan.PROMPT_MESSAGE);
         if (customPromptMessage != null) {
           statusView.setText(customPromptMessage);
@@ -255,7 +255,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 
     }
   }
-  
+
   private static boolean isZXingURL(String dataString) {
     if (dataString == null) {
       return false;
@@ -595,7 +595,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     }
 
     if (source == IntentSource.NATIVE_APP_INTENT) {
-      
+
       // Hand back whatever action they requested - this can be changed to Intents.Scan.ACTION when
       // the deprecated intent is retired.
       Intent intent = new Intent(getIntent().getAction());
@@ -630,17 +630,17 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         }
       }
       sendReplyMessage(fakeR.getId("id", "return_scan_result"), intent, resultDurationMS);
-      
+
     } else if (source == IntentSource.PRODUCT_SEARCH_LINK) {
-      
+
       // Reformulate the URL which triggered us into a query, so that the request goes to the same
       // TLD as the scan URL.
       int end = sourceUrl.lastIndexOf("/scan");
-      String replyURL = sourceUrl.substring(0, end) + "?q=" + resultHandler.getDisplayContents() + "&source=zxing";      
+      String replyURL = sourceUrl.substring(0, end) + "?q=" + resultHandler.getDisplayContents() + "&source=zxing";
       sendReplyMessage(fakeR.getId("id", "launch_product_query"), replyURL, resultDurationMS);
-      
+
     } else if (source == IntentSource.ZXING_LINK) {
-      
+
       // Replace each occurrence of RETURN_CODE_PLACEHOLDER in the returnUrlTemplate
       // with the scanned code. This allows both queries and REST-style URLs to work.
       if (returnUrlTemplate != null) {
@@ -653,10 +653,10 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         String replyURL = returnUrlTemplate.replace(RETURN_CODE_PLACEHOLDER, codeReplacement);
         sendReplyMessage(fakeR.getId("id", "launch_product_query"), replyURL, resultDurationMS);
       }
-      
+
     }
   }
-  
+
   private void sendReplyMessage(int id, Object arg, long delayMS) {
     Message message = Message.obtain(handler, id, arg);
     if (delayMS > 0L) {

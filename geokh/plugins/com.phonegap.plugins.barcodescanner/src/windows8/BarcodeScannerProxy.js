@@ -24,11 +24,11 @@ module.exports = {
             captureSettings = null,
             reader = null,
 
-            /* Width of bitmap, generated from capture stream and used for barcode search */
+        /* Width of bitmap, generated from capture stream and used for barcode search */
             bitmapWidth = 800,
-            /* Width of bitmap, generated from capture stream and used for barcode search */
+        /* Width of bitmap, generated from capture stream and used for barcode search */
             bitmapHeight = 600;
-        
+
         /**
          * Creates a preview frame and necessary objects
          */
@@ -57,7 +57,7 @@ module.exports = {
             capture.initializeAsync(captureSettings).done(function () {
                 capturePreview.src = URL.createObjectURL(capture);
                 capturePreview.play();
-                
+
                 // Insert preview frame and controls into page
                 document.body.appendChild(capturePreview);
                 document.body.appendChild(captureCancelButton);
@@ -75,7 +75,7 @@ module.exports = {
             var readOp = reader.readCode();
             readOp.done(function (result) {
                 destroyPreview();
-                success({ text: result.text, format: result.barcodeFormat, cancelled: false });
+                success({text: result.text, format: result.barcodeFormat, cancelled: false});
             });
         }
 
@@ -106,9 +106,9 @@ module.exports = {
          */
         function cancelPreview() {
             destroyPreview();
-            success({ text: null, format: null, cancelled: true });
+            success({text: null, format: null, cancelled: true});
         }
-        
+
         try {
             createPreview();
             startPreview();

@@ -17,11 +17,11 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
 var Compass = {
-    getHeading: function(success, error) {
-        var listener = function(ev) {
+    getHeading: function (success, error) {
+        var listener = function (ev) {
             var orient = {
                 trueHeading: ev.alpha,
                 magneticHeading: ev.alpha,

@@ -106,5 +106,5 @@ public final class ModulusGF {
   int getSize() {
     return modulus;
   }
-  
+
 }

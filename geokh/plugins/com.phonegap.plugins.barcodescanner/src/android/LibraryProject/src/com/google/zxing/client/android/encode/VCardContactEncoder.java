@@ -63,18 +63,18 @@ final class VCardContactEncoder extends ContactEncoder {
     newContents.append("END:VCARD").append(TERMINATOR);
     return new String[] { newContents.toString(), newDisplayContents.toString() };
   }
-  
-  private static void append(StringBuilder newContents, 
+
+  private static void append(StringBuilder newContents,
                              StringBuilder newDisplayContents,
-                             String prefix, 
+                             String prefix,
                              String value) {
     doAppend(newContents, newDisplayContents, prefix, value, VCARD_FIELD_FORMATTER, TERMINATOR);
   }
-  
-  private static void appendUpToUnique(StringBuilder newContents, 
+
+  private static void appendUpToUnique(StringBuilder newContents,
                                        StringBuilder newDisplayContents,
-                                       String prefix, 
-                                       Iterable<String> values, 
+                                       String prefix,
+                                       Iterable<String> values,
                                        int max,
                                        Formatter formatter) {
     doAppendUpToUnique(newContents,

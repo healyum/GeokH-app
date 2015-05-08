@@ -17,7 +17,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
 /**
  * This class contains position information.
@@ -30,7 +30,7 @@
  * @param {Object} altacc
  * @constructor
  */
-var Coordinates = function(lat, lng, alt, acc, head, vel, altacc) {
+var Coordinates = function (lat, lng, alt, acc, head, vel, altacc) {
     /**
      * The latitude of the position.
      */

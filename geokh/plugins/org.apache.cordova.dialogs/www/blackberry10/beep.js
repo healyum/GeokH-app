@@ -17,12 +17,12 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
 module.exports = function (quantity) {
     var count = 0,
         beepObj,
-        play = function () { 
+        play = function () {
             //create new object every time due to strage playback behaviour
             beepObj = new Audio('local:///chrome/plugin/org.apache.cordova.dialogs/notification-beep.wav');
             beepObj.addEventListener("ended", callback);

@@ -17,7 +17,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
 exports.defineAutoTests = function () {
     describe('Notification (navigator.notification)', function () {
@@ -153,7 +153,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
         'Expected result: Dialog will have title "index.html" and say "This is a prompt". "Default value" will be in text box. Press Cancel or OK to close dialog. Nothing will get updated in status box.';
 
     contentEl.innerHTML = '<div id="info"></div>' +
-        dialogs_tests;
+    dialogs_tests;
 
     createActionButton('Beep', function () {
         beep();

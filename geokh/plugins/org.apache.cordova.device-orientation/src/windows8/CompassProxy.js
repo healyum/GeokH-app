@@ -17,7 +17,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
 /*jslint sloppy:true */
 /*global Windows:true, require, module, setTimeout */

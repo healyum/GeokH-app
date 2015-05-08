@@ -1,12 +1,16 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.hubhouse.geokh" version="0.0.2" xmlns="http://www.w3.org/ns/widgets">
+<widget id="com.hubhouse.geokh" version="1.0.0" xmlns="http://www.w3.org/ns/widgets">
     <name>GeokH</name>
-    <description>
-        A sample Apache Cordova application that responds to the deviceready event.
-    </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
+
+    <author email="olivier.lanselle@univ-lille1.fr" href="http://hubhouse.univ-lille1.fr/Accueil/">
+        Equipe HubHouse.
     </author>
+
+    <description>
+        GeoK'H est une application de geocatching proposée par le Hubhouse.
+    </description>
+
+
     <content src="index.html"/>
     <access origin="*"/>
 

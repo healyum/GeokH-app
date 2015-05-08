@@ -69,7 +69,7 @@ public final class QRCodeMultiReader extends QRCodeReader implements MultipleBar
         }
         results.add(result);
       } catch (ReaderException re) {
-        // ignore and continue 
+        // ignore and continue
       }
     }
     if (results.isEmpty()) {

@@ -19,8 +19,8 @@
 -->
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-           id="org.apache.cordova.dialogs"
-      version="0.3.0">
+        id="org.apache.cordova.dialogs"
+        version="0.3.0">
 
     <name>Notification</name>
     <description>Cordova Notification Plugin</description>
@@ -30,26 +30,26 @@
     <issue>https://issues.apache.org/jira/browse/CB/component/12320642</issue>
 
     <js-module src="www/notification.js" name="notification">
-        <merges target="navigator.notification" />
+        <merges target="navigator.notification"/>
     </js-module>
 
     <!-- firefoxos -->
     <platform name="firefoxos">
         <config-file target="config.xml" parent="/*">
             <feature name="Notification">
-                <param name="firefoxos-package" value="Notification" />
+                <param name="firefoxos-package" value="Notification"/>
             </feature>
-        </config-file>                                         
-        
-		<asset src="www/firefoxos/notification.css" target="css/notification.css" />
-		<asset src="www/firefoxos/danger-press.png" target="img/danger-press.png" />
-		<asset src="www/firefoxos/danger.png" target="img/danger.png" />
-		<asset src="www/firefoxos/default.png" target="img/default.png" />
-		<asset src="www/firefoxos/gradient.png" target="img/gradient.png" />
-		<asset src="www/firefoxos/pattern.png" target="img/pattern.png" />
-		<asset src="www/firefoxos/recommend.png" target="img/recommend.png" />
+        </config-file>
+
+        <asset src="www/firefoxos/notification.css" target="css/notification.css"/>
+        <asset src="www/firefoxos/danger-press.png" target="img/danger-press.png"/>
+        <asset src="www/firefoxos/danger.png" target="img/danger.png"/>
+        <asset src="www/firefoxos/default.png" target="img/default.png"/>
+        <asset src="www/firefoxos/gradient.png" target="img/gradient.png"/>
+        <asset src="www/firefoxos/pattern.png" target="img/pattern.png"/>
+        <asset src="www/firefoxos/recommend.png" target="img/recommend.png"/>
         <js-module src="src/firefoxos/notification.js" name="dialogs-impl">
-          <runs />
+            <runs/>
         </js-module>
     </platform>
 
@@ -61,11 +61,11 @@
             </feature>
         </config-file>
 
-        <source-file src="src/android/Notification.java" target-dir="src/org/apache/cordova/dialogs" />
+        <source-file src="src/android/Notification.java" target-dir="src/org/apache/cordova/dialogs"/>
 
         <!-- android specific notification apis -->
         <js-module src="www/android/notification.js" name="notification_android">
-            <merges target="navigator.notification" />
+            <merges target="navigator.notification"/>
         </js-module>
 
     </platform>
@@ -73,12 +73,12 @@
     <!-- browser -->
     <platform name="browser">
         <js-module src="www/browser/notification.js" name="notification_browser">
-            <merges target="navigator.notification" />
+            <merges target="navigator.notification"/>
         </js-module>
 
     </platform>
-    
-     <!-- amazon-fireos -->
+
+    <!-- amazon-fireos -->
     <platform name="amazon-fireos">
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="Notification">
@@ -86,20 +86,20 @@
             </feature>
         </config-file>
 
-        <source-file src="src/android/Notification.java" target-dir="src/org/apache/cordova/dialogs" />
+        <source-file src="src/android/Notification.java" target-dir="src/org/apache/cordova/dialogs"/>
 
         <!-- android specific notification apis -->
         <js-module src="www/android/notification.js" name="notification_android">
-            <merges target="navigator.notification" />
+            <merges target="navigator.notification"/>
         </js-module>
 
     </platform>
 
     <!-- ubuntu -->
     <platform name="ubuntu">
-        <header-file src="src/ubuntu/notification.h" />
-        <source-file src="src/ubuntu/notification.cpp" />
-        <resource-file src="src/ubuntu/notification.qml" />
+        <header-file src="src/ubuntu/notification.h"/>
+        <source-file src="src/ubuntu/notification.cpp"/>
+        <resource-file src="src/ubuntu/notification.qml"/>
     </platform>
 
     <!-- ios -->
@@ -109,22 +109,22 @@
                 <param name="ios-package" value="CDVNotification"/>
             </feature>
         </config-file>
-        <header-file src="src/ios/CDVNotification.h" />
-	    <source-file src="src/ios/CDVNotification.m" />
-	    <resource-file src="src/ios/CDVNotification.bundle" />
-		<framework src="AudioToolbox.framework" weak="true" />
+        <header-file src="src/ios/CDVNotification.h"/>
+        <source-file src="src/ios/CDVNotification.m"/>
+        <resource-file src="src/ios/CDVNotification.bundle"/>
+        <framework src="AudioToolbox.framework" weak="true"/>
     </platform>
 
     <!-- blackberry10 -->
     <platform name="blackberry10">
-        <source-file src="src/blackberry10/index.js" target-dir="Notification" />
+        <source-file src="src/blackberry10/index.js" target-dir="Notification"/>
         <config-file target="www/config.xml" parent="/widget">
             <feature name="Notification" value="Notification"/>
         </config-file>
         <js-module src="www/blackberry10/beep.js" name="beep">
-            <clobbers target="window.navigator.notification.beep" />
+            <clobbers target="window.navigator.notification.beep"/>
         </js-module>
-        <source-file src="www/blackberry10/notification-beep.wav" />
+        <source-file src="www/blackberry10/notification-beep.wav"/>
     </platform>
 
     <!-- wp7 -->
@@ -135,10 +135,10 @@
             </feature>
         </config-file>
 
-        <source-file src="src/wp/Notification.cs" />
-        <source-file src="src/wp/NotificationBox.xaml.cs" />
-        <source-file src="src/wp/NotificationBox.xaml" />
-        <source-file src="src/wp/notification-beep.wav" />
+        <source-file src="src/wp/Notification.cs"/>
+        <source-file src="src/wp/NotificationBox.xaml.cs"/>
+        <source-file src="src/wp/NotificationBox.xaml"/>
+        <source-file src="src/wp/notification-beep.wav"/>
     </platform>
 
     <!-- wp8 -->
@@ -149,23 +149,23 @@
             </feature>
         </config-file>
 
-        <source-file src="src/wp/Notification.cs" />
-        <source-file src="src/wp/NotificationBox.xaml.cs" />
-        <source-file src="src/wp/NotificationBox.xaml" />
-        <source-file src="src/wp/notification-beep.wav" />
+        <source-file src="src/wp/Notification.cs"/>
+        <source-file src="src/wp/NotificationBox.xaml.cs"/>
+        <source-file src="src/wp/NotificationBox.xaml"/>
+        <source-file src="src/wp/notification-beep.wav"/>
     </platform>
 
     <!-- windows8 -->
     <platform name="windows8">
         <js-module src="src/windows/NotificationProxy.js" name="NotificationProxy">
-            <merges target="" />
+            <merges target=""/>
         </js-module>
     </platform>
 
     <!-- windows -->
     <platform name="windows">
         <js-module src="src/windows/NotificationProxy.js" name="NotificationProxy">
-            <merges target="" />
+            <merges target=""/>
         </js-module>
     </platform>
 </plugin>

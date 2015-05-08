@@ -63,13 +63,13 @@ public final class Detector {
 
      // 3. Get the size of the matrix from the bull's eye
     extractParameters(bullEyeCornerPoints);
-    
+
     // 4. Get the corners of the matrix
     ResultPoint[] corners = getMatrixCornerPoints(bullEyeCornerPoints);
-    
+
     // 5. Sample the grid
     BitMatrix bits = sampleGrid(image, corners[shift%4], corners[(shift+3)%4], corners[(shift+2)%4], corners[(shift+1)%4]);
-    
+
     return new AztecDetectorResult(bits, corners, compact, nbDataBlocks, nbLayers);
   }
 
@@ -100,11 +100,11 @@ public final class Detector {
     } else {
       throw NotFoundException.getNotFoundInstance();
     }
-    
+
     //d      a
     //
     //c      b
-    
+
     // Flatten the bits in a single array
     boolean[] parameterData;
     boolean[] shiftedParameterData;
@@ -116,7 +116,7 @@ public final class Detector {
         shiftedParameterData[i+14] = rescd[2+i];
         shiftedParameterData[i+21] = resda[2+i];
       }
-        
+
       parameterData = new boolean[28];
         for (int i = 0; i < 28; i++) {
           parameterData[i] = shiftedParameterData[(i+shift*7)%28];
@@ -137,16 +137,16 @@ public final class Detector {
           shiftedParameterData[i+30-1] = resda[2+i];
         }
       }
-        
+
       parameterData = new boolean[40];
         for (int i = 0; i < 40; i++) {
           parameterData[i] = shiftedParameterData[(i+shift*10)%40];
         }
     }
-    
+
     // corrects the error using RS algorithm
     correctParameterData(parameterData, compact);
-    
+
     // gets the parameters from the bit array
     getParameters(parameterData);
   }
@@ -168,28 +168,28 @@ public final class Detector {
     dx+=dx>0?1:-1;
     int dy = bullEyeCornerPoints[0].y-bullEyeCornerPoints[2].y;
     dy+=dy>0?1:-1;
-    
+
     int targetcx = MathUtils.round(bullEyeCornerPoints[2].x - ratio * dx);
     int targetcy = MathUtils.round(bullEyeCornerPoints[2].y - ratio * dy);
-    
+
     int targetax = MathUtils.round(bullEyeCornerPoints[0].x + ratio * dx);
     int targetay = MathUtils.round(bullEyeCornerPoints[0].y + ratio * dy);
-    
+
     dx = bullEyeCornerPoints[1].x-bullEyeCornerPoints[3].x;
     dx+=dx>0?1:-1;
     dy = bullEyeCornerPoints[1].y-bullEyeCornerPoints[3].y;
     dy+=dy>0?1:-1;
-    
+
     int targetdx = MathUtils.round(bullEyeCornerPoints[3].x - ratio * dx);
     int targetdy = MathUtils.round(bullEyeCornerPoints[3].y - ratio * dy);
     int targetbx = MathUtils.round(bullEyeCornerPoints[1].x + ratio * dx);
     int targetby = MathUtils.round(bullEyeCornerPoints[1].y+ratio*dy);
-    
+
     if (!isValid(targetax, targetay) || !isValid(targetbx, targetby) || !isValid(targetcx, targetcy) || !isValid(targetdx, targetdy)) {
       throw NotFoundException.getNotFoundInstance();
     }
-    
-    return new ResultPoint[]{new ResultPoint(targetax, targetay), new ResultPoint(targetbx, targetby), new ResultPoint(targetcx, targetcy), new ResultPoint(targetdx, targetdy)}; 
+
+    return new ResultPoint[]{new ResultPoint(targetax, targetay), new ResultPoint(targetbx, targetby), new ResultPoint(targetcx, targetcy), new ResultPoint(targetdx, targetdy)};
   }
 
   /**
@@ -233,7 +233,7 @@ public final class Detector {
     } catch (ReedSolomonException rse) {
       throw NotFoundException.getNotFoundInstance();
     }
-    
+
     for (int i = 0; i < numDataCodewords; i ++) {
         int flag = 1;
         for (int j = 1; j <= codewordSize; j++) {
@@ -242,24 +242,24 @@ public final class Detector {
         }
     }
   }
-  
+
   /**
-   * 
+   *
    * <p> Finds the corners of a bull-eye centered on the passed point </p>
-   * 
+   *
    * @param pCenter Center point
    * @return The corners of the bull-eye
    * @throws NotFoundException If no valid bull-eye can be found
    */
   private Point[] getBullEyeCornerPoints(Point pCenter) throws NotFoundException {
-    
+
     Point pina = pCenter;
     Point pinb = pCenter;
     Point pinc = pCenter;
     Point pind = pCenter;
 
     boolean color = true;
-    
+
     for (nbCenterLayers = 1; nbCenterLayers < 9; nbCenterLayers++) {
       Point pouta = getFirstDifferent(pina, color, 1, -1);
       Point poutb = getFirstDifferent(pinb, color, 1, 1);
@@ -288,36 +288,36 @@ public final class Detector {
     if (nbCenterLayers != 5 && nbCenterLayers != 7) {
       throw NotFoundException.getNotFoundInstance();
     }
-    
+
     compact = nbCenterLayers==5;
-    
+
     float ratio = 0.75f*2/(2*nbCenterLayers-3);
-    
+
     int dx = pina.x-pinc.x;
     int dy = pina.y-pinc.y;
     int targetcx = MathUtils.round(pinc.x-ratio*dx);
     int targetcy = MathUtils.round(pinc.y-ratio*dy);
     int targetax = MathUtils.round(pina.x+ratio*dx);
     int targetay = MathUtils.round(pina.y+ratio*dy);
-    
+
     dx = pinb.x-pind.x;
     dy = pinb.y-pind.y;
-    
+
     int targetdx = MathUtils.round(pind.x-ratio*dx);
     int targetdy = MathUtils.round(pind.y-ratio*dy);
     int targetbx = MathUtils.round(pinb.x+ratio*dx);
     int targetby = MathUtils.round(pinb.y+ratio*dy);
-    
+
     if (!isValid(targetax, targetay) || !isValid(targetbx, targetby)
         || !isValid(targetcx, targetcy) || !isValid(targetdx, targetdy)) {
       throw NotFoundException.getNotFoundInstance();
     }
-    
+
     Point pa = new Point(targetax,targetay);
     Point pb = new Point(targetbx,targetby);
     Point pc = new Point(targetcx,targetcy);
     Point pd = new Point(targetdx,targetdy);
-    
+
     return new Point[]{pa, pb, pc, pd};
   }
 
@@ -355,7 +355,7 @@ public final class Detector {
       pointD = getFirstDifferent(new Point(cx-15/2, cy-15/2), false, -1, -1).toResultPoint();
 
     }
-    
+
     //Compute the center of the rectangle
     int cx = MathUtils.round((pointA.getX() + pointD.getX() + pointB.getX() + pointC.getX())/4);
     int cy = MathUtils.round((pointA.getY() + pointD.getY() + pointB.getY() + pointC.getY())/4);
@@ -379,7 +379,7 @@ public final class Detector {
       pointD = getFirstDifferent(new Point(cx-15/2, cy-15/2), false, -1, -1).toResultPoint();
 
     }
-    
+
     // Recompute the center of the rectangle
     cx = MathUtils.round((pointA.getX() + pointD.getX() + pointB.getX() + pointC.getX())/4);
     cy = MathUtils.round((pointA.getY() + pointD.getY() + pointB.getY() + pointC.getY())/4);
@@ -429,7 +429,7 @@ public final class Detector {
       bottomLeft.getX(),
       bottomLeft.getY());
   }
-  
+
   /**
    * Sets number of layers and number of datablocks from parameter bits
    */
@@ -598,7 +598,7 @@ public final class Detector {
 
     return new Point(x,y);
   }
-  
+
   private static final class Point {
     public final int x;
     public final int y;

@@ -19,7 +19,7 @@ var balises = {
             "question": "question_2",
             "indice": "Entre le buisson et le rocher"
         },
-        "balise_3": { 
+        "balise_3": {
             "latitude": "50.6098167",
             "longitude": "3.14301666",
             "question": "question_3",

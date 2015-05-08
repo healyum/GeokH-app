@@ -1,12 +1,12 @@
 var lock;
 
 module.exports = {
-    keepAwake: function() {
+    keepAwake: function () {
         if (navigator.requestWakeLock) {
             lock = navigator.requestWakeLock("screen");
         }
     },
-    allowSleepAgain: function() {
+    allowSleepAgain: function () {
         if (lock && typeof lock.unlock === "function") {
             lock.unlock();
         }

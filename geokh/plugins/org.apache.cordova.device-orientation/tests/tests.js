@@ -1,30 +1,30 @@
 /*
-*
-* Licensed to the Apache Software Foundation (ASF) under one
-* or more contributor license agreements.  See the NOTICE file
-* distributed with this work for additional information
-* regarding copyright ownership.  The ASF licenses this file
-* to you under the Apache License, Version 2.0 (the
-* "License"); you may not use this file except in compliance
-* with the License.  You may obtain a copy of the License at
-*
-*   http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing,
-* software distributed under the License is distributed on an
-* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-* KIND, either express or implied.  See the License for the
-* specific language governing permissions and limitations
-* under the License.
-*
-*/
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ *
+ */
 
 exports.defineAutoTests = function () {
     var fail = function (done, message) {
-        message = (typeof message !== 'string') ? "Forced failure: wrong callback called" : message;
-        expect(true).toFailWithMessage(message);
-        done();
-    },
+            message = (typeof message !== 'string') ? "Forced failure: wrong callback called" : message;
+            expect(true).toFailWithMessage(message);
+            done();
+        },
         unexpectedSuccess = "Forced failure: success callback should not have been called",
         unexpectedFailure = "Forced failure: error callback should not have been called";
 
@@ -50,7 +50,9 @@ exports.defineAutoTests = function () {
         });
 
         it("compass.hardwarecheck is compass supported", function (done) {
-            navigator.compass.getCurrentHeading(function onSuccess() { done(); },
+            navigator.compass.getCurrentHeading(function onSuccess() {
+                    done();
+                },
                 function onError(error) {
                     if (error.code == CompassError.COMPASS_NOT_SUPPORTED) {
                         hardwarefailure = true;
@@ -227,11 +229,11 @@ exports.defineManualTests = function (contentEl, createActionButton) {
         'Expected result: Will clear the compass watch, so heading value will no longer be updated. Status will read "Stopped"';
 
     contentEl.innerHTML = '<div id="info"><b>Status: </b>' +
-        '<span id="compass_status">Stopped</span>' +
-        '<table width="100%"><tr>' +
-        '<td width="33%">Heading: <span id="compassHeading"></span>' +
-        '</td></tr></table></div>' +
-        orientation_tests;
+    '<span id="compass_status">Stopped</span>' +
+    '<table width="100%"><tr>' +
+    '<td width="33%">Heading: <span id="compassHeading"></span>' +
+    '</td></tr></table></div>' +
+    orientation_tests;
 
     createActionButton('Get Compass', function () {
         getCompass();

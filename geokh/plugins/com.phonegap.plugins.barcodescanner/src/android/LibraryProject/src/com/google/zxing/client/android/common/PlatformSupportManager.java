@@ -43,13 +43,13 @@ import java.util.TreeMap;
  * @param <T> the interface which managed implementations implement
  */
 public abstract class PlatformSupportManager<T> {
-  
+
   private static final String TAG = PlatformSupportManager.class.getSimpleName();
 
   private final Class<T> managedInterface;
   private final T defaultImplementation;
   private final SortedMap<Integer,String> implementations;
-  
+
   protected PlatformSupportManager(Class<T> managedInterface, T defaultImplementation) {
     if (!managedInterface.isInterface()) {
       throw new IllegalArgumentException();
@@ -61,7 +61,7 @@ public abstract class PlatformSupportManager<T> {
     this.defaultImplementation = defaultImplementation;
     this.implementations = new TreeMap<Integer,String>(Collections.reverseOrder());
   }
-  
+
   protected void addImplementationClass(int minVersion, String className) {
     implementations.put(minVersion, className);
   }

@@ -45,13 +45,13 @@ public final class HistoryActivity extends ListActivity {
 
   private HistoryManager historyManager;
   private HistoryItemAdapter adapter;
-  
+
   private static FakeR fakeR;
   @Override
   protected void onCreate(Bundle icicle) {
     super.onCreate(icicle);
     fakeR = new FakeR(this);
-    this.historyManager = new HistoryManager(this);  
+    this.historyManager = new HistoryManager(this);
     adapter = new HistoryItemAdapter(this);
     setListAdapter(adapter);
     ListView listview = getListView();

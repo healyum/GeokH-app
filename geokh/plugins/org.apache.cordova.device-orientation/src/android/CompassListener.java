@@ -18,25 +18,19 @@
 */
 package org.apache.cordova.deviceorientation;
 
-import java.util.List;
-
-import org.apache.cordova.CordovaWebView;
-import org.apache.cordova.CallbackContext;
-import org.apache.cordova.CordovaInterface;
-import org.apache.cordova.CordovaPlugin;
-import org.apache.cordova.PluginResult;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.content.Context;
-
 import android.os.Handler;
 import android.os.Looper;
+import org.apache.cordova.*;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.List;
 
 /**
  * This class listens to the compass sensor and stores the latest heading value.
@@ -55,10 +49,8 @@ public class CompassListener extends CordovaPlugin implements SensorEventListene
     long timeStamp;                     // time of most recent value
     long lastAccessTime;                // time the value was last retrieved
     int accuracy;                       // accuracy of the sensor
-
-    private SensorManager sensorManager;// Sensor manager
     Sensor mSensor;                     // Compass sensor returned by sensor manager
-
+    private SensorManager sensorManager;// Sensor manager
     private CallbackContext callbackContext;
 
     /**
@@ -85,24 +77,21 @@ public class CompassListener extends CordovaPlugin implements SensorEventListene
     /**
      * Executes the request and returns PluginResult.
      *
-     * @param action                The action to execute.
-     * @param args          	    JSONArry of arguments for the plugin.
-     * @param callbackS=Context     The callback id used when calling back into JavaScript.
-     * @return              	    True if the action was valid.
-     * @throws JSONException 
+     * @param action            The action to execute.
+     * @param args              JSONArry of arguments for the plugin.
+     * @param callbackS=Context The callback id used when calling back into JavaScript.
+     * @return True if the action was valid.
+     * @throws JSONException
      */
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         if (action.equals("start")) {
             this.start();
-        }
-        else if (action.equals("stop")) {
+        } else if (action.equals("stop")) {
             this.stop();
-        }
-        else if (action.equals("getStatus")) {
+        } else if (action.equals("getStatus")) {
             int i = this.getStatus();
             callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, i));
-        }
-        else if (action.equals("getHeading")) {
+        } else if (action.equals("getHeading")) {
             // If not running, then this is an async call, so don't worry about waiting
             if (this.status != CompassListener.RUNNING) {
                 int r = this.start();
@@ -119,11 +108,9 @@ public class CompassListener extends CordovaPlugin implements SensorEventListene
                 }, 2000);
             }
             callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, getCompassHeading()));
-        }
-        else if (action.equals("setTimeout")) {
+        } else if (action.equals("setTimeout")) {
             this.setTimeout(args.getLong(0));
-        }
-        else if (action.equals("getTimeout")) {
+        } else if (action.equals("getTimeout")) {
             long l = this.getTimeout();
             callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, l));
         } else {
@@ -154,7 +141,7 @@ public class CompassListener extends CordovaPlugin implements SensorEventListene
     /**
      * Start listening for compass sensor.
      *
-     * @return          status of listener
+     * @return status of listener
      */
     public int start() {
 
@@ -233,29 +220,29 @@ public class CompassListener extends CordovaPlugin implements SensorEventListene
     /**
      * Get status of compass sensor.
      *
-     * @return          status
+     * @return status
      */
     public int getStatus() {
         return this.status;
     }
 
     /**
+     * Set the status and send it to JavaScript.
+     *
+     * @param status
+     */
+    private void setStatus(int status) {
+        this.status = status;
+    }
+
+    /**
      * Get the most recent compass heading.
      *
-     * @return          heading
+     * @return heading
      */
     public float getHeading() {
         this.lastAccessTime = System.currentTimeMillis();
         return this.heading;
-    }
-
-    /**
-     * Set the timeout to turn off compass sensor if getHeading() hasn't been called.
-     *
-     * @param timeout       Timeout in msec.
-     */
-    public void setTimeout(long timeout) {
-        this.TIMEOUT = timeout;
     }
 
     /**
@@ -268,11 +255,12 @@ public class CompassListener extends CordovaPlugin implements SensorEventListene
     }
 
     /**
-     * Set the status and send it to JavaScript.
-     * @param status
+     * Set the timeout to turn off compass sensor if getHeading() hasn't been called.
+     *
+     * @param timeout Timeout in msec.
      */
-    private void setStatus(int status) {
-        this.status = status;
+    public void setTimeout(long timeout) {
+        this.TIMEOUT = timeout;
     }
 
     /**

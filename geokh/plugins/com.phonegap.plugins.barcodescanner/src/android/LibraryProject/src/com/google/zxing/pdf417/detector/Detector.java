@@ -255,9 +255,9 @@ public final class Detector {
         }
       }
     }
-    
+
     counters = new int[STOP_PATTERN_REVERSE.length];
-    
+
     // Top Right
     if (found) { // Found the Bottom Left vertex
       found = false;
@@ -436,7 +436,7 @@ public final class Detector {
     GridSampler sampler = GridSampler.getInstance();
 
     return sampler.sampleGrid(
-        matrix, 
+        matrix,
         xdimension, ydimension,
         0.0f, // p1ToX
         0.0f, // p1ToY
@@ -463,7 +463,7 @@ public final class Detector {
    * @param width the number of pixels to search on this row
    * @param pattern pattern of counts of number of black and white pixels that are
    *                 being searched for as a pattern
-   * @param counters array of counters, as long as pattern, to re-use 
+   * @param counters array of counters, as long as pattern, to re-use
    * @return start/end horizontal offset of guard pattern, as an array of two ints.
    */
   private static int[] findGuardPattern(BitMatrix matrix,

@@ -34,7 +34,7 @@ public final class GingerbreadOpenCameraInterface implements OpenCameraInterface
    */
   @Override
   public Camera open() {
-    
+
     int numCameras = Camera.getNumberOfCameras();
     if (numCameras == 0) {
       Log.w(TAG, "No cameras!");
@@ -50,7 +50,7 @@ public final class GingerbreadOpenCameraInterface implements OpenCameraInterface
       }
       index++;
     }
-    
+
     Camera camera;
     if (index < numCameras) {
       Log.i(TAG, "Opening camera #" + index);

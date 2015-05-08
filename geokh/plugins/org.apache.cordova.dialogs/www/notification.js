@@ -17,7 +17,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
 var exec = require('cordova/exec');
 var platform = require('cordova/platform');
@@ -36,7 +36,7 @@ module.exports = {
      * @param {String} title                Title of the alert dialog (default: Alert)
      * @param {String} buttonLabel          Label of the close button (default: OK)
      */
-    alert: function(message, completeCallback, title, buttonLabel) {
+    alert: function (message, completeCallback, title, buttonLabel) {
         var _title = (title || "Alert");
         var _buttonLabel = (buttonLabel || "OK");
         exec(completeCallback, null, "Notification", "alert", [message, _title, _buttonLabel]);
@@ -51,7 +51,7 @@ module.exports = {
      * @param {String} title                Title of the alert dialog (default: Confirm)
      * @param {Array} buttonLabels          Array of the labels of the buttons (default: ['OK', 'Cancel'])
      */
-    confirm: function(message, resultCallback, title, buttonLabels) {
+    confirm: function (message, resultCallback, title, buttonLabels) {
         var _title = (title || "Confirm");
         var _buttonLabels = (buttonLabels || ["OK", "Cancel"]);
 
@@ -91,10 +91,10 @@ module.exports = {
      * @param {Array} buttonLabels          Array of strings for the button labels (default: ["OK","Cancel"])
      * @param {String} defaultText          Textbox input value (default: empty string)
      */
-    prompt: function(message, resultCallback, title, buttonLabels, defaultText) {
+    prompt: function (message, resultCallback, title, buttonLabels, defaultText) {
         var _message = (message || "Prompt message");
         var _title = (title || "Prompt");
-        var _buttonLabels = (buttonLabels || ["OK","Cancel"]);
+        var _buttonLabels = (buttonLabels || ["OK", "Cancel"]);
         var _defaultText = (defaultText || "");
         exec(resultCallback, null, "Notification", "prompt", [_message, _title, _buttonLabels, _defaultText]);
     },
@@ -105,8 +105,8 @@ module.exports = {
      *
      * @param {Integer} count       The number of beeps.
      */
-    beep: function(count) {
+    beep: function (count) {
         var defaultedCount = count || 1;
-        exec(null, null, "Notification", "beep", [ defaultedCount ]);
+        exec(null, null, "Notification", "beep", [defaultedCount]);
     }
 };

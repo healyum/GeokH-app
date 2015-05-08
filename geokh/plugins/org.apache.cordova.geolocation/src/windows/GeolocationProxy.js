@@ -28,13 +28,13 @@ function ensureLocator() {
 function createErrorCode() {
     switch (loc.locationStatus) {
         case Windows.Devices.Geolocation.PositionStatus.initializing:
-            // This status indicates that a location device is still initializing
+        // This status indicates that a location device is still initializing
         case Windows.Devices.Geolocation.PositionStatus.noData:
-            // No location data is currently available 
+        // No location data is currently available
         case Windows.Devices.Geolocation.PositionStatus.notInitialized:
-            // This status indicates that the app has not yet requested
-            // location data by calling GetGeolocationAsync() or 
-            // registering an event handler for the positionChanged event. 
+        // This status indicates that the app has not yet requested
+        // location data by calling GetGeolocationAsync() or
+        // registering an event handler for the positionChanged event.
         case Windows.Devices.Geolocation.PositionStatus.notAvailable:
             // Location is not available on this version of Windows
             return PositionError.POSITION_UNAVAILABLE;
@@ -56,7 +56,7 @@ function createResult(pos) {
         altitudeAccuracy: pos.coordinate.altitudeAccuracy,
         timestamp: pos.coordinate.timestamp
     }
-    
+
     if (pos.coordinate.point) {
         res.latitude = pos.coordinate.point.position.latitude;
         res.longitude = pos.coordinate.point.position.longitude;
@@ -66,15 +66,14 @@ function createResult(pos) {
         res.longitude = pos.coordinate.longitude;
         res.altitude = pos.coordinate.altitude;
     }
-    
+
     return res;
 }
 
 module.exports = {
     getLocation: function (success, fail, args, env) {
         ensureLocator();
-        if (loc != null)
-        {
+        if (loc != null) {
             var highAccuracy = args[0],
                 maxAge = args[1];
 
@@ -96,8 +95,7 @@ module.exports = {
                 }
             );
         }
-        else
-        {
+        else {
             fail({
                 code: PositionError.POSITION_UNAVAILABLE,
                 message: "You do not have the required location services present on your system."
@@ -139,8 +137,8 @@ module.exports = {
             };
 
         loc.desiredAccuracy = highAccuracy ?
-                Windows.Devices.Geolocation.PositionAccuracy.high :
-                Windows.Devices.Geolocation.PositionAccuracy.default;
+            Windows.Devices.Geolocation.PositionAccuracy.high :
+            Windows.Devices.Geolocation.PositionAccuracy.default;
 
         if (cordova.platformId == 'windows' && WinJS.Utilities.isPhone) {
             // on Windows Phone 8.1 'positionchanged' event fails with error below if movementThreshold is not set
@@ -153,7 +151,7 @@ module.exports = {
         loc.addEventListener("positionchanged", onPositionChanged);
         loc.addEventListener("statuschanged", onStatusChanged);
 
-        ids[clientId] = { pos: onPositionChanged, status: onStatusChanged };
+        ids[clientId] = {pos: onPositionChanged, status: onStatusChanged};
     },
 
     clearWatch: function (success, fail, args, env) {
