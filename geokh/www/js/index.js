@@ -107,6 +107,8 @@ var app = {
         $('#conseilHide').show();
         $('#compass .conseil .valeur').hide();
 
+		$("#numero_balise").html(this.balise_courante + 1);
+		
 		if (this.balise_courante == (Object.keys(this.balises).length) - 1){
 			$("#btn_pass").attr("disabled", "disabled");
 		}
@@ -480,6 +482,14 @@ window.onload = function () {
     $('#btn_connexion').click(function () {
         app.showView("#connexion");
     });
+	$('#btn_connexion_cgu').click(function () {
+        app.showView("#connexion");
+    });
+	
+	$('#btn_cgu').click(function () {
+        app.showView("#cgu");
+    });
+	
 
     $('#form_connexion').submit(function (event) {
         app.showView("#compass");
@@ -638,8 +648,18 @@ function onConfirmPassBtn(button) {
     if (button == 1) {
         app.balise_courante++;
         app.score -= 150;
+		
+		navigator.notification.confirm(
+            "Vous avez passé la " + app.balise_courante + "" + ((app.balise_courante==1)? "re" : "e") +" balise et perdu 150 points !",  // message
+            null,                  // callback to invoke
+            'Balisée passée',            // title
+            ['Ok']            // buttonLabels
+        );
+		
         app.showView("#compass");
     }
+	
+	
 }
 
 function startTimer() {

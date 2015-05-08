@@ -399,3 +399,9 @@ input.error {
 label.error {
     color: red;
 }
+
+
+/*credits*/
+.img_credits{
+	width: 90%;
+}

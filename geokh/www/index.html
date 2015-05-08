@@ -18,14 +18,40 @@
     <!-- -------------------------- -->
     <section class="view" id="accueil">
         <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vitae nibh tincidunt, molestie nibh ac,
-            faucibus augue. Praesent metus nulla, ultricies a convallis nec, iaculis blandit nunc. Class aptent taciti
-            sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam faucibus feugiat imperdiet.
-            Quisque lobortis rutrum justo ut pulvinar.
+            GeoK'H est une application de geocaching proposée par le HubHouse. 
+		</p>
+		<p>
+			En jouant une partie vous accepter les <a href="#" id="btn_cgu">conditions générales d'utilisation</a>
         </p>
 
 
         <button id="btn_connexion">Jouer</button>
+
+    </section>
+	
+	<!-- -------------------------- -->
+    <!--            CGU         -->
+    <!-- -------------------------- -->
+    <section class="view" id="cgu">
+        
+        <h1>Conditions d’utilisation</h1>
+        <p>En accédant à « geok’h », vous acceptez les conditions suivantes.</p>
+		<h2>Généralités.</h2>
+		<p>
+			Vous êtes légalement responsable du support utilisé et des dommages ou dégâts liés au support et qui pourraient intervenir lors du « geok’h ». Il vous est demandé de prendre connaissance et de respecter les règles du jeu.
+			L’application « geok’h » est gratuite mais ne saurait être utilisée pour une fonction autre que celle pour laquelle elle a été conçue. Il est formellement interdit de copier ou d’utiliser le tout ou une partie de « geok’h » à des fins commerciales. Vous vous engagez a adopter un comportement correct et à respecter les règles de bonne conduite ainsi que le réglement de l’Universite (langage approprié , respect du matériel et des lieux, respect des personnes…).
+		</p>
+		<h2>Respect du matériel et des lieux.</h2>
+			Il est strictement interdit de déplacer des balises de leur lieu initial. De même qu’est strictement interdite la dégradation des balises et des lieux de l’activité. Veillez à oeuvrer dans le respect de l’infrastructure du Campus universitaire de Lille 1. Toute dégradation sera passible de sanctions. Si toutefois vous trouviez une balise hors de son lieu initial, prévenez le HubHouse (numéro disponible sur la surface de la balise).
+		</p>
+		<h2>Choix du nom d’équipe.</h2>
+		<p>
+			Concernant le nom d’équipe, vous acceptez de ne pas choisir de contenu abusif, obscène, vulgaire, diffamatoire, choquant, menaçant, a caractère sexuel ou autre qui peut transgresser les lois en vigueur.
+		</p>
+		<br><br>
+
+
+        <button id="btn_connexion_cgu">Compris !</button>
 
     </section>
 
@@ -80,6 +106,7 @@
                 <p class="valeur" id="timer"></p>
             </div>
             <div class="conseil">
+				<p>Balise <span id="numero_balise"></span>/11</p>
                 <p>Conseil : </p>
 
                 <strong><p class="valeur" style="color: green">Lorem ipsum sit amet, consectetur adipiscing elit.</p>
@@ -297,9 +324,22 @@
     <!--                Credits             -->
     <!-- ---------------------------------- -->
     <section class="view" id="credits">
-        <p>Crédits :</p>
+        <h2>Crédits :</h2>
 
-        <div class="credits"></div>
+        <div class="credits">
+			<img class="img_credits" src="img/ipm_logo.jpg" alt="IPM Logo">
+			<img class="img_credits" src="img/lille1_logo.jpg" alt="Lille1 Logo">
+		</div>
+		<h3>Développeurs</h3>
+		<p>
+			<ul>
+				<li>Antoine Durigneux</li>
+				<li>Quentin Coët</li>
+				<li>Pauline Goblot</li>
+				<li>Raphael Bauduin</li>
+			</ul>
+		</p>
+		<br><br>
         <button id="btn_quitter">Quitter l'application</button>
     </section>
 </section>
