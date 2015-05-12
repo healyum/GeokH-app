@@ -8,14 +8,14 @@
 var balises = {
     "balises": {
         "balise_1": {
-            "latitude": "50.61233333",
-            "longitude": "3.13945",
+            "latitude": "50.61172",
+            "longitude": "3.139576",
             "question": "question_1",
             "indice": "Dans l’un des 3 arbres"
         },
         "balise_2": {
-            "latitude": "50.610000",
-            "longitude": "3.139500",
+            "latitude": "50.610024",
+            "longitude": "3.139502",
             "question": "question_2",
             "indice": "Entre le buisson et le rocher"
         },
@@ -26,20 +26,20 @@ var balises = {
             "indice": "Panneau respecter l’écologie, entre le rocher et le buisson"
         },
         "balise_4": {
-            "latitude": "50.610383",
-            "longitude": "3.145567",
+            "latitude": "50.610414",
+            "longitude": "3.145677",
             "question": "question_4",
             "indice": "Dans l’arbre"
         },
         "balise_5": {
-            "latitude": "50.607767",
-            "longitude": "3.144467",
+            "latitude": "50.607866",
+            "longitude": "3.144487",
             "question": "question_5",
             "indice": "A droite du panneau Accès pompier, derrière le rocher"
         },
         "balise_6": {
-            "latitude": "50.607883",
-            "longitude": "3.146417",
+            "latitude": "50.607936",
+            "longitude": "3.146360",
             "question": "question_6",
             "indice": "SN5, dans l’arbre"
         },

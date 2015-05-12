@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.hubhouse.geokh" version="1.0.0" xmlns="http://www.w3.org/ns/widgets">
+<widget id="com.hubhouse.geokh" version="1.0.1" xmlns="http://www.w3.org/ns/widgets">
     <name>GeokH</name>
 
     <author email="olivier.lanselle@univ-lille1.fr" href="http://hubhouse.univ-lille1.fr/Accueil/">
