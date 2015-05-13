@@ -8,8 +8,8 @@
 var balises = {
     "balises": {
         "balise_1": {
-            "latitude": "50.61172",
-            "longitude": "3.139576",
+            "latitude": "50.611177",
+            "longitude": "3.139553",
             "question": "question_1",
             "indice": "Dans l’un des 3 arbres"
         },
@@ -26,8 +26,8 @@ var balises = {
             "indice": "Panneau respecter l’écologie, entre le rocher et le buisson"
         },
         "balise_4": {
-            "latitude": "50.610414",
-            "longitude": "3.145677",
+            "latitude": "50.610316",
+            "longitude": "3.145384",
             "question": "question_4",
             "indice": "Dans l’arbre"
         },
