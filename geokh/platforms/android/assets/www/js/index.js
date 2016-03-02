@@ -119,7 +119,7 @@ var app = {
           crossDomain: true,
           async: false,
           contentType: "application/json; charset=utf-8",
-          url: 'http://192.168.43.150:8000/api/parcours',
+          url: 'http://192.168.138.1:8000/api/parcours',
           data: {},
           error: function(xhr, textStatus, err) {
             navigator.notification.confirm("Problème lors de la récupération des parcours.", null, "Erreur", ["OK"]);
@@ -149,7 +149,25 @@ var app = {
           app.showView("#accueil");
 
     },
+    /*
+    showConnexionView: function showConnexionView() {
 
+        // this.parcoursOrdre = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+        //
+        // $("input[name=form_parcours]").change(function (event) {
+        //     app.parcours = $('input[name=form_parcours]:checked').val();
+        //     if (app.parcours == "1") {
+        //         app.parcoursOrdre = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+        //     } else if (app.parcours == "2") {
+        //         app.parcoursOrdre = [10, 1, 2, 9, 8, 5, 6, 4, 3, 7, 11];
+        //     } else {
+        //         app.parcoursOrdre = [2, 7, 5, 6, 4, 3, 8, 9, 10, 1, 11];
+        //     }
+        // });
+
+
+    },
+    */
     /*
      * @author Charlie
      * Récupère les balises et les questions d'un parcours
@@ -160,7 +178,7 @@ var app = {
           crossDomain: true,
           async: false,
           contentType: "application/json; charset=utf-8",
-          url: 'http://192.168.43.150:8000/api/ptobqs/parcour/'+app.parcours,
+          url: 'http://192.168.138.1:8000/api/ptobqs/parcour/'+app.parcours,
           data: {},
           error: function(xhr, textStatus, err) {
             navigator.notification.confirm("Problème lors de la récupération des balises.", null, "Erreur", ["OK"]);
@@ -180,7 +198,7 @@ var app = {
           crossDomain: true,
           async: false,
           contentType: "application/json; charset=utf-8",
-          url: 'http://192.168.43.150:8000/api/ptoes/parcour/'+app.parcours,
+          url: 'http://192.168.138.1:8000/api/ptoes/parcour/'+app.parcours,
           data: {},
           error: function(xhr, textStatus, err) {
             navigator.notification.confirm("Problème lors de la récupération des entrepreneurs.", null, "Erreur", ["OK"]);

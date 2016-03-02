@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.hubhouse.geokh" version="1.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <feature name="BarcodeScanner">
+        <param name="browser-package" value="BarcodeScanner" />
+    </feature>
+    <name>GeokH</name>
+    <author email="olivier.lanselle@univ-lille1.fr" href="http://hubhouse.univ-lille1.fr/Accueil/">
+        Equipe HubHouse.
+    </author>
+    <description>
+        GeoK'H est une application de geocatching proposée par le Hubhouse.
+    </description>
+    <content src="index.html" />
+    <access origin="*" />
+    <icon density="ldpi" platform="android" src="www/img/logo.png" />
+    <icon density="mdpi" platform="android" src="www/img/logo.png" />
+    <icon density="hdpi" platform="android" src="www/img/logo.png" />
+    <icon density="xhdpi" platform="android" src="www/img/logo.png" />
+    <preference name="orientation" value="portrait" />
+</widget>
