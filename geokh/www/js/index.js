@@ -5,29 +5,38 @@
  */
 var app = {
     //Application variables
+
     //score tout au long du jeu
     score: 0,
     //nom de l'equipe
     equipe: "",
     //niveau choisit
     niveau: 1,
-    //parcours choisit
-    parcours: 1,
+    //numéro de parcours choisit
+    parcours: 0,
+    //les informations des balises et questions du parcours sélectionné
+    infos: null,
+    //les entrepreneurs du parcours sélectionné
+    entrepreneurs: {},
+
+    // ----------------------------------
     //l'ordre des balises du parcours
     parcoursOrdre: [],
     //les balises a chercher
     balises: {},
     //les questions a poser
     questions: {},
-    //les entrepreneurs
-    entrepreneurs: {},
     //prochaine balise cherchée
     balise_courante: 0,
     //prochaine balise question posée
     question_courante: "",
-    //
+
+    // -----------------------------------
+
+    //les entrepreneurs
     entrepreneur_select: "",
     entrepreneur_aTrouver: "entrepreneur_",
+
     nb_balises_trouvees: 0,
     nb_reponses_trouvees: 0,
     isTimerloaded: false,
@@ -41,6 +50,7 @@ var app = {
 
     // Application Constructor
     initialize: function initialize() {
+
         //chargement des balises
         this.balises = balises.balises;
         //chargement des questions
@@ -54,7 +64,6 @@ var app = {
 
         //cacher tous les indices
         $(".indice").hide();
-
 
         //affichage de la première vue
         this.showView("#accueil");
@@ -98,7 +107,90 @@ var app = {
                 break;
         }
     },
+
     /*
+     * @author : Charlie
+     * Récupère les parcours disponibles
+     */
+    showViewParcours: function showViewParcours(){
+      var goToConnexion = false;
+      $.ajax({
+          method: "GET",
+          crossDomain: true,
+          async: false,
+          contentType: "application/json; charset=utf-8",
+          url: 'http://192.168.43.150:8000/api/parcours',
+          data: {},
+          error: function(xhr, textStatus, err) {
+            navigator.notification.confirm("Problème lors de la récupération des parcours.", null, "Erreur", ["OK"]);
+            return goToConnexion;
+          }
+      }).done(function(data){
+          if(data.length == 0){
+            navigator.notification.confirm("Il n'y a aucun parcours disponible", null, "Erreur", ["OK"]);
+            return goToConnexion;
+          }
+          for (var i = 0; i < data.length; i++) {
+              var val_par = i+1;
+              if(i == 0){
+                  $("#form_parcours").append('<input type="radio" name="form_parcours" id="form_parcours'+val_par+'" value="'+data[i]['id']+'" checked="checked"/>');
+              }
+              else{
+                  $("#form_parcours").append('<input type="radio" name="form_parcours" id="form_parcours'+val_par+'" value="'+data[i]['id']+'" />');
+              }
+              $("#form_parcours").append('<label for="form_parcours'+val_par+'">'+val_par+'</label><br>');
+          }
+          goToConnexion = true;
+      });
+
+      if(goToConnexion)
+          app.showView("#connexion");
+      else
+          app.showView("#accueil");
+
+    },
+
+    /*
+     * @author Charlie
+     * Récupère les balises et les questions d'un parcours
+     */
+    showPtoBQS: function showPtoBQS(){
+      $.ajax({
+          method: "GET",
+          crossDomain: true,
+          async: false,
+          contentType: "application/json; charset=utf-8",
+          url: 'http://192.168.43.150:8000/api/ptobqs/parcour/'+app.parcours,
+          data: {},
+          error: function(xhr, textStatus, err) {
+            navigator.notification.confirm("Problème lors de la récupération des balises.", null, "Erreur", ["OK"]);
+            app.showView("#connexion");
+          }
+      }).done(function(data){
+          app.infos = data;
+      });
+    },
+    /*
+     * @author Charlie
+     * Récupère les entrepreneurs d'un parcours
+     */
+    showPtoES: function showPtoES(){
+      $.ajax({
+          method: "GET",
+          crossDomain: true,
+          async: false,
+          contentType: "application/json; charset=utf-8",
+          url: 'http://192.168.43.150:8000/api/ptoes/parcour/'+app.parcours,
+          data: {},
+          error: function(xhr, textStatus, err) {
+            navigator.notification.confirm("Problème lors de la récupération des entrepreneurs.", null, "Erreur", ["OK"]);
+            app.showView("#connexion");
+          }
+      }).done(function(data){
+          app.entrepreneurs = data;
+      });
+    },
+    /* @modified : charlie
      * charge les informations pour la vue de recherche de balise
      */
     showBaliseView: function showBaliseView() {
@@ -106,13 +198,13 @@ var app = {
         //cacher les conseils pour les balises par défaut
         $('#conseilHide').show();
         $('#compass .conseil .valeur').hide();
-
         $("#numero_balise").html(this.balise_courante + 1);
-
-        if (this.balise_courante == (Object.keys(this.balises).length) - 1) {
+        // ajout
+        $("#nombre_balise").html(this.infos.length);
+        //if (this.balise_courante == (Object.keys(this.balises).length) - 1) {
+        if (this.balise_courante == this.infos.length - 1) {
             $("#btn_pass").attr("disabled", "disabled");
         }
-
         this.isTimerloaded = true;
         if (app.debugOnBrowser == false) {
             compass.stopLocation();
@@ -123,38 +215,14 @@ var app = {
         }
         //affichage du score actuel
         $('#compass .score .valeur span').text(this.score);
-
         //affichage du conseil pour trouver la balise
-        $('#compass .conseil .valeur').text(this.balises["balise_" + this.parcoursOrdre[this.balise_courante]].indice);
-
+        // $('#compass .conseil .valeur').text(this.balises["balise_" + this.parcoursOrdre[this.balise_courante]].indice);
+        $('#compass .conseil .valeur').text(this.infos[this.balise_courante]["Balise"].indice);
         //définition du point gps de la balise
         //la distance et la précision sont mises à jour par les fonctions updateDistance() et updatePrecision()
-        compass.data.destination = new LatLon(this.balises["balise_" + this.parcoursOrdre[this.balise_courante]].latitude, this.balises["balise_" + this.parcoursOrdre[this.balise_courante]].longitude);
-
-
+        // compass.data.destination = new LatLon(this.balises["balise_" + this.parcoursOrdre[this.balise_courante]].latitude, this.balises["balise_" + this.parcoursOrdre[this.balise_courante]].longitude);
+        compass.data.destination = new LatLon(this.infos[this.balise_courante]["Balise"]["latitude"], this.infos[this.balise_courante]["Balise"]["longitude"]);
         startTimer();
-
-
-    },
-
-    /*
-     * Verifie les infos de formulaires de connexion
-     */
-    showConnexionView: function showConnexionView() {
-
-        this.parcoursOrdre = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
-
-        $("input[name=form_parcours]").change(function (event) {
-            app.parcours = $('input[name=form_parcours]:checked').val();
-            if (app.parcours == "1") {
-                app.parcoursOrdre = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
-            } else if (app.parcours == "2") {
-                app.parcoursOrdre = [10, 1, 2, 9, 8, 5, 6, 4, 3, 7, 11];
-            } else {
-                app.parcoursOrdre = [2, 7, 5, 6, 4, 3, 8, 9, 10, 1, 11];
-            }
-        });
-
 
     },
     /*
@@ -165,9 +233,10 @@ var app = {
         $("#btn_entrepreneurs").hide();
         $('#btn_compass_retour').show();
         $("#qr_code_result").html("Flash du QR Code");
-        var parcoursText = this.parcours > 9 ? "" : "0";
-        var baliseText = this.parcoursOrdre[this.balise_courante] > 9 ? "" : "0";
-        var textATrouver = "balise_" + baliseText + this.parcoursOrdre[this.balise_courante] + "_parcours_" + parcoursText + 1;
+        //var parcoursText = this.parcours > 9 ? "" : "0";
+        //var baliseText = this.parcoursOrdre[this.balise_courante] > 9 ? "" : "0";
+        //var textATrouver = "balise_" + baliseText + this.parcoursOrdre[this.balise_courante] + "_parcours_" + parcoursText + 1;
+        var textATrouver = 'codeBalise:' + this.infos[this.balise_courante]['Balise'].id;
         if (app.debugOnBrowser == false) {
             cordova.plugins.barcodeScanner.scan(
                 function (result) {
@@ -177,7 +246,8 @@ var app = {
                         $("#qr_code_result").html("Bonne balise ! Félicitations !");
                         $('#btn_question').show();
                         $('#btn_compass_retour').hide();
-                        if (app.balise_courante == (Object.keys(app.balises).length) - 1) {
+                        //if (app.balise_courante == (Object.keys(app.balises).length) - 1) {
+                        if (app.balise_courante == this.infos.length - 1) {
                             $("#btn_entrepreneurs").show();
                             $('#btn_question').hide();
                         }
@@ -191,13 +261,12 @@ var app = {
                 }
             );
         }
-
     },
-
     /*
-     * Charge les informations pour la vue de question 
+     * Charge les informations pour la vue de question
      */
     showQuestionBaliseView: function showQuestionBaliseView() {
+
 
         if (app.debugOnBrowser == false) {
             compass.stopLocation();
@@ -206,17 +275,19 @@ var app = {
         this.nb_balises_trouvees++;
 
         //si on est à la dernière balise, l'affichage de la question est différent
-        if (this.balise_courante == (Object.keys(this.balises).length) - 1) {
+        if (this.balise_courante ==this.infos.length - 1) {
 
-            //récupération des informations sur la question à afficher 
-            this.question_courante = this.balises["balise_" + this.parcoursOrdre[this.balise_courante]].question;
-
+            //récupération des informations sur la question à afficher
+            //this.question_courante = this.balises["balise_" + this.parcoursOrdre[this.balise_courante]].question;
+            var q = this.infos[this.balise_courante]["Question"];
             //affichage de la question
-            $('#entrepreneurs .lib_question').text(this.questions[this.question_courante].question);
+            $('#entrepreneurs .lib_question').text(q.question);
+
+            // MODIFICATION A FAIRE avec les entrepreneurs
 
             //recupération des informations des entrepreneurs
             var entrepreneurs_liste = [];
-            for (var i = 0; i < this.questions[this.question_courante].propositions.length; i++) {
+            for (var i = 0; i < q.propositions.length; i++) {
                 entrepreneurs_liste.push(this.entrepreneurs[this.questions[this.question_courante].propositions[i]]);
             }
             ;
@@ -257,28 +328,34 @@ var app = {
             this.showEnt("entrepreneur_1");
 
         } else {
+
             //mise à jour du score actuel
             $('#question .score .valeur span').text(this.score);
 
-            //récupération des informations sur la question à afficher 
-            this.question_courante = this.balises["balise_" + this.parcoursOrdre[this.balise_courante]].question;
-
+            //récupération des informations sur la question à afficher
+            //this.question_courante = this.balises["balise_" + this.parcoursOrdre[this.balise_courante]].question;
+            var q = this.infos[this.balise_courante]["Question"];
             //affichage de la difficutlé
-            $('#question .difficulte .valeur span').text(this.questions[this.question_courante].difficulte);
+            $('#question .difficulte .valeur span').text(q.difficulte);
             //affichage de la question
-            $('#question .lib_question .valeur span').text(this.questions[this.question_courante].question);
+            $('#question .lib_question .valeur span').text(q.question);
+
+            // Parser les propositions json
+            var obj = JSON.parse(q.propositions);
 
             //ajout des réponses
             $('#form_question .reponses').html('');
             //si la question est un QCM, les réponses auront un checkbox
-            if (this.questions[this.question_courante].type == "QCM") {
-                for (var i = 0; i < this.questions[this.question_courante].propositions.length; i++) {
-                    $('#form_question .reponses').append('<div class="form_groupe"><input type="checkbox" name="form_reponse[]" id="form_reponse' + (i + 1) + '" value="' + (i + 1) + '" /><label for="form_reponse' + (i + 1) + '">' + this.questions[this.question_courante].propositions[i] + '</label></div>');
+            if (q.type == "QCM") {
+                for (var i = 0; i < obj.length; i++) {
+                    if(obj[i] != "")
+                      $('#form_question .reponses').append('<div class="form_groupe"><input type="checkbox" name="form_reponse[]" id="form_reponse' + (i + 1) + '" value="' + (i + 1) + '" /><label for="form_reponse' + (i + 1) + '">' + obj[i] + '</label></div>');
                 }
                 //si la question est un QCU, les réponses auront un bouton radio
-            } else if (this.questions[this.question_courante].type == "QCU") {
-                for (var i = 0; i < this.questions[this.question_courante].propositions.length; i++) {
-                    $('#form_question .reponses').append('<div class="form_groupe"><input type="radio" name="form_reponse" id="form_reponse' + (i + 1) + '" value="' + (i + 1) + '" /><label for="form_reponse' + (i + 1) + '">' + this.questions[this.question_courante].propositions[i] + '</label></div>');
+            } else if (q.type == "QCU") {
+                for (var i = 0; i < obj.length; i++) {
+                  if(obj[i] != "")
+                    $('#form_question .reponses').append('<div class="form_groupe"><input type="radio" name="form_reponse" id="form_reponse' + (i + 1) + '" value="' + (i + 1) + '" /><label for="form_reponse' + (i + 1) + '">' + obj[i] + '</label></div>');
                 }
             }
         }
@@ -288,7 +365,7 @@ var app = {
      */
     showReponseBaliseView: function showReponseBaliseView() {
 
-        //recuperation de(s) reponse(s) choisie(s) par l'utilisateur 
+        //recuperation de(s) reponse(s) choisie(s) par l'utilisateur
         var input_reponses_courante = $('#form_question .reponses input:checked');
 
         //recuperation de(s) bonne(s) reponse(s)
@@ -296,8 +373,10 @@ var app = {
         for (var i = 0; i < input_reponses_courante.length; i++) {
             reponses_courantes.push($(input_reponses_courante[i]).val() * 1);
         }
-        var nb_reponses = this.questions[this.question_courante].reponses.length;
+        var q = this.infos[this.balise_courante]["Question"];
+        var r = JSON.parse(q.reponses);
 
+        var nb_reponses = r.length;
         //test si l'utilisateur a donne la(les) bonne(s) reponse(s).
         //s'il n'y a pas le même nombre de réponses entre l'utilisateur et celles du fichier alors l'utilisateur n'a pas la bonne réponse.
         var is_correct = false;
@@ -306,7 +385,7 @@ var app = {
         var i = 0;
 
         while (i < reponses_courantes.length) {
-            is_correct = $.inArray(reponses_courantes[i], this.questions[this.question_courante].reponses) > -1 ? true : false;
+            is_correct = $.inArray(reponses_courantes[i], r) > -1 ? true : false;
             if (is_correct) nbOfCorrectAnswers++;
             if (is_correct == false) is_all_correct = false;
             i++;
@@ -325,14 +404,14 @@ var app = {
                 //multiplié par le niveau de la question
                 $("#reponse .correct").show();
                 $("#reponse .partial").hide();
-                scoreToAdd = $('#form_pari').val() * this.questions[this.question_courante].difficulte;
+                scoreToAdd = $('#form_pari').val() * q.difficulte;
             } else {
                 //on ajoute les points que l'utilisateur a parié
                 //multiplié par le niveau de la question
                 //multiplié par un ratio de bonne réponses
                 $("#reponse .partial").show();
                 $("#reponse .correct").show();
-                scoreToAdd = $('#form_pari').val() * this.questions[this.question_courante].difficulte * (nbOfCorrectAnswers / nb_reponses);
+                scoreToAdd = $('#form_pari').val() * q.difficulte * (nbOfCorrectAnswers / nb_reponses);
             }
 
             scoreToAdd = Math.round(scoreToAdd);
@@ -366,7 +445,7 @@ var app = {
 
         } else {
             //retrait des points pariés
-            this.score -= $('#form_pari').val() * this.questions[this.question_courante].difficulte;
+            this.score -= $('#form_pari').val() * q.difficulte;
 
             //disable le bouton d'indice
             $('#modal_reponse').prop('disabled', true);
@@ -380,7 +459,7 @@ var app = {
         $('#reponse .score .valeur span').text(this.score);
 
         //récupération des retours sur les réponses
-        var retours = this.questions[this.question_courante].retour;
+        var retours = JSON.parse(q.retours);
 
         //affichage des retours
         $('#reponse .retour .valeur').html("");
@@ -398,7 +477,6 @@ var app = {
                 $('#reponse .retour .valeur').append(liste);
             }
         }
-
 
         this.balise_courante++;
     },
@@ -477,11 +555,18 @@ var app = {
     }
 };
 
-
 window.onload = function () {
+
     $('#btn_connexion').click(function () {
-        app.showView("#connexion");
+      if(checkConnection()){;
+          app.showViewParcours();
+      }
+      else {
+          navigator.notification.confirm("Vous devez être connecté à internet pour jouer.", null, "Connection Internet Requise", ["OK"]);
+          app.showView("#accueil");
+      }
     });
+
     $('#btn_connexion_cgu').click(function () {
         app.showView("#connexion");
     });
@@ -490,8 +575,9 @@ window.onload = function () {
         app.showView("#cgu");
     });
 
-
     $('#form_connexion').submit(function (event) {
+        app.parcours = $('input[name=form_parcours]:checked').val();
+        app.showPtoBQS();
         app.showView("#compass");
         event.preventDefault();
     });
@@ -509,7 +595,6 @@ window.onload = function () {
 
     $('#form_question').submit(function (event) {
         app.showView("#reponse");
-
         event.preventDefault();
     });
 
@@ -548,6 +633,7 @@ window.onload = function () {
     onLoad();
 
 }
+
 
 function randomIntFromInterval(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -623,7 +709,7 @@ function onDeviceReady() {
     });
 
 
-// keep awake the app
+    // keep awake the app
     window.plugins.insomnia.keepAwake(everthingOk, errorNotOk);
 
     //initialize the app
@@ -708,8 +794,9 @@ function loadLocalStorage() {
     app.parcours = parseInt(window.localStorage.getItem("parcours"));
     var tabOrdre = String(window.localStorage.getItem("parcoursOrdre"));
     app.parcoursOrdre = tabOrdre.split(",");
-    app.balises = jQuery.parseJSON(window.localStorage.getItem("balises"));
-    app.questions = jQuery.parseJSON(window.localStorage.getItem("questions"));
+    // app.balises = jQuery.parseJSON(window.localStorage.getItem("balises"));
+    // app.questions = jQuery.parseJSON(window.localStorage.getItem("questions"));
+    app.infos = jQuery.parseJSON(window.localStorage.getItem("infos"));
     app.entrepreneurs = jQuery.parseJSON(window.localStorage.getItem("entrepreneurs"));
     app.balise_courante = parseInt(window.localStorage.getItem("balise_courante"));
     app.question_courante = parseInt(window.localStorage.getItem("question_courante"));
@@ -752,8 +839,9 @@ function saveLocalStorage() {
     window.localStorage.setItem("niveau", String(app.niveau));
     window.localStorage.setItem("parcours", String(app.parcours));
     window.localStorage.setItem("parcoursOrdre", String(app.parcoursOrdre));
-    window.localStorage.setItem("balises", JSON.stringify(app.balises));
-    window.localStorage.setItem("questions", JSON.stringify(app.questions));
+    window.localStorage.setItem("infos", JSON.stringify(app.infos));
+    // window.localStorage.setItem("balises", JSON.stringify(app.balises));
+    // window.localStorage.setItem("questions", JSON.stringify(app.questions));
     window.localStorage.setItem("entrepreneurs", JSON.stringify(app.entrepreneurs));
     window.localStorage.setItem("balise_courante", String(app.balise_courante));
     window.localStorage.setItem("question_courante", String(app.question_courante));
@@ -799,3 +887,16 @@ function onConfirm(button) {
     }
 }
 
+/**
+*  Charlie 15/02/2016
+*  Check si l'utilisateur est connecté à internet
+*  @return True or False
+**/
+function checkConnection()
+{
+     if( !navigator.network )
+         navigator.network = window.top.navigator.network;
+
+   return ( (navigator.network.connection.type === "none" || navigator.network.connection.type === null ||
+          navigator.network.connection.type === "unknown" ) ? false : true );
+}
