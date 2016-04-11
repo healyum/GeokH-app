@@ -119,7 +119,7 @@ var app = {
           crossDomain: true,
           async: false,
           contentType: "application/json; charset=utf-8",
-          url: 'http://192.168.138.1:8000/api/parcours',
+          url: 'http://192.168.1.19:8000/api/parcours',
           data: {},
           error: function(xhr, textStatus, err) {
             navigator.notification.confirm("Problème lors de la récupération des parcours.", null, "Erreur", ["OK"]);
@@ -149,25 +149,7 @@ var app = {
           app.showView("#accueil");
 
     },
-    /*
-    showConnexionView: function showConnexionView() {
 
-        // this.parcoursOrdre = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
-        //
-        // $("input[name=form_parcours]").change(function (event) {
-        //     app.parcours = $('input[name=form_parcours]:checked').val();
-        //     if (app.parcours == "1") {
-        //         app.parcoursOrdre = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
-        //     } else if (app.parcours == "2") {
-        //         app.parcoursOrdre = [10, 1, 2, 9, 8, 5, 6, 4, 3, 7, 11];
-        //     } else {
-        //         app.parcoursOrdre = [2, 7, 5, 6, 4, 3, 8, 9, 10, 1, 11];
-        //     }
-        // });
-
-
-    },
-    */
     /*
      * @author Charlie
      * Récupère les balises et les questions d'un parcours
@@ -178,7 +160,7 @@ var app = {
           crossDomain: true,
           async: false,
           contentType: "application/json; charset=utf-8",
-          url: 'http://192.168.138.1:8000/api/ptobqs/parcour/'+app.parcours,
+          url: 'http://192.168.1.19:8000/api/ptobqs/parcour/'+app.parcours,
           data: {},
           error: function(xhr, textStatus, err) {
             navigator.notification.confirm("Problème lors de la récupération des balises.", null, "Erreur", ["OK"]);
@@ -198,7 +180,7 @@ var app = {
           crossDomain: true,
           async: false,
           contentType: "application/json; charset=utf-8",
-          url: 'http://192.168.138.1:8000/api/ptoes/parcour/'+app.parcours,
+          url: 'http://192.168.1.19:8000/api/ptoes/parcour/'+app.parcours,
           data: {},
           error: function(xhr, textStatus, err) {
             navigator.notification.confirm("Problème lors de la récupération des entrepreneurs.", null, "Erreur", ["OK"]);
@@ -293,6 +275,7 @@ var app = {
         this.nb_balises_trouvees++;
 
         //si on est à la dernière balise, l'affichage de la question est différent
+        /*
         if (this.balise_courante ==this.infos.length - 1) {
 
             //récupération des informations sur la question à afficher
@@ -346,7 +329,7 @@ var app = {
             this.showEnt("entrepreneur_1");
 
         } else {
-
+*/
             //mise à jour du score actuel
             $('#question .score .valeur span').text(this.score);
 
@@ -359,24 +342,24 @@ var app = {
             $('#question .lib_question .valeur span').text(q.question);
 
             // Parser les propositions json
-            var obj = JSON.parse(q.propositions);
+            //var obj = JSON.parse(q.propositions);
 
             //ajout des réponses
             $('#form_question .reponses').html('');
             //si la question est un QCM, les réponses auront un checkbox
             if (q.type == "QCM") {
-                for (var i = 0; i < obj.length; i++) {
-                    if(obj[i] != "")
-                      $('#form_question .reponses').append('<div class="form_groupe"><input type="checkbox" name="form_reponse[]" id="form_reponse' + (i + 1) + '" value="' + (i + 1) + '" /><label for="form_reponse' + (i + 1) + '">' + obj[i] + '</label></div>');
+                for (var i = 0; i < q.propositions.length; i++) {
+                    if(q.propositions[i] != "")
+                      $('#form_question .reponses').append('<div class="form_groupe"><input type="checkbox" name="form_reponse[]" id="form_reponse' + (i + 1) + '" value="' + (i + 1) + '" /><label for="form_reponse' + (i + 1) + '">' + q.propositions[i] + '</label></div>');
                 }
                 //si la question est un QCU, les réponses auront un bouton radio
             } else if (q.type == "QCU") {
-                for (var i = 0; i < obj.length; i++) {
-                  if(obj[i] != "")
-                    $('#form_question .reponses').append('<div class="form_groupe"><input type="radio" name="form_reponse" id="form_reponse' + (i + 1) + '" value="' + (i + 1) + '" /><label for="form_reponse' + (i + 1) + '">' + obj[i] + '</label></div>');
+                for (var i = 0; i < q.propositions.length; i++) {
+                  if(q.propositions[i] != "")
+                    $('#form_question .reponses').append('<div class="form_groupe"><input type="radio" name="form_reponse" id="form_reponse' + (i + 1) + '" value="' + (i + 1) + '" /><label for="form_reponse' + (i + 1) + '">' + q.propositions[i] + '</label></div>');
                 }
             }
-        }
+  //      }
     },
     /*
      * charge les informations pour la vue des réponses à une question
@@ -392,9 +375,9 @@ var app = {
             reponses_courantes.push($(input_reponses_courante[i]).val() * 1);
         }
         var q = this.infos[this.balise_courante]["Question"];
-        var r = JSON.parse(q.reponses);
+        //var r = JSON.parse(q.reponses);
 
-        var nb_reponses = r.length;
+        var nb_reponses = q.reponses.length;
         //test si l'utilisateur a donne la(les) bonne(s) reponse(s).
         //s'il n'y a pas le même nombre de réponses entre l'utilisateur et celles du fichier alors l'utilisateur n'a pas la bonne réponse.
         var is_correct = false;
@@ -403,7 +386,7 @@ var app = {
         var i = 0;
 
         while (i < reponses_courantes.length) {
-            is_correct = $.inArray(reponses_courantes[i], r) > -1 ? true : false;
+            is_correct = $.inArray(reponses_courantes[i], q.reponses) > -1 ? true : false;
             if (is_correct) nbOfCorrectAnswers++;
             if (is_correct == false) is_all_correct = false;
             i++;
@@ -477,7 +460,7 @@ var app = {
         $('#reponse .score .valeur span').text(this.score);
 
         //récupération des retours sur les réponses
-        var retours = JSON.parse(q.retours);
+        var retours = q.retours;
 
         //affichage des retours
         $('#reponse .retour .valeur').html("");
