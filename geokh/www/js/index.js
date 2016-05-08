@@ -110,7 +110,7 @@ var app = {
             crossDomain: true,
             async: false,
             contentType: "application/json; charset=utf-8",
-            url: 'http://192.168.1.14:8000/api/parcours',
+            url: 'http://delpi.eu:8000/api/parcours',
             data: {},
             error: function(xhr, textStatus, err) {
                 navigator.notification.confirm("Problème lors de la récupération des parcours.", null, "Erreur", ["OK"]);
@@ -153,7 +153,7 @@ var app = {
             crossDomain: true,
             async: false,
             contentType: "application/json; charset=utf-8",
-            url: 'http://192.168.1.14:8000/api/ptobqs/parcour/'+app.parcours,
+            url: 'http://delpi.eu:8000/api/ptobqs/parcour/'+app.parcours,
             data: {},
             error: function(xhr, textStatus, err) {
                 navigator.notification.confirm("Problème lors de la récupération des balises.", null, "Erreur", ["OK"]);
@@ -174,7 +174,7 @@ var app = {
             crossDomain: true,
             async: false,
             contentType: "application/json; charset=utf-8",
-            url: 'http://192.168.1.14:8000/api/ptoes/parcour/'+app.parcours,
+            url: 'http://delpi.eu:8000/api/ptoes/parcour/'+app.parcours,
             data: {},
             error: function(xhr, textStatus, err) {
                 navigator.notification.confirm("Problème lors de la récupération des entrepreneurs.", null, "Erreur", ["OK"]);
@@ -515,7 +515,7 @@ var app = {
             crossDomain: true,
             async: true,
             contentType: "application/json; charset=utf-8",
-            url: 'http://192.168.1.14:8000/api/scores/create/'+app.parcours,
+            url: 'http://delpi.eu:8000/api/scores/create/'+app.parcours,
             data: JSON.stringify({
                 'niveau' : this.niveau,
                 'nb_balises_trouvees' : this.nb_balises_trouvees,
