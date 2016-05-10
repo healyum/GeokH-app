@@ -11,10 +11,7 @@
         GeoK'H est une application de geocatching proposée par le Hubhouse.
     </description>
 
-
     <content src="index.html"/>
-    <!--<access origin="*" />-->
-
     <icon src="www/img/logo.png" platform="android" density="ldpi"/>
     <icon src="www/img/logo.png" platform="android" density="mdpi"/>
     <icon src="www/img/logo.png" platform="android" density="hdpi"/>
