@@ -196,7 +196,6 @@ var app = {
         $("#numero_balise").html(this.balise_courante + 1);
         // ajout
         $("#nombre_balise").html(this.infos.length);
-        //if (this.balise_courante == (Object.keys(this.balises).length) - 1) {
         if (this.balise_courante == this.infos.length - 1) {
             $("#btn_pass").attr("disabled", "disabled");
         }
