@@ -19,8 +19,7 @@ var app = {
     //les entrepreneurs du parcours sélectionné
     entrepreneurs: {},
 
-    url : "192.168.1.18:8000",
-    //url : "delpi.eu:8000",
+    url : "delpi.eu:8000",
     // ----------------------------------
     //l'ordre des balises du parcours
     parcoursOrdre: [],
@@ -212,11 +211,9 @@ var app = {
         //affichage du score actuel
         $('#compass .score .valeur span').text(this.score);
         //affichage du conseil pour trouver la balise
-        // $('#compass .conseil .valeur').text(this.balises["balise_" + this.parcoursOrdre[this.balise_courante]].indice);
         $('#compass .conseil .valeur').text(this.infos[this.balise_courante]["Balise"].indice);
         //définition du point gps de la balise
         //la distance et la précision sont mises à jour par les fonctions updateDistance() et updatePrecision()
-        // compass.data.destination = new LatLon(this.balises["balise_" + this.parcoursOrdre[this.balise_courante]].latitude, this.balises["balise_" + this.parcoursOrdre[this.balise_courante]].longitude);
         compass.data.destination = new LatLon(this.infos[this.balise_courante]["Balise"]["latitude"], this.infos[this.balise_courante]["Balise"]["longitude"]);
         startTimer();
 
@@ -267,7 +264,6 @@ var app = {
         this.nb_balises_trouvees++;
 
         //si on est à la dernière balise, l'affichage de la question est différent
-
         if (this.balise_courante == this.infos.length-1) {
 
             var q = this.infos[this.balise_courante]["Question"];
@@ -288,9 +284,7 @@ var app = {
                 for (var j = 0; j <  this.entrepreneurs[i].Entrepreneur.interviewQ.length; j++) {
                     // Question de l'interview
                     html_entrepreneur += '<p class="ent_question">' +  this.entrepreneurs[i].Entrepreneur.interviewQ[j] + '</p>';
-                    //for (var k = 0; k <  this.entrepreneurs[i].interviewU[j].reponses.length; k++) {
                     html_entrepreneur += '<p class="ent_reponse">' +  this.entrepreneurs[i].Entrepreneur.interviewR[j] + '</p>';
-                    //}
                 }
                 html_entrepreneur += '</div></div>';
             }
@@ -324,9 +318,6 @@ var app = {
             //affichage de la question
             $('#question .lib_question .valeur span').text(q.question);
 
-            // Parser les propositions json
-            //var obj = JSON.parse(q.propositions);
-
             //ajout des réponses
             $('#form_question .reponses').html('');
             //si la question est un QCM, les réponses auront un checkbox
@@ -359,7 +350,6 @@ var app = {
             reponses_courantes.push($(input_reponses_courante[i]).val() * 1);
         }
         var q = this.infos[this.balise_courante]["Question"];
-        //var r = JSON.parse(q.reponses);
 
         var nb_reponses = q.reponses.length;
 
@@ -815,8 +805,6 @@ function loadLocalStorage() {
     app.parcours = parseInt(window.localStorage.getItem("parcours"));
     var tabOrdre = String(window.localStorage.getItem("parcoursOrdre"));
     app.parcoursOrdre = tabOrdre.split(",");
-    // app.balises = jQuery.parseJSON(window.localStorage.getItem("balises"));
-    // app.questions = jQuery.parseJSON(window.localStorage.getItem("questions"));
     app.infos = jQuery.parseJSON(window.localStorage.getItem("infos"));
     app.entrepreneurs = jQuery.parseJSON(window.localStorage.getItem("entrepreneurs"));
     app.balise_courante = parseInt(window.localStorage.getItem("balise_courante"));
@@ -833,7 +821,6 @@ function loadLocalStorage() {
     var tab = String(window.localStorage.getItem("bonnesReponsesUser"));
     app.bonnesReponsesUser = (!tab.trim()) ? [] : tab.split(",");
     app.currentTime = parseInt(window.localStorage.getItem("currentTime"));
-    //app.debugOnBrowser = window.localStorage.getItem("debugOnBrowser");
     var d = new Date();
     var now = d.getTime();
     var local = parseInt(window.localStorage.getItem("localTime"));
@@ -861,8 +848,6 @@ function saveLocalStorage() {
     window.localStorage.setItem("parcours", String(app.parcours));
     window.localStorage.setItem("parcoursOrdre", String(app.parcoursOrdre));
     window.localStorage.setItem("infos", JSON.stringify(app.infos));
-    // window.localStorage.setItem("balises", JSON.stringify(app.balises));
-    // window.localStorage.setItem("questions", JSON.stringify(app.questions));
     window.localStorage.setItem("entrepreneurs", JSON.stringify(app.entrepreneurs));
     window.localStorage.setItem("balise_courante", String(app.balise_courante));
     window.localStorage.setItem("question_courante", String(app.question_courante));
@@ -876,7 +861,6 @@ function saveLocalStorage() {
     var d = new Date();
     var n = d.getTime();
     window.localStorage.setItem("localTime", String(n));
-    //window.localStorage.setItem("debugOnBrowser",app.debugOnBrowser);
     window.localStorage.setItem("nb_points_correct", String(app.nb_points_correct));
     window.localStorage.setItem("actualView", String(app.actualView));
     window.localStorage.setItem("isInit", "true");
