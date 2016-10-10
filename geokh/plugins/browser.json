@@ -13,9 +13,6 @@
         "cordova-plugin-network-information": {
             "PACKAGE_NAME": "com.hubhouse.geokh"
         },
-        "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.hubhouse.geokh"
-        },
         "nl.x-services.plugins.insomnia": {
             "PACKAGE_NAME": "com.hubhouse.geokh"
         },
@@ -26,6 +23,9 @@
             "PACKAGE_NAME": "com.hubhouse.geokh"
         },
         "org.apache.cordova.geolocation": {
+            "PACKAGE_NAME": "com.hubhouse.geokh"
+        },
+        "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.hubhouse.geokh"
         }
     },

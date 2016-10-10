@@ -91,17 +91,7 @@
             </div>
             <div id="form_parcours" class="form_groupe">
                 <p>Parcours :</p>
-                <input type="radio" name="form_parcours" id="form_parcours1" value="1" checked="checked"/>
-                <label for="form_parcours1">1</label>
 
-                <input type="radio" name="form_parcours" id="form_parcours2" value="2"/><label
-                    for="form_parcours2">2</label>
-
-                <input type="radio" name="form_parcours" id="form_parcours3" value="3"/><label
-                    for="form_parcours3">3</label>
-                <!--
-				<input type="radio" name="form_parcours" id="form_parcours4" value="4" /><label for="form_parcours4">4</label>
-                -->
             </div>
             <input type="submit" name="submit" value="Lancer la partie" class="form_submit"/>
         </form>
@@ -124,7 +114,7 @@
                 <p class="valeur" id="timer"></p>
             </div>
             <div class="conseil">
-                <p>Balise <span id="numero_balise"></span>/11</p>
+                <p>Balise <span id="numero_balise"></span>/<span id="nombre_balise"></span></p>
 
                 <p>Conseil : </p>
 
@@ -234,7 +224,6 @@
 
             <p class="indice" id="reponse_indice"></p>
 
-            <!--<button class="left" id="modal_reponse" disabled="disabled">voir l'indice</button> -->
             <button id="btn_compass">Continuer</button>
         </div>
     </section>
