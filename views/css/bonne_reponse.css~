@@ -1,0 +1,29 @@
+body {
+    background-color:		white;
+    background-image:		url("../img/conditions/conditions_logo_transparence_2.png");
+    background-repeat:		no-repeat;
+    background-size:		350px;
+    background-position:	180 -90;
+}
+
+#main {
+    /*background-color:		grey;*/
+    height:			95%;	
+}
+
+#logo {
+    background-image:		url("../img/conditions/conditions_logo.png");
+    background-size:		30%;
+    background-position:	center;
+    background-repeat:		no-repeat;
+    height:			17%;
+    margin-top:			-5%;
+}
+
+#reponse {
+    background-color:		#38b349;
+    height:			5%;
+    font-family:		sans-serif;
+    color:			white;
+    text-align:			center;
+}
