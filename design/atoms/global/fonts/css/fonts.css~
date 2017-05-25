@@ -1,0 +1,7 @@
+.font {
+    font-family: 'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+}
+
+.font--bold {
+    font-weight : bold;
+}
