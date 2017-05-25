@@ -38,7 +38,7 @@ body {
     right: 0;
 
     overflow-x: hidden;
-    overflow-y: hidden;
+    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     
     display: none;
@@ -127,21 +127,7 @@ footer {
 
 .main__paragraph {
     color: white;
-    font-size: small;
 }
-
-.main__paragraph__first {
-    margin-top:		150px;
-}
-
-.footer {
-    margin-top:		47px;
-}
-
-.footer img {
-    max-width:		100%;
-}
-
 
 /****************************************/
 /* 3. Lancement d'une partie            */
