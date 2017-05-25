@@ -29,50 +29,31 @@ body {
     padding: 0px;
 }
 
-.app {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-}
-
-.app header {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    text-align: center;
-    height: 120px;
-}
-
-.app header h1 {
-    margin: 0;
-}
-
-.app header img {
-    height: 100px;
-    padding: 10px 0;
-}
-
 .view {
     position: absolute;
-    top: 120px;
+    
+    top: 0;    
     left: 0;
     bottom: 0;
     right: 0;
-    padding: 14px 28px;
+
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
+    
     display: none;
+    
     text-align: center;
+
+    width: 360px;
+    height: 640px;
 }
 
 .dev {
     text-align: center;
 }
 
+/*
 button,
 input[type='submit'] {
     margin: 0;
@@ -98,6 +79,7 @@ input[type='submit']:active {
 button:disabled {
     background: #2c7f3b;
 }
+*/
 
 .correction .errone {
     color: #d71920;
@@ -122,6 +104,44 @@ footer {
 #btn_connexion {
     /*bottom: 50px;*/
 }
+
+.main {
+    width: 230px;
+    margin: auto;
+}
+
+.accueil__logo {
+    padding-top: 160px;
+}
+
+.button {
+    border: none;
+    border-radius: 30px;
+    width: 100%;
+    height: 40px;
+}
+
+.main__button {
+    margin-top: 30px;
+}
+
+.main__paragraph {
+    color: white;
+    font-size: small;
+}
+
+.main__paragraph__first {
+    margin-top:		150px;
+}
+
+.footer {
+    margin-top:		47px;
+}
+
+.footer img {
+    max-width:		100%;
+}
+
 
 /****************************************/
 /* 3. Lancement d'une partie            */
