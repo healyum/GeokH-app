@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.hubhouse.geokh" version="1.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://java.sun.com/JSP/Page">
+    <name>GeokH</name>
+    <author email="olivier.lanselle@univ-lille1.fr" href="http://hubhouse.univ-lille1.fr/Accueil/">
+        Equipe HubHouse.
+    </author>
+    <description>
+        GeoK'H est une application de geocatching proposée par le Hubhouse.
+    </description>
+    <content src="index.html" />
+    <icon density="ldpi" platform="android" src="www/img/logo.png" />
+    <icon density="mdpi" platform="android" src="www/img/logo.png" />
+    <icon density="hdpi" platform="android" src="www/img/logo.png" />
+    <icon density="xhdpi" platform="android" src="www/img/logo.png" />
+    <preference name="orientation" value="portrait" />
+    <gap:plugin name="com.indigoway.cordova.whitelist.whitelistplugin" />
+    <access origin="http://*" />
+    <engine name="android" spec="~6.2.3" />
+</widget>

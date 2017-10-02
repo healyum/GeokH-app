@@ -1,0 +1,13 @@
+{
+    "name": "com.hubhouse.geokh",
+    "version": "1.0.1",
+    "displayName": "GeokH",
+    "cordova": {
+        "platforms": [
+            "android"
+        ]
+    },
+    "dependencies": {
+        "cordova-android": "~6.2.3"
+    }
+}
