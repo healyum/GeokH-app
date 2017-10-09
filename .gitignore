@@ -7,3 +7,5 @@ gen
 .DS_STORE
 platforms
 node_modules
+plugins
+package-lock.json
