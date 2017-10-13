@@ -1,165 +1,149 @@
-/**
- *
- * Auteurs : Goblot Pauline et Bauduin Raphael
- *
- */
 var app = {
     //Application variables
-
-    //score tout au long du jeu
     score: 0,
-    //nom de l'equipe
-    equipe: "",
-    //niveau choisit
+    equipe: null,
     niveau: 1,
-    //numéro de parcours choisit
     parcours: 0,
-    //les informations des balises et questions du parcours sélectionné
     infos: null,
-    //les entrepreneurs du parcours sélectionné
-    entrepreneurs: {},
 
-    url : "delpi.eu:8000",
-    // ----------------------------------
-    //l'ordre des balises du parcours
+    urlApi: "https://geokh.herokuapp.com/api",
+
     parcoursOrdre: [],
-    //les balises a chercher
     balises: {},
-    //les questions a poser
     questions: {},
-    //prochaine balise cherchée
-    balise_courante: 0,
-    //prochaine balise question posée
-    question_courante: "",
+    baliseCourante: 0,
+    questionCourante: 0,
 
-    // -----------------------------------
+    // Les entrepreneurs
+    entrepreneurs: {},
+    entrepreneurSelect: null,
+    entrepreneurATrouver: null,
 
-    //les entrepreneurs
-    entrepreneur_select: null,
-    entrepreneur_aTrouver: null,
-
-    nb_balises_trouvees: 0,
-    nb_reponses_trouvees: 0,
-    isTimerloaded: false,
+    nbBalisesTrouvees: 0,
+    nbReponsesTrouvees: 0,
+    isTimerLoaded: false,
     bonnesReponsesUser: [],
     currentTime: 0,
     debugOnBrowser: false,
-    nb_points_correct: 500,
-    actualView: "",
+    nbPointsCorrect: 500,
+    actualView: "#accueil",
     distanceMinToShowIndice: 50,
 
 
     // Application Constructor
     initialize: function initialize() {
-
-        //cacher tous les indices
+        // Cache tous les indices
         $(".indice").hide();
 
-        //affichage de la première vue
+        // Affichage de la vue Accueil
         this.showView("#accueil");
     },
-    /*
-     * Gere l'affichage de la vue demandée.
-     */
-    showView: function showView(view_id) {
+
+
+    // Gere l'affichage des vues
+    showView: function showView(viewId) {
+
+        // Cache la précédente vue
         $(".view").hide();
-        $(view_id).show();
-        this.actualView = view_id;
-        switch (view_id) {
+        // Affichage de la nouvelle vue
+        $(viewId).show();
+
+        this.actualView = viewId;
+
+        switch (viewId) {
             case "#connexion":
-                this.showConnexionView();
                 break;
+
             case "#compass":
                 this.showBaliseView();
                 break;
+
             case "#qr_code":
                 this.showQrCodeView();
                 break;
+
             case "#question":
                 this.showQuestionBaliseView();
                 break;
+
             case "#reponse":
                 this.showReponseBaliseView();
                 break;
+
             case "#entrepreneurs":
                 this.showQuestionBaliseView();
                 break;
+
             case "#entrepreneur_mystere":
                 this.showEntrepreneurMystereView();
                 break;
+
             case "#scores":
                 this.showScoreView();
                 break;
+
             case "#credits":
                 this.showCreditsView();
                 break;
+
             default :
                 break;
         }
     },
 
-    /*
-     * @author : Charlie
-     * Récupère les parcours disponibles
-     */
-    showViewParcours: function showViewParcours(){
-        var goToConnexion = false;
+    // Récupère les parcours sur l'API
+    showViewParcours: function showViewParcours() {
         $.ajax({
-            method: "GET",
-            crossDomain: true,
-            async: false,
+            url: this.urlApi + "/parcours",
+            type: "GET",
+            dataType: "json",
             contentType: "application/json; charset=utf-8",
-            url: 'http://delpi.eu:8000/api/parcours',
+            crossDomain: true,
             data: {},
-            error: function(xhr, textStatus, err) {
-                navigator.notification.confirm("Problème lors de la récupération des parcours.", null, "Erreur", ["OK"]);
-                return goToConnexion;
-            }
-        }).done(function(data){
-            if(data.length == 0){
-                navigator.notification.confirm("Il n'y a aucun parcours disponible", null, "Erreur", ["OK"]);
-                return goToConnexion;
-            }
-            for (var i = 0; i < data.length; i++) {
-                var val_par = i+1;
-                if(i == 0){
-                    $("#form_parcours").append('<input type="radio" name="form_parcours" id="form_parcours'+val_par+'" value="'+data[i]['id']+'" checked="checked"/>');
-                }
-                else{
-                    $("#form_parcours").append('<input type="radio" name="form_parcours" id="form_parcours'+val_par+'" value="'+data[i]['id']+'" />');
-                }
-                $("#form_parcours").append('<label for="form_parcours'+val_par+'">'+val_par+'</label><br>');
-            }
-            goToConnexion = true;
-        }).fail(function(){
-            navigator.notification.confirm("Problème lors de la récupération des parcours.", null, "Erreur", ["OK"]);
-            return goToConnexion;
-        });
-        if(goToConnexion)
-            app.showView("#connexion");
-        else
-            app.showView("#accueil");
 
+            success: function(data) {
+                if (data.length == 0)
+                    navigator.notification.confirm("Il n'y a aucun parcours actif", null, "Erreur", ["Ok"]);
+
+                for (var indexParcours = 0; indexParcours < data.length; indexParcours++) {
+                    if (indexParcours == 0)
+                        $("#form_parcours").append('<input type="radio" name="form_parcours" id="form_parcours' + indexParcours + '" value="' + data[indexParcours]['id'] + '" checked="checked"/>');
+                    else
+                        $("#form_parcours").append('<input type="radio" name="form_parcours" id="form_parcours' + indexParcours + '" value="' + data[indexParcours]['id'] + '" />');
+
+                    $("#form_parcours").append('<label for="form_parcours' + indexParcours + '">' + "Parcours numéro " + parseInt(indexParcours+1) + '</label>');
+                }
+
+                app.showView("#connexion");
+            },
+
+            error: function () {
+                navigator.notification.confirm("Probleme de communication avec le serveur", null, "Erreur", ["Ok"]);
+            }
+        });
     },
+
 
     /*
      * @author Charlie
      * Récupère les balises et les questions d'un parcours
      */
-    showPtoBQS: function showPtoBQS(){
+    showPtoBQS: function showPtoBQS() {
         $.ajax({
-            method: "GET",
-            crossDomain: true,
-            async: false,
+            context: this,
+            url: this.urlApi + "/ptobqs/parcour/" + app.parcours,
+            type: "GET",
+            dataType: "json",
             contentType: "application/json; charset=utf-8",
-            url: 'http://delpi.eu:8000/api/ptobqs/parcour/'+app.parcours,
-            data: {},
-            error: function(xhr, textStatus, err) {
-                navigator.notification.confirm("Problème lors de la récupération des balises.", null, "Erreur", ["OK"]);
-                app.showView("#connexion");
+            crossDomain: true,
+            async:false,
+            success: function(data) {
+                this.infos = data;
+            },
+
+            error: function () {
+                navigator.notification.confirm("Probleme de communication avec le serveur", null, "Erreur", ["Ok"]);
             }
-        }).done(function(data){
-            app.infos = data;
         });
     },
 
@@ -167,21 +151,22 @@ var app = {
      * @author Charlie
      * Récupère les entrepreneurs d'un parcours
      */
-    showPtoES: function showPtoES(){
+
+    showPtoES: function showPtoES() {
         $.ajax({
             method: "GET",
             crossDomain: true,
             async: false,
             contentType: "application/json; charset=utf-8",
-            url: 'http://delpi.eu:8000/api/ptoes/parcour/'+app.parcours,
+            url: this.urlApi + 'api/ptoes/parcour/' + app.parcours,
             data: {},
-            error: function(xhr, textStatus, err) {
+            error: function (xhr, textStatus, err) {
                 navigator.notification.confirm("Problème lors de la récupération des entrepreneurs.", null, "Erreur", ["OK"]);
                 app.showView("#connexion");
             }
-        }).done(function(data){
+        }).done(function (data) {
             app.entrepreneurs = data;
-            app.entrepreneur_aTrouver = randomIntFromInterval(0, app.entrepreneurs.length-1);
+            app.entrepreneurATrouver = randomIntFromInterval(0, app.entrepreneurs.length - 1);
         });
     },
 
@@ -193,13 +178,14 @@ var app = {
         //cacher les conseils pour les balises par défaut
         $('#conseilHide').show();
         $('#compass .conseil .valeur').hide();
-        $("#numero_balise").html(this.balise_courante + 1);
+        $("#numero_balise").html(this.baliseCourante + 1);
         // ajout
+        console.log(this.infos);
         $("#nombre_balise").html(this.infos.length);
-        if (this.balise_courante == this.infos.length - 1) {
+        if (this.baliseCourante == this.infos.length - 1) {
             $("#btn_pass").attr("disabled", "disabled");
         }
-        this.isTimerloaded = true;
+        this.isTimerLoaded = true;
         if (app.debugOnBrowser == false) {
             compass.stopLocation();
             compass.stopOrientation();
@@ -208,12 +194,12 @@ var app = {
             compass.activateOrientation();
         }
         //affichage du score actuel
-        $('#compass .score .valeur span').text(this.score);
+       // $('#compass .score .valeur span').text(this.score);
         //affichage du conseil pour trouver la balise
-        $('#compass .conseil .valeur').text(this.infos[this.balise_courante]["Balise"].indice);
+       // $('#compass .conseil .valeur').text(this.infos[this.baliseCourante]["Balise"].indice);
         //définition du point gps de la balise
         //la distance et la précision sont mises à jour par les fonctions updateDistance() et updatePrecision()
-        compass.data.destination = new LatLon(this.infos[this.balise_courante]["Balise"]["latitude"], this.infos[this.balise_courante]["Balise"]["longitude"]);
+      //  compass.data.destination = new LatLon(this.infos[this.baliseCourante]["Balise"]["latitude"], this.infos[this.baliseCourante]["Balise"]["longitude"]);
         startTimer();
 
     },
@@ -226,7 +212,7 @@ var app = {
         $("#btn_entrepreneurs").hide();
         $('#btn_compass_retour').show();
         $("#qr_code_result").html("Flash du QR Code");
-        var textATrouver = 'codeBalise:' + this.infos[this.balise_courante]['Balise'].id;
+        var textATrouver = 'codeBalise:' + this.infos[this.baliseCourante]['Balise'].id;
         if (app.debugOnBrowser == false) {
             cordova.plugins.barcodeScanner.scan(
                 function (result) {
@@ -236,7 +222,7 @@ var app = {
                         $("#qr_code_result").html("Bonne balise ! Félicitations !");
                         $('#btn_question').show();
                         $('#btn_compass_retour').hide();
-                        if (app.balise_courante == app.infos.length - 1) {
+                        if (app.baliseCourante == app.infos.length - 1) {
                             $("#btn_entrepreneurs").show();
                             $('#btn_question').hide();
                         }
@@ -260,12 +246,12 @@ var app = {
             compass.stopLocation();
             compass.stopOrientation();
         }
-        this.nb_balises_trouvees++;
+        this.nbBalisesTrouvees++;
 
         //si on est à la dernière balise, l'affichage de la question est différent
-        if (this.balise_courante == this.infos.length-1) {
+        if (this.baliseCourante == this.infos.length - 1) {
 
-            var q = this.infos[this.balise_courante]["Question"];
+            var q = this.infos[this.baliseCourante]["Question"];
             //affichage de la question
             $('#entrepreneurs .lib_question').text(q.question);
 
@@ -274,20 +260,19 @@ var app = {
             var html_entrepreneur = "";
 
             for (var i = 0; i < this.entrepreneurs.length; i++) {
-                    html_miniatures += '<a href="#" onclick="app.showEnt(\'' + i + '\'); return false;">'
-                    + '<img src="img/user.svg" alt="' +  this.entrepreneurs[i].Entrepreneur.prenom + ' ' +  this.entrepreneurs[i].Entrepreneur.nom + '" class="ent_min" />'
+                html_miniatures += '<a href="#" onclick="app.showEnt(\'' + i + '\'); return false;">'
+                    + '<img src="img/user.svg" alt="' + this.entrepreneurs[i].Entrepreneur.prenom + ' ' + this.entrepreneurs[i].Entrepreneur.nom + '" class="ent_min" />'
                     + '</a>';
-                    html_entrepreneur += '<div id="'+i+'" style="display: none;">'
-                    + '<p class="ent_nom">' +  this.entrepreneurs[i].Entrepreneur.prenom + ' ' +  this.entrepreneurs[i].Entrepreneur.nom + '</p>'
+                html_entrepreneur += '<div id="' + i + '" style="display: none;">'
+                    + '<p class="ent_nom">' + this.entrepreneurs[i].Entrepreneur.prenom + ' ' + this.entrepreneurs[i].Entrepreneur.nom + '</p>'
                     + '<div class="ent_desc">';
-                for (var j = 0; j <  this.entrepreneurs[i].Entrepreneur.interviewQ.length; j++) {
+                for (var j = 0; j < this.entrepreneurs[i].Entrepreneur.interviewQ.length; j++) {
                     // Question de l'interview
-                    html_entrepreneur += '<p class="ent_question">' +  this.entrepreneurs[i].Entrepreneur.interviewQ[j] + '</p>';
-                    html_entrepreneur += '<p class="ent_reponse">' +  this.entrepreneurs[i].Entrepreneur.interviewR[j] + '</p>';
+                    html_entrepreneur += '<p class="ent_question">' + this.entrepreneurs[i].Entrepreneur.interviewQ[j] + '</p>';
+                    html_entrepreneur += '<p class="ent_reponse">' + this.entrepreneurs[i].Entrepreneur.interviewR[j] + '</p>';
                 }
                 html_entrepreneur += '</div></div>';
             }
-            ;
             $('#entrepreneurs .ents_miniatures').html(html_miniatures);
             $('#entrepreneurs #ents_presentation').html(html_entrepreneur);
 
@@ -311,7 +296,7 @@ var app = {
             $('#question .score .valeur span').text(this.score);
 
             //récupération des informations sur la question à afficher
-            var q = this.infos[this.balise_courante]["Question"];
+            var q = this.infos[this.baliseCourante]["Question"];
             //affichage de la difficutlé
             $('#question .difficulte .valeur span').text(q.difficulte);
             //affichage de la question
@@ -322,13 +307,13 @@ var app = {
             //si la question est un QCM, les réponses auront un checkbox
             if (q.type == "QCM") {
                 for (var i = 0; i < q.propositions.length; i++) {
-                    if(q.propositions[i] != "")
+                    if (q.propositions[i] != "")
                         $('#form_question .reponses').append('<div class="form_groupe"><input type="checkbox" name="form_reponse[]" id="form_reponse' + (i + 1) + '" value="' + (i + 1) + '" /><label for="form_reponse' + (i + 1) + '">' + q.propositions[i] + '</label></div>');
                 }
                 //si la question est un QCU, les réponses auront un bouton radio
             } else if (q.type == "QCU") {
                 for (var i = 0; i < q.propositions.length; i++) {
-                    if(q.propositions[i] != "")
+                    if (q.propositions[i] != "")
                         $('#form_question .reponses').append('<div class="form_groupe"><input type="radio" name="form_reponse" id="form_reponse' + (i + 1) + '" value="' + (i + 1) + '" /><label for="form_reponse' + (i + 1) + '">' + q.propositions[i] + '</label></div>');
                 }
             }
@@ -348,7 +333,7 @@ var app = {
         for (var i = 0; i < input_reponses_courante.length; i++) {
             reponses_courantes.push($(input_reponses_courante[i]).val() * 1);
         }
-        var q = this.infos[this.balise_courante]["Question"];
+        var q = this.infos[this.baliseCourante]["Question"];
 
         var nb_reponses = q.reponses.length;
 
@@ -399,11 +384,11 @@ var app = {
             $('#modal_reponse').prop('disabled', false);
 
             //on augmente le nombre de bonnes réponses pour les statistiques finales
-            this.nb_reponses_trouvees++;
+            this.nbReponsesTrouvees++;
 
             //la bonne reponse de l'utilisateur, utilisé pour garder les questions pour lesquelles ont peut afficher tous les indices a la fin !
 
-            var indice = app.entrepreneurs[app.entrepreneur_aTrouver].Entrepreneur["indices"][this.balise_courante];
+            var indice = app.entrepreneurs[app.entrepreneurATrouver].Entrepreneur["indices"][this.baliseCourante];
             $('#reponse_indice').text(indice);
             this.bonnesReponsesUser.push(indice);
             //notif indice bonne réponse
@@ -450,7 +435,7 @@ var app = {
             }
         }
 
-        this.balise_courante++;
+        this.baliseCourante++;
     },
 
     /*
@@ -459,20 +444,19 @@ var app = {
     showEntrepreneurMystereView: function showEntrepreneurMystereView() {
 
         //si l'utilisateur a choisi le bon entrepreneur
-        if (this.entrepreneur_select == this.entrepreneur_aTrouver) {
+        if (this.entrepreneurSelect == this.entrepreneurATrouver) {
             $("#entrepreneur_mystere .correction .correct").show();
             $("#entrepreneur_mystere .correction .errone").hide();
-            $("#entrepreneur_mystere .score .bonus span").html(app.nb_points_correct);
+            $("#entrepreneur_mystere .score .bonus span").html(app.nbPointsCorrect);
             $("#entrepreneur_mystere .score .bonus").show();
-            this.score += app.nb_points_correct;
+            this.score += app.nbPointsCorrect;
         } else {
             $("#entrepreneur_mystere .correction .errone").show();
             $("#entrepreneur_mystere .correction .correct").hide();
             $("#entrepreneur_mystere .score .bonus").hide();
         }
-        ;
-        $("#entrepreneur_mystere .ent_presentation .ent_nom").html(this.entrepreneurs[this.entrepreneur_aTrouver].nom);
-        $("#entrepreneur_mystere .ent_presentation .ent_prenom").html(this.entrepreneurs[this.entrepreneur_aTrouver].prenom);
+        $("#entrepreneur_mystere .ent_presentation .ent_nom").html(this.entrepreneurs[this.entrepreneurATrouver].nom);
+        $("#entrepreneur_mystere .ent_presentation .ent_prenom").html(this.entrepreneurs[this.entrepreneurATrouver].prenom);
 
         $("#entrepreneur_mystere .score .valeur").html(this.score);
     },
@@ -482,10 +466,10 @@ var app = {
      */
     showScoreView: function showScoreView() {
         $("#scores .niveau .valeur").html(this.niveau);
-        $("#scores .balises .valeur").html(this.nb_balises_trouvees);
+        $("#scores .balises .valeur").html(this.nbBalisesTrouvees);
         $("#scores .balises .maximum").html(this.infos.length - 1);
 
-        $("#scores .reponses .valeur").html(this.nb_reponses_trouvees);
+        $("#scores .reponses .valeur").html(this.nbReponsesTrouvees);
         $("#scores .reponses .maximum").html(this.infos.length - 1);
 
         $("#scores .paris .valeur").html();
@@ -498,25 +482,25 @@ var app = {
 
     },
 
-    envoyerScore: function envoyerScore(){
+    envoyerScore: function envoyerScore() {
         $.ajax({
             method: "POST",
             crossDomain: true,
             async: true,
             contentType: "application/json; charset=utf-8",
-            url: 'http://delpi.eu:8000/api/scores/create/'+app.parcours,
+            url: this.urlApi + 'api/scores/create/' + app.parcours,
             data: JSON.stringify({
-                'niveau' : this.niveau,
-                'nb_balises_trouvees' : this.nb_balises_trouvees,
-                'nb_reponses_trouvees' : this.nb_reponses_trouvees,
-                'score' : this.score,
-                'temps' : formatTime(app.currentTime),
-                'nom' : app.equipe
+                'niveau': this.niveau,
+                'nbBalisesTrouvees': this.nbBalisesTrouvees,
+                'nbReponsesTrouvees': this.nbReponsesTrouvees,
+                'score': this.score,
+                'temps': formatTime(app.currentTime),
+                'nom': app.equipe
             }),
-            error: function(xhr, textStatus, err) {
+            error: function (xhr, textStatus, err) {
                 alert("Erreur lors de l'envoie du score.");
             },
-            success: function(data){
+            success: function (data) {
                 alert("Le score a été correctement envoyé.");
                 app.showView("#credits");
             }
@@ -535,13 +519,13 @@ var app = {
      * change l'entrepreuneur visible
      */
     showEnt: function showEnt(ent) {
-        if (this.entrepreneur_select != "") {
-            $("#entrepreneurs #ents_presentation #" + this.entrepreneur_select).hide();
+        if (this.entrepreneurSelect != "") {
+            $("#entrepreneurs #ents_presentation #" + this.entrepreneurSelect).hide();
         }
 
         $("#entrepreneurs #ents_presentation #" + ent).show();
 
-        this.entrepreneur_select = ent;
+        this.entrepreneurSelect = ent;
     },
     updateDistance: function updateDistance(distance) {
 
@@ -562,7 +546,7 @@ var app = {
 window.onload = function () {
 
     $('#btn_connexion').click(function () {
-        if(checkConnection()){;
+        if (checkConnection()) {
             app.showViewParcours();
         }
         else {
@@ -628,10 +612,10 @@ window.onload = function () {
     });
 
     $('#btn_credits').click(function () {
-        if(checkConnection()) {
+        if (checkConnection()) {
             $('#btn_credits').attr('disabled', true);
             app.envoyerScore();
-        }else{
+        } else {
             navigator.notification.confirm("Vous devez être connecté à internet pour envoyer votre score.", null, "Connection Internet Requise", ["OK"]);
         }
     });
@@ -643,7 +627,7 @@ window.onload = function () {
 
     onLoad();
 
-}
+};
 
 
 function randomIntFromInterval(min, max) {
@@ -740,11 +724,11 @@ function onDeviceReady() {
 
 function onConfirmPassBtn(button) {
     if (button == 1) {
-        app.balise_courante++;
+        app.baliseCourante++;
         app.score -= 150;
 
         navigator.notification.confirm(
-            "Vous avez passé la " + app.balise_courante + "" + ((app.balise_courante == 1) ? "re" : "e") + " balise et perdu 150 points !",  // message
+            "Vous avez passé la " + app.baliseCourante + "" + ((app.baliseCourante == 1) ? "re" : "e") + " balise et perdu 150 points !",  // message
             null,                  // callback to invoke
             'Balise passée',            // title
             ['Ok']            // buttonLabels
@@ -769,12 +753,12 @@ function startTimer() {
         var timeString = formatTime(app.currentTime);
         $stopwatch.html(timeString);
         app.currentTime += incrementTime;
-    }
+    };
 
     // Start the timer
-    if (!this.isTimerloaded) {
+    if (!this.isTimerLoaded) {
         app.currentTime = 0;
-        this.isTimerloaded = true;
+        this.isTimerLoaded = true;
         $stopwatch = $('#timer');
         timer = $.timer(uptdateTimer, incrementTime, true);
     }
@@ -806,15 +790,15 @@ function loadLocalStorage() {
     app.parcoursOrdre = tabOrdre.split(",");
     app.infos = jQuery.parseJSON(window.localStorage.getItem("infos"));
     app.entrepreneurs = jQuery.parseJSON(window.localStorage.getItem("entrepreneurs"));
-    app.balise_courante = parseInt(window.localStorage.getItem("balise_courante"));
-    app.question_courante = parseInt(window.localStorage.getItem("question_courante"));
-    app.entrepreneur_select = String(window.localStorage.getItem("entrepreneur_select"));
-    app.entrepreneur_aTrouver = String(window.localStorage.getItem("entrepreneur_aTrouver"));
-    app.nb_balises_trouvees = parseInt(window.localStorage.getItem("nb_balises_trouvees"));
-    app.nb_reponses_trouvees = parseInt(window.localStorage.getItem("nb_reponses_trouvees"));
-    app.isTimerloaded = Boolean(window.localStorage.getItem("isTimerloaded"));
+    app.baliseCourante = parseInt(window.localStorage.getItem("baliseCourante"));
+    app.questionCourante = parseInt(window.localStorage.getItem("questionCourante"));
+    app.entrepreneurSelect = String(window.localStorage.getItem("entrepreneurSelect"));
+    app.entrepreneurATrouver = String(window.localStorage.getItem("entrepreneurATrouver"));
+    app.nbBalisesTrouvees = parseInt(window.localStorage.getItem("nbBalisesTrouvees"));
+    app.nbReponsesTrouvees = parseInt(window.localStorage.getItem("nbReponsesTrouvees"));
+    app.isTimerLoaded = Boolean(window.localStorage.getItem("isTimerLoaded"));
     //reinit -> always launch
-    app.isTimerloaded = false;
+    app.isTimerLoaded = false;
     startTimer();
 
     var tab = String(window.localStorage.getItem("bonnesReponsesUser"));
@@ -828,7 +812,7 @@ function loadLocalStorage() {
     app.currentTime = parseInt(diff) + app.currentTime;
     app.currentTime = parseInt(app.currentTime);
 
-    app.nb_points_correct = parseInt(window.localStorage.getItem("nb_points_correct"));
+    app.nbPointsCorrect = parseInt(window.localStorage.getItem("nbPointsCorrect"));
     var backupView = app.actualView;
     app.actualView = String(window.localStorage.getItem("actualView"));
     if (app.actualView != backupView) {
@@ -848,19 +832,19 @@ function saveLocalStorage() {
     window.localStorage.setItem("parcoursOrdre", String(app.parcoursOrdre));
     window.localStorage.setItem("infos", JSON.stringify(app.infos));
     window.localStorage.setItem("entrepreneurs", JSON.stringify(app.entrepreneurs));
-    window.localStorage.setItem("balise_courante", String(app.balise_courante));
-    window.localStorage.setItem("question_courante", String(app.question_courante));
-    window.localStorage.setItem("entrepreneur_select", String(app.entrepreneur_select));
-    window.localStorage.setItem("entrepreneur_aTrouver", String(app.entrepreneur_aTrouver));
-    window.localStorage.setItem("nb_balises_trouvees", String(app.nb_balises_trouvees));
-    window.localStorage.setItem("nb_reponses_trouvees", String(app.nb_reponses_trouvees));
-    window.localStorage.setItem("isTimerloaded", String(app.isTimerloaded));
+    window.localStorage.setItem("baliseCourante", String(app.baliseCourante));
+    window.localStorage.setItem("questionCourante", String(app.questionCourante));
+    window.localStorage.setItem("entrepreneurSelect", String(app.entrepreneurSelect));
+    window.localStorage.setItem("entrepreneurATrouver", String(app.entrepreneurATrouver));
+    window.localStorage.setItem("nbBalisesTrouvees", String(app.nbBalisesTrouvees));
+    window.localStorage.setItem("nbReponsesTrouvees", String(app.nbReponsesTrouvees));
+    window.localStorage.setItem("isTimerLoaded", String(app.isTimerLoaded));
     window.localStorage.setItem("bonnesReponsesUser", String(app.bonnesReponsesUser));
     window.localStorage.setItem("currentTime", String(app.currentTime));
     var d = new Date();
     var n = d.getTime();
     window.localStorage.setItem("localTime", String(n));
-    window.localStorage.setItem("nb_points_correct", String(app.nb_points_correct));
+    window.localStorage.setItem("nbPointsCorrect", String(app.nbPointsCorrect));
     window.localStorage.setItem("actualView", String(app.actualView));
     window.localStorage.setItem("isInit", "true");
 }
@@ -896,11 +880,10 @@ function onConfirm(button) {
  *  Check si l'utilisateur est connecté à internet
  *  @return True or False
  **/
-function checkConnection()
-{
-    if( !navigator.network )
+function checkConnection() {
+    if (!navigator.network)
         navigator.network = window.top.navigator.network;
 
     return ( (navigator.network.connection.type === "none" || navigator.network.connection.type === null ||
-    navigator.network.connection.type === "unknown" ) ? false : true );
+        navigator.network.connection.type === "unknown" ) ? false : true );
 }
