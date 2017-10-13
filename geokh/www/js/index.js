@@ -131,10 +131,7 @@ var app = {
         //la distance et la précision sont mises à jour par les fonctions updateDistance() et updatePrecision()
         compass.data.destination = new LatLon(this.balises["balise_" + this.parcoursOrdre[this.balise_courante]].latitude, this.balises["balise_" + this.parcoursOrdre[this.balise_courante]].longitude);
 
-
         startTimer();
-
-
     },
 
     /*
@@ -461,8 +458,14 @@ var app = {
         $("#entrepreneurs #ents_presentation #" + ent).show();
         this.entrepreneur_select = ent;
     },
-    updateDistance: function updateDistance(distance) {
 
+    updateDistance: function updateDistance(distance) {
+        // thermometerGPS drawing
+        if (thermometerGPS.isInitialized) {
+            thermometerGPS.draw(distance);
+        }
+
+        // Show indice or not
         if (distance < app.distanceMinToShowIndice) {
             $('#compass .conseil .valeur').show();
             $('#conseilHide').hide();
@@ -470,8 +473,10 @@ var app = {
             $('#conseilHide').show();
             $('#compass .conseil .valeur').hide();
         }
+
         $('#compass .distance .valeur span').text(distance);
     },
+
     updatePrecision: function updatePrecision(precision) {
         $('#compass .precision .valeur span').text(precision);
     }
