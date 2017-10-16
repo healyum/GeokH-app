@@ -414,24 +414,28 @@ label.error {
 }
 
 
-/* ThermometerGPS */
-#thermometerGPS {
-    margin: 0 20px;
-    width: 150px;
-    height: 400px;
-    margin: 50px auto;
+/* ProgressBar */
+
+p.balise-progress {
+    text-align: center;
 }
 
-.thermometer-content {
+#progress-bar {
+    width: 100%;
+    height: 30px;
+    margin-bottom: 20px;
+}
+
+.progress-content {
     position: relative;
     border: 1px solid black;
     width: 100%;
     height: 100%;
 }
 
-.thermometer-filling {
+.progress-filling {
     position: absolute;
     bottom: 0;
-    width: 100%;
+    height: 100%;
     background-color: red;
 }

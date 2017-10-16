@@ -15,7 +15,7 @@ var updateTimer = 750;
 var countErrorsLoc = 0;
 var countErrorsOr = 0;
 
-var thermometerGPS = new ThermometerGPS();
+var progressBar = new ProgressBar();
 
 compass.onSuccessLocation = function onSuccessLocation(position) {
     compass.data.position = position;
@@ -23,7 +23,12 @@ compass.onSuccessLocation = function onSuccessLocation(position) {
     app.updatePrecision(Math.round(compass.data.position.coords.accuracy));
 
     var actualPosition = new LatLon(compass.data.position.coords.latitude, compass.data.position.coords.longitude);
-    app.updateDistance(Math.round(actualPosition.distanceTo(compass.data.destination) * 1000));
+    var distance = Math.round(actualPosition.distanceTo(compass.data.destination) * 1000);
+
+    if (!progressBar.isInitialized)
+        progressBar.initialize(distance);
+
+    app.updateDistance(distance);
 }
 
 // variable error can be add at function parameter
@@ -49,11 +54,6 @@ compass.onErrorOrientation = function onErrorOrientation() {
     if (countErrorsOr == 3) {
         navigator.notification.alert('Orientation non disponible', function () {
         }, 'Erreur', 'Ok');
-
-        $("#compassGPS").hide();
-        var actualPosition = new LatLon(compass.data.position.coords.latitude, compass.data.position.coords.longitude);
-        var distance = Math.round(actualPosition.distanceTo(compass.data.destination) * 1000);
-        thermometerGPS.initialize(distance);
     }
 };
 

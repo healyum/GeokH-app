@@ -121,6 +121,7 @@ var app = {
             compass.activateLocation();
             compass.activateOrientation();
         }
+
         //affichage du score actuel
         $('#compass .score .valeur span').text(this.score);
 
@@ -461,9 +462,8 @@ var app = {
 
     updateDistance: function updateDistance(distance) {
         // thermometerGPS drawing
-        if (thermometerGPS.isInitialized) {
-            thermometerGPS.draw(distance);
-        }
+        if (progressBar.isInitialized)
+            progressBar.draw(distance);
 
         // Show indice or not
         if (distance < app.distanceMinToShowIndice) {
