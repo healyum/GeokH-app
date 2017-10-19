@@ -1,4 +1,5 @@
 function ProgressBar() {
+    this.destination = null;
     this.distanceAtDepart = 0;
     this.advancePercentage = 0;
     this.elementHTML = document.getElementById("progress-bar");
@@ -6,10 +7,12 @@ function ProgressBar() {
     this.isInitialized = false;
 }
 
-ProgressBar.prototype.initialize = function(distanceAtDepart) {
+ProgressBar.prototype.initialize = function(distanceAtDepart, destination) {
     this.isInitialized = true;
+    this.destination = destination;
     this.distanceAtDepart = Number(distanceAtDepart);
     this.elementHTML.style["display"] = "block";
+    this.elementFillingHTML.style["width"] = 0;
 };
 
 ProgressBar.prototype.draw = function(newDistance) {

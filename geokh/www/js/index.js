@@ -3,6 +3,7 @@
  * Auteurs : Goblot Pauline et Bauduin Raphael
  *
  */
+
 var app = {
     //Application variables
     //score tout au long du jeu
@@ -37,7 +38,6 @@ var app = {
     nb_points_correct: 500,
     actualView: "",
     distanceMinToShowIndice: 50,
-
 
     // Application Constructor
     initialize: function initialize() {
@@ -193,7 +193,7 @@ var app = {
     },
 
     /*
-     * Charge les informations pour la vue de question 
+     * Charge les informations pour la vue de question
      */
     showQuestionBaliseView: function showQuestionBaliseView() {
 
@@ -206,7 +206,7 @@ var app = {
         //si on est à la dernière balise, l'affichage de la question est différent
         if (this.balise_courante == (Object.keys(this.balises).length) - 1) {
 
-            //récupération des informations sur la question à afficher 
+            //récupération des informations sur la question à afficher
             this.question_courante = this.balises["balise_" + this.parcoursOrdre[this.balise_courante]].question;
 
             //affichage de la question
@@ -258,7 +258,7 @@ var app = {
             //mise à jour du score actuel
             $('#question .score .valeur span').text(this.score);
 
-            //récupération des informations sur la question à afficher 
+            //récupération des informations sur la question à afficher
             this.question_courante = this.balises["balise_" + this.parcoursOrdre[this.balise_courante]].question;
 
             //affichage de la difficutlé
@@ -286,7 +286,7 @@ var app = {
      */
     showReponseBaliseView: function showReponseBaliseView() {
 
-        //recuperation de(s) reponse(s) choisie(s) par l'utilisateur 
+        //recuperation de(s) reponse(s) choisie(s) par l'utilisateur
         var input_reponses_courante = $('#form_question .reponses input:checked');
 
         //recuperation de(s) bonne(s) reponse(s)
@@ -397,7 +397,6 @@ var app = {
             }
         }
 
-
         this.balise_courante++;
     },
     /*
@@ -461,9 +460,8 @@ var app = {
     },
 
     updateDistance: function updateDistance(distance) {
-        // thermometerGPS drawing
-        if (progressBar.isInitialized)
-            progressBar.draw(distance);
+        if (compass.progressBar.isInitialized)
+            compass.progressBar.draw(distance);
 
         // Show indice or not
         if (distance < app.distanceMinToShowIndice) {
