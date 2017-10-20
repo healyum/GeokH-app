@@ -1,0 +1,39 @@
+#btn_connexion
+{
+    /*bottom: 50px;*/
+}
+
+.main
+{
+    width: 230px;
+    margin: auto;
+}
+
+.accueil_logo
+{
+    padding-top: 160px;
+}
+
+.button
+{
+    border: none;
+    border-radius: 30px;
+    width: 100%;
+    height: 40px;
+}
+
+.main_button
+{
+    margin-top: 30px;
+}
+
+.main_paragraph
+{
+    color: white;
+    font-size: small;
+}
+
+.main_paragraph_first
+{
+    margin-top:		150px;
+}

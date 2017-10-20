@@ -1,0 +1,22 @@
+#scores
+{
+    text-align: left;
+}
+
+#scores p:first-child
+{
+    text-align: center;
+    font-weight: bold;
+}
+
+#scores .valeur
+{
+    text-align: right;
+    display: inline-block;
+}
+
+#scores p span:first-child
+{
+    display: inline-block;
+    width: 250px;
+}

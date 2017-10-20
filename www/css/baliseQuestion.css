@@ -1,0 +1,73 @@
+#question .score
+{
+    float: left;
+}
+
+#question .difficulte
+{
+    float: right;
+}
+
+#question .lib_question
+{
+    clear: both;
+    text-align: left;
+}
+
+#question .score p,
+#question .difficulte p,
+#question .lib_question p
+{
+    margin: 0 0 7px;
+}
+
+#question .score p.valeur,
+#question .difficulte p.valeur,
+#question .lib_question p.valeur
+{
+    margin: 5px 0 10px;
+}
+
+#form_question
+{
+    text-align: left;
+    margin: 0 0 50px 0;
+}
+
+#form_question .form_groupe
+{
+    margin: 7px 0;
+}
+
+#form_question .form_groupe input
+{
+    margin: 7px 7px 0 0;
+}
+
+#form_question .pari
+{
+    margin: 14px 0;
+    text-align: center;
+}
+
+#form_question .pari label
+{
+    margin: 0 10px 0 0;
+}
+
+#form_question .pari span
+{
+    margin: 0 0 0 10px;
+}
+
+#form_question #form_pari
+{
+    width: 75px;
+    height: 36px;
+    padding: 0 10px;
+}
+
+#form_question input[type="submit"]
+{
+    bottom: 0;
+}

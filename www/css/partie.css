@@ -1,0 +1,62 @@
+#form_connexion .inpt_text,
+#form_connexion .form_groupe
+{
+    margin: 20px 0px;
+    text-align: left;
+}
+
+#form_connexion .inpt_text
+{
+    border: 1px solid #D0D0D0;
+    padding: 0 7px;
+}
+
+#form_connexion .inpt_text input
+{
+    border: 0;
+    box-shadow: 0 0 0 transparent;
+    height: 33px;
+    line-height: 33px;
+}
+
+#form_connexion .inpt_text input:focus
+{
+    outline: 0;
+}
+
+#form_connexion .inpt_text label
+{
+    display: inline-block;
+    width: 65px;
+}
+
+#form_connexion .form_groupe
+{
+    height: 37px;
+    line-height: 37px;
+}
+
+#form_connexion .form_groupe p
+{
+    margin: 0 0 0 8px;
+    display: inline-block;
+    width: 65px;
+}
+
+#form_connexion .form_groupe label
+{
+    height: 37px;
+    line-height: 37px;
+    display: inline-block;
+    margin: 0 13px 0 5px;
+}
+
+#form_connexion #form_parcours.form_groupe label
+{
+    margin: 0 8px 0 4px;
+}
+
+#form_connexion input[type='submit']
+{
+    /*bottom: 50px;*/
+}

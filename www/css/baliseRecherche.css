@@ -1,0 +1,56 @@
+#compass .score,
+#compass .distance
+{
+    float: left;
+}
+
+#compass .temps,
+#compass .precision
+{
+    float: right;
+}
+
+#compass .distance,
+#compass .precision
+{
+    margin: 0px 0 45px 0;
+}
+
+#compass .conseil
+{
+    clear: both;
+    text-align: center;
+}
+
+#compass .score p,
+#compass .temps p,
+#compass .conseil p,
+#compass .distance p,
+#compass .precision p
+{
+    margin: 0 0 7px;
+}
+
+#compass .score p.valeur,
+#compass .temps p.valeur,
+#compass .distance p.valeur,
+#compass .precision p.valeur
+{
+    margin: 5px 0 10px;
+}
+
+#compass .conseil p.valeur
+{
+    margin: 5px 0;
+}
+
+#compass_elt
+{
+    clear: both;
+    width: 80%;
+}
+
+#btn_flash
+{
+    /*bottom: 0;*/
+}
