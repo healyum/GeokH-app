@@ -142,7 +142,19 @@
             </div>
         </div>
 
-        <div><img src="img/compass.svg" alt="" id="compass_elt"></div>
+        <div id="compassGPS">
+            <img src="img/compass.svg" alt="" id="compass_elt">
+        </div>
+
+        <p class="balise-progress">Progression :</p>
+        <div id="progress-bar" style="display:none">
+            <div class="progress-content">
+                <div class="progress-filling">
+                    <!-- Remplissage du thermometer en fonction de la distance restante -->
+                </div>
+            </div>
+        </div>
+
         <div>
             <div class="distance">
                 <p>Distance :</p>
@@ -376,7 +388,11 @@
 <script type="text/javascript" src="js/lib/jquery-timer.js"></script>
 <script type="text/javascript" src="js/lib/latlon-spherical.js"></script>
 
-<script type="text/javascript" src="js/compass.js"></script>
-<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/class/ProgressBar.js"></script>
+<script type="text/javascript" src="js/class/Compass.js"></script>
+
+<script type="text/javascript" src="js/App.js"></script>
+<script type="text/javascript" src="js/function.js"></script>
+<script type="text/javascript" src="js/onLoad.js"></script>
 </body>
 </html>
