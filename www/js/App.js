@@ -1,552 +1,708 @@
+// Object app
 var app = {
-    //Application variables
-    score: 0,
-    equipe: null,
-    niveau: 1,
-    parcours: 0,
-    infos: null,
-
-    urlApi: "https://geokh.herokuapp.com/api",
-
-    parcoursOrdre: [],
-    balises: {},
-    questions: {},
-    baliseCourante: 0,
-    questionCourante: 0,
-
-    // Les entrepreneurs
-    entrepreneurs: {},
+    actualView: '#accueil',
+    urlApi: 'https://geokh.herokuapp.com/api',
+    level: 1,
+    numParcours: 0,
+    infosParcours: null,
+    nbAjaxExec: 0,
+    entrepreneurs: [],
     entrepreneurSelect: null,
-    entrepreneurATrouver: null,
-
-    nbBalisesTrouvees: 0,
-    nbReponsesTrouvees: 0,
+    entrepreneurToFind: null,
+    currentMark: 0,
     isTimerLoaded: false,
-    bonnesReponsesUser: [],
     currentTime: 0,
-    debugOnBrowser: false,
+    nbMarksFind: 0,
+    nbAnswers: 0,
+    goodAnswerUser: [],
     nbPointsCorrect: 500,
-    actualView: "#accueil",
-    distanceMinToShowIndice: 50,
 
+    // Initialisation cache les indices et affiche la vue actuelle
+    initialize: function () {
+        $('.indice').hide();
 
-    // Application Constructor
-    initialize: function initialize() {
-        // Cache tous les indices
-        $(".indice").hide();
-
-        // Affichage de la vue Accueil
-        this.showView("#accueil");
+        this.showView(this.actualView);
     },
 
-
-    // Gere l'affichage des vues
-    showView: function showView(viewId) {
-
-        // Cache la précédente vue
-        $(".view").hide();
-        // Affichage de la nouvelle vue
+    showView: function (viewId) {
+        $('.view').hide();
         $(viewId).show();
 
         this.actualView = viewId;
 
+        // Appelle la fonction spécifique à la vue
         switch (viewId) {
-            case "#connexion":
-                break;
-
-            case "#compass":
+            case '#compass':
                 this.showBaliseView();
                 break;
 
-            case "#qr_code":
+            case '#qr_code':
                 this.showQrCodeView();
                 break;
 
-            case "#question":
+            case '#question':
                 this.showQuestionBaliseView();
                 break;
 
-            case "#reponse":
+            case '#entrepreneurs':
+                this.showQuestionBaliseView();
+                break;
+
+            case '#reponse':
                 this.showReponseBaliseView();
                 break;
 
-            case "#entrepreneurs":
-                this.showQuestionBaliseView();
-                break;
-
-            case "#entrepreneur_mystere":
+            case '#entrepreneur_mystere':
                 this.showEntrepreneurMystereView();
                 break;
 
-            case "#scores":
+            case '#scores':
                 this.showScoreView();
                 break;
 
-            case "#credits":
-                this.showCreditsView();
-                break;
-
-            default :
+            default:
                 break;
         }
     },
 
     // Récupère les parcours sur l'API
-    showViewParcours: function showViewParcours() {
+    showViewParcours: function () {
         $.ajax({
-            url: this.urlApi + "/parcours",
-            type: "GET",
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
+            url: app.urlApi + '/parcours',
+            type: 'GET',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
             crossDomain: true,
             data: {},
 
-            success: function(data) {
+            success: function (data) {
                 if (data.length == 0)
-                    navigator.notification.confirm("Il n'y a aucun parcours actif", null, "Erreur", ["Ok"]);
+                    navigator.notification.confirm('Il n\'y a aucun parcours actif', null, 'Erreur', ['Ok']);
 
                 for (var indexParcours = 0; indexParcours < data.length; indexParcours++) {
-                    var input = document.createElement("input");
+                    var input = document.createElement('input');
                     input.value = data[indexParcours]['id'];
-                    input.setAttribute("type", "radio");
-                    input.setAttribute("name", "form_parcours");
-                    input.setAttribute("id", "form_parcours" + indexParcours);
+                    input.setAttribute('type', 'radio');
+                    input.setAttribute('name', 'form_parcours');
+                    input.setAttribute('id', 'form_parcours' + indexParcours);
 
                     if (indexParcours == 0)
-                        input.setAttribute("checked", "checked");
+                        input.setAttribute('checked', 'checked');
 
-                    var label = document.createElement("label");
-                    label.setAttribute("for", "form_parcours" + indexParcours);
+                    var label = document.createElement('label');
+                    label.setAttribute('for', 'form_parcours' + indexParcours);
 
-                    label.appendChild(document.createTextNode("Parcours numéro " + parseInt(indexParcours+1)));
-                    document.getElementById("form_parcours").appendChild(label);
-                    document.getElementById("form_parcours").appendChild(input);
+                    label.appendChild(document.createTextNode('Parcours numéro ' + parseInt(indexParcours + 1)));
+                    document.getElementById('form_parcours').appendChild(label);
+                    document.getElementById('form_parcours').appendChild(input);
                 }
 
-                app.showView("#connexion");
+                app.showView('#connexion');
             },
 
             error: function () {
-                navigator.notification.confirm("Probleme de communication avec le serveur", null, "Erreur", ["Ok"]);
+                navigator.notification.confirm('Probleme de communication avec le serveur', null, 'Erreur', ['Ok']);
             }
         });
     },
 
-
-    /*
-     * @author Charlie
-     * Récupère les balises et les questions d'un parcours
-     */
-    showPtoBQS: function showPtoBQS() {
+    // Récupère les balises et les question d'un parcours
+    showPtoBQS: function () {
         $.ajax({
-            context: this,
-            url: this.urlApi + "/ptobqs/parcour/" + app.parcours,
-            type: "GET",
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
+            url: app.urlApi + '/ptobqs/parcour/' + app.numParcours,
+            type: 'GET',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
             crossDomain: true,
-            async:false,
-            success: function(data) {
-                this.infos = data;
-            },
-
-            error: function () {
-                navigator.notification.confirm("Probleme de communication avec le serveur", null, "Erreur", ["Ok"]);
-            }
-        });
-    },
-
-    /*
-     * @author Charlie
-     * Récupère les entrepreneurs d'un parcours
-     */
-
-    showPtoES: function showPtoES() {
-        $.ajax({
-            method: "GET",
-            crossDomain: true,
-            async: false,
-            contentType: "application/json; charset=utf-8",
-            url: this.urlApi + '/ptoes/parcour/' + app.parcours,
             data: {},
-            error: function (xhr, textStatus, err) {
-                navigator.notification.confirm("Problème lors de la récupération des entrepreneurs.", null, "Erreur", ["OK"]);
-                app.showView("#connexion");
+
+            success: function (data) {
+                app.infosParcours = data;
+                app.nbAjaxExec++;
+
+                if (app.nbAjaxExec == 2)
+                    app.showView('#compass');
+            },
+
+            error: function () {
+                navigator.notification.confirm('Probleme de communication avec le serveur', null, 'Erreur', ['Ok']);
+                app.showView('#connexion');
             }
-        }).done(function (data) {
-            app.entrepreneurs = data;
-            app.entrepreneurATrouver = randomIntFromInterval(0, app.entrepreneurs.length - 1);
         });
     },
 
-    /* @modified : charlie
-     * charge les informations pour la vue de recherche de balise
-     */
-    showBaliseView: function showBaliseView() {
+    // Récupère les entrepreneurs d'un parcours
+    showPtoES: function () {
+        $.ajax({
+            url: app.urlApi + '/ptoes/parcour/' + app.numParcours,
+            type: 'GET',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            crossDomain: true,
+            data: {},
 
-        //cacher les conseils pour les balises par défaut
-        $('#conseilHide').show();
-        $('#compass .conseil .valeur').hide();
-        $("#numero_balise").html(this.baliseCourante + 1);
-        // ajout
-        $("#nombre_balise").html(this.infos.length);
-        if (this.baliseCourante == this.infos.length - 1) {
-            $("#btn_pass").attr("disabled", "disabled");
-        }
-        this.isTimerLoaded = true;
-        if (app.debugOnBrowser == false) {
-            compass.stopLocation();
-            compass.stopOrientation();
-            //lancement de la recherche de position et de l'orientation
-            compass.activateLocation();
-            compass.activateOrientation();
-        }
-        //affichage du score actuel
-        // $('#compass .score .valeur span').text(this.score);
-        //affichage du conseil pour trouver la balise
-        // $('#compass .conseil .valeur').text(this.infos[this.baliseCourante]["Balise"].indice);
-        //définition du point gps de la balise
-        //la distance et la précision sont mises à jour par les fonctions updateDistance() et updatePrecision()
-        //  compass.data.destination = new LatLon(this.infos[this.baliseCourante]["Balise"]["latitude"], this.infos[this.baliseCourante]["Balise"]["longitude"]);
-        startTimer();
+            success: function (data) {
+                app.entrepreneurs = data;
+                app.entrepreneurToFind = randomIntFromInterval(0, app.entrepreneurs.length - 1);
 
+                app.nbAjaxExec++;
+
+                if (app.nbAjaxExec == 2)
+                    app.showView('#compass');
+            },
+
+            error: function () {
+                navigator.notification.confirm('Problème lors de la récupération des entrepreneurs', null, 'Erreur', ['OK']);
+                app.showView('#connexion');
+            }
+        });
     },
 
-    /*
-     * Charge les informations pour la vue de question
-     */
-    showQrCodeView: function showQrCodeView() {
+    // Affiche le compass avec les informations nécessaires de la balise
+    showBaliseView: function () {
+        // Affiche le message (dist min 50m)
+        $('#conseilHide').show();
+        // Cache l'indice
+        $('#compass .conseil .valeur').hide();
+
+        // Incrémente la balise à chaque fois que la vue est appelée
+        $('#numero_balise').html(this.currentMark++);
+
+        $('#nombre_balise').html(this.infosParcours.length);
+
+        // Ne pas activer le bouton "Passer la balise" lorsqu'il s'agit de la dernière
+        if (this.baliseCourante == this.infosParcours.length - 1)
+            document.getElementById('btn_pass').setAttribute('disabled', 'disabled');
+
+        compass.stopLocation();
+        compass.stopOrientation();
+        compass.activateLocation();
+        compass.activateOrientation();
+
+        this.isTimerLoaded = true;
+        startTimer();
+    },
+
+    // Affiche le scanner de QRCode
+    showQrCodeView: function () {
+        // Cache les boutons
         $('#btn_question').hide();
-        $("#btn_entrepreneurs").hide();
+        $('#btn_entrepreneurs').hide();
+
+        // Affiche bouton retour
         $('#btn_compass_retour').show();
-        $("#qr_code_result").html("Flash du QR Code");
-        var textATrouver = 'codeBalise:' + this.infos[this.baliseCourante]['Balise'].id;
+
+        $('#qr_code_result').html('Flash du QR Code');
+
+        var markToFind = 'codeBalise:' + this.infosParcours[this.currentMark]['Balise'].id;
+
         if (app.debugOnBrowser == false) {
             cordova.plugins.barcodeScanner.scan(
                 function (result) {
-                    if (result.text == "") {
-                        $("#qr_code_result").html("Aucun code flashé");
-                    } else if (result.text == textATrouver) {
-                        $("#qr_code_result").html("Bonne balise ! Félicitations !");
+                    // Balise vide
+                    if (result.text == '')
+                        $('#qr_code_result').html('Aucun code flashé');
+
+                    // Bonne balise
+                    else if (result.text == markToFind) {
+                        $('#qr_code_result').html('Bonne balise ! Félicitations !');
                         $('#btn_question').show();
                         $('#btn_compass_retour').hide();
-                        if (app.baliseCourante == app.infos.length - 1) {
-                            $("#btn_entrepreneurs").show();
+
+                        // Si dernière question on affiche l'entrepreneur à trouver
+                        if (app.currentMark == app.infosParcours.length - 1) {
+                            $('#btn_entrepreneurs').show();
                             $('#btn_question').hide();
                         }
-                    } else {
-                        $("#qr_code_result").html("Mauvaise balise !");
                     }
-
+                    // Mauvaise balise
+                    else
+                        $('#qr_code_result').html('Mauvaise balise !');
                 },
+
                 function (error) {
-                    $("#qr_code_result").html("Scanning failed: " + error);
+                    $('#qr_code_result').html('Erreur du scanner: ' + error);
                 }
             );
         }
     },
-    /*
-     * Charge les informations pour la vue de question
-     */
-    showQuestionBaliseView: function showQuestionBaliseView() {
 
-        if (app.debugOnBrowser == false) {
-            compass.stopLocation();
-            compass.stopOrientation();
-        }
-        this.nbBalisesTrouvees++;
+    // Affiche la question d'une balise
+    showQuestionBaliseView: function () {
+        compass.stopLocation();
+        compass.stopOrientation();
 
-        //si on est à la dernière balise, l'affichage de la question est différent
-        if (this.baliseCourante == this.infos.length - 1) {
+        this.nbMarksFind++;
 
-            var q = this.infos[this.baliseCourante]["Question"];
-            //affichage de la question
-            $('#entrepreneurs .lib_question').text(q.question);
+        // Si on est à la dernière balise question Entrepreneur
+        if (this.currentMark == this.infosParcours.length - 1) {
+            var q = this.infosParcours[this.currentMark]['Question'];
 
+            document.getElementsByClassName('lib_question')['0'].text = q.question;
 
-            var html_miniatures = "";
-            var html_entrepreneur = "";
+            for (var indexEntrepreneur = 0; indexEntrepreneur < this.entrepreneurs.length; indexEntrepreneur++) {
+                var aMiniature = document.createElement('a');
+                aMiniature.onclick = app.showEntrepeneur();
 
-            for (var i = 0; i < this.entrepreneurs.length; i++) {
-                html_miniatures += '<a href="#" onclick="app.showEnt(\'' + i + '\'); return false;">'
-                    + '<img src="img/user.svg" alt="' + this.entrepreneurs[i].Entrepreneur.prenom + ' ' + this.entrepreneurs[i].Entrepreneur.nom + '" class="ent_min" />'
-                    + '</a>';
-                html_entrepreneur += '<div id="' + i + '" style="display: none;">'
-                    + '<p class="ent_nom">' + this.entrepreneurs[i].Entrepreneur.prenom + ' ' + this.entrepreneurs[i].Entrepreneur.nom + '</p>'
-                    + '<div class="ent_desc">';
-                for (var j = 0; j < this.entrepreneurs[i].Entrepreneur.interviewQ.length; j++) {
-                    // Question de l'interview
-                    html_entrepreneur += '<p class="ent_question">' + this.entrepreneurs[i].Entrepreneur.interviewQ[j] + '</p>';
-                    html_entrepreneur += '<p class="ent_reponse">' + this.entrepreneurs[i].Entrepreneur.interviewR[j] + '</p>';
+                var img = document.createElement('img');
+                img.setAttribute('src', 'img/user.svg');
+                img.setAttribute('alt', this.entrepreneurs[indexEntrepreneur].Entrepreneur.prenom + ' ' + this.entrepreneurs[indexEntrepreneur].Entrepreneur.nom);
+                img.setAttribute('class', 'ent_min');
+
+                aMiniature.appendChild(img);
+
+                var div = document.createElement('div');
+                div.setAttribute('id', '' + indexEntrepreneur);
+                div.style['display'] = 'none';
+
+                var p = document.createElement('p');
+                p.setAttribute('class', "ent_nom");
+
+                p.appendChild(document.createTextNode(this.entrepreneurs[indexEntrepreneur].Entrepreneur.prenom + ' ' + this.entrepreneurs[indexEntrepreneur].Entrepreneur.nom));
+
+                var div_question = document.createElement('ent_desc');
+
+                for (var indexQuestion = 0; indexQuestion < this.entrepreneurs[i].Entrepreneur.interviewQ.length; indexQuestion++) {
+                    var p_question = document.createElement('p');
+                    var p_reponse = document.createElement('p');
+
+                    p_question.setAttribute('class', 'ent_question');
+                    p_reponse.setAttribute('class', 'ent_reponse');
+
+                    p_question.appendChild(document.createElement(this.entrepreneurs[indexEntrepreneur].Entrepreneur.interviewQ[indexQuestion]));
+                    p_reponse.appendChild(document.createElement(this.entrepreneurs[indexEntrepreneur].Entrepreneur.interviewR[indexQuestion]));
+
+                    div_question.appendChild(p_question);
+                    div_question.appendChild(p_reponse);
                 }
-                html_entrepreneur += '</div></div>';
-            }
-            $('#entrepreneurs .ents_miniatures').html(html_miniatures);
-            $('#entrepreneurs #ents_presentation').html(html_entrepreneur);
 
-            $('#modal_all_indice').prop('disabled', false);
+                div.appendChild(p);
+                div.appendChild(div_question);
+            }
+
+            document.getElementsByClassName('ents_miniatures')[0].appendChild(aMiniature);
+            document.getElementById('ents_presentation').appendChild(div);
+
+            document.getElementById('modal_all_indice').setAttribute('disabled', 'false');
+
             var indices = "";
 
-            for (var i = 0; i < this.bonnesReponsesUser.length; i++) {
-                var indiceBonneRep = this.bonnesReponsesUser[i];
-                indices += (i + 1) + " -> " + indiceBonneRep + "\n";
+            for (var index = 0; index < this.goodAnswerUser.length; index++) {
+                var indiceBonneRep = this.goodAnswerUser[index];
+                indices += (index + 1) + " -> " + indiceBonneRep + "\n";
             }
-            $('#all_founded_indice').text(indices);
 
-            //on montre la premiere page pour commencer, hardcode ok
+            document.getElementById('all_founded_indice').appendChild(document.createTextNode(indices));
 
-            this.showEnt(0);
+            this.showEntrepeneur(0);
+        }
+        else {
+            var question = document.getElementById('question');
 
+            var score = question.getElementsByClassName('score')[0];
+            score.getElementsByClassName('valeur')[0].appendChild(document.createElement('span').appendChild(document.createTextNode(this.score)));
 
-        } else {
-
-            //mise à jour du score actuel
-            $('#question .score .valeur span').text(this.score);
-
-            //récupération des informations sur la question à afficher
             var q = this.infos[this.baliseCourante]["Question"];
-            //affichage de la difficutlé
-            $('#question .difficulte .valeur span').text(q.difficulte);
-            //affichage de la question
-            $('#question .lib_question .valeur span').text(q.question);
 
-            //ajout des réponses
-            $('#form_question .reponses').html('');
-            //si la question est un QCM, les réponses auront un checkbox
+            var difficulte = question.getElementsByClassName('difficulte')[0];
+            difficulte.getElementsByClassName('valeur')[0].appendChild(document.createElement('span').appendChild(document.createTextNode(q.difficulte)));
+
+            var libQuestion = question.getElementsByClassName('lib_question')[0];
+            libQuestion.getElementsByClassName('valeur')[0].appendChild(document.createElement('span').appendChild(document.createTextNode(q.question)));
+
+            // Ajout des réponses
+            var form = document.getElementById('form_question');
+            var divReponses = form.getElementsByClassName('reponses')[0];
+
+            // Si la question est un QCM, les réponses auront un checkbox
             if (q.type == "QCM") {
                 for (var i = 0; i < q.propositions.length; i++) {
-                    if (q.propositions[i] != "")
-                        $('#form_question .reponses').append('<div class="form_groupe"><input type="checkbox" name="form_reponse[]" id="form_reponse' + (i + 1) + '" value="' + (i + 1) + '" /><label for="form_reponse' + (i + 1) + '">' + q.propositions[i] + '</label></div>');
+                    if (q.propositions[i] != "") {
+                        var div = document.createElement('div');
+                        var input = document.createElement('input');
+                        var label = document.createElement('label');
+
+                        div.setAttribute('class', 'form_groupe');
+
+                        input.setAttribute('id', 'form_reponse' + (i + 1));
+                        input.setAttribute('type', 'checkbox');
+                        input.setAttribute('name', 'form_reponse[]');
+                        input.setAttribute('value', '' + i + 1);
+
+                        label.setAttribute('for', 'form_reponse' + (i + 1));
+                        label.appendChild(document.createTextNode(q.propositions[i]));
+
+                        div.appendChild(input);
+                        div.appendChild(label);
+
+                        divReponses.appendChild(div);
+                    }
                 }
-                //si la question est un QCU, les réponses auront un bouton radio
             } else if (q.type == "QCU") {
                 for (var i = 0; i < q.propositions.length; i++) {
-                    if (q.propositions[i] != "")
-                        $('#form_question .reponses').append('<div class="form_groupe"><input type="radio" name="form_reponse" id="form_reponse' + (i + 1) + '" value="' + (i + 1) + '" /><label for="form_reponse' + (i + 1) + '">' + q.propositions[i] + '</label></div>');
+                    if (q.propositions[i] != "") {
+                        var div = document.createElement('div');
+                        var input = document.createElement('input');
+                        var label = document.createElement('label');
+
+                        div.setAttribute('class', 'form_groupe');
+
+                        input.setAttribute('id', 'form_reponse' + (i + 1));
+                        input.setAttribute('type', 'radio');
+                        input.setAttribute('name', 'form_reponse[]');
+                        input.setAttribute('value', '' + i + 1);
+
+                        label.setAttribute('for', 'form_reponse' + (i + 1));
+                        label.appendChild(document.createTextNode(q.propositions[i]));
+
+                        div.appendChild(input);
+                        div.appendChild(label);
+
+                        divReponses.appendChild(div);
+                    }
                 }
             }
         }
     },
 
-    /*
-     * charge les informations pour la vue des réponses à une question
-     */
-    showReponseBaliseView: function showReponseBaliseView() {
+    // Affiche la réponse de la balise
+    showReponseBaliseView: function () {
+        // Recuperation de(s) reponse(s) choisie(s) par l'utilisateur
+        var form = document.getElementById('form_question');
+        var reponses = form.getElementsByClassName('reponses');
+        var inputs = reponses.getElementsByTagName('input');
 
-        //recuperation de(s) reponse(s) choisie(s) par l'utilisateur
-        var input_reponses_courante = $('#form_question .reponses input:checked');
+        var reponsesSel = [];
 
-        //recuperation de(s) bonne(s) reponse(s)
-        var reponses_courantes = [];
-        for (var i = 0; i < input_reponses_courante.length; i++) {
-            reponses_courantes.push($(input_reponses_courante[i]).val() * 1);
+        for (var index = 0; index < inputs.length; index++) {
+            if (inputs[index].checked)
+                reponsesSel.push(inputs[index].value * 1);
         }
+
         var q = this.infos[this.baliseCourante]["Question"];
 
-        var nb_reponses = q.reponses.length;
-
-        //test si l'utilisateur a donne la(les) bonne(s) reponse(s).
-        //s'il n'y a pas le même nombre de réponses entre l'utilisateur et celles du fichier alors l'utilisateur n'a pas la bonne réponse.
-        var is_correct = false;
-        var is_all_correct = true;
+        var isCorrect = false;
+        var isAllCorrect = true;
         var nbOfCorrectAnswers = 0;
-        var i = 0;
 
-        while (i < reponses_courantes.length) {
-            is_correct = $.inArray(reponses_courantes[i], q.reponses) > -1 ? true : false;
-            if (is_correct) nbOfCorrectAnswers++;
-            if (is_correct == false) is_all_correct = false;
-            i++;
+        while (index = 0 < reponsesSel.length) {
+            for (var i = 0; i < q.questions.length; i++)
+                if (reponsesSel[index].value == q.questions[i].value)
+                    isCorrect = true;
+
+            if (isCorrect)
+                nbOfCorrectAnswers++;
+            else
+                isAllCorrect = false;
+
+            index++;
         }
 
+        var reponse = document.getElementById('reponse');
+        var nbResponses = q.reponses.length;
         var scoreToAdd = 0;
-        //si tout les reponses fournies sont bonnes
-        if (is_all_correct && reponses_courantes.length > 0) {
-            //si on a tout donné de correct
-            //on peut simplifé en gardant la seconde expression, mais pour des soucis de clarté on préfere gardé si par la suite
-            //il y a d'autre changements concernant les points
 
-            if (nb_reponses == nbOfCorrectAnswers) {
-                //on ajoute les points que l'utilisateur a parié
-                //multiplié par le niveau de la question
-                $("#reponse .correct").show();
-                $("#reponse .partial").hide();
-                scoreToAdd = $('#form_pari').val() * q.difficulte;
+        // Si toutes les réponses sont bonnes
+        if (isAllCorrect && reponsesSel.length > 0) {
+            if (nbResponses == nbOfCorrectAnswers) {
+                reponse.getElementsByClassName('correct').style['display'] = 'block';
+                reponse.getElementsByClassName('partial').style['display'] = 'none';
+
+                scoreToAdd = document.getElementById('form_pari').value * q.difficulte;
             } else {
-                //on ajoute les points que l'utilisateur a parié
-                //multiplié par le niveau de la question
-                //multiplié par un ratio de bonne réponses
-                $("#reponse .partial").show();
-                $("#reponse .correct").show();
-                scoreToAdd = $('#form_pari').val() * q.difficulte * (nbOfCorrectAnswers / nb_reponses);
+                // On ajoute les points que l'utilisateur a parié, multiplié par le niveau de la question, multiplié par un ratio de bonne réponses
+                reponse.getElementsByClassName('correct').style['display'] = 'block';
+                reponse.getElementsByClassName('partial').style['display'] = 'block';
+
+                scoreToAdd = document.getElementById('form_pari').value * q.difficulte * (nbOfCorrectAnswers / nbResponses);
             }
 
             scoreToAdd = Math.round(scoreToAdd);
             this.score += scoreToAdd;
 
-            $("#reponse .errone").hide();
+            reponse.getElementsByClassName('errone')[0].style['display'] = 'none';
+            var bonus = reponse.getElementsByClassName('score')[0].getElementsByClassName('bonus')[0];
 
-            $('#reponse .score .bonus span').text(scoreToAdd);
+            bonus.removeChild(bonus.getElementsByTagName('span')[0]);
+            var span = document.createElement('span');
+            span.appendChild(document.createTextNode('' + scoreToAdd));
+            bonus.appendChild(span);
 
-            //on laisse le bouton ouvert
-            $('#modal_reponse').prop('disabled', false);
+            document.getElementById('modal_reponse').setAttribute('disabled', 'false');
 
-            //on augmente le nombre de bonnes réponses pour les statistiques finales
-            this.nbReponsesTrouvees++;
+            this.nbAnswers++;
 
-            //la bonne reponse de l'utilisateur, utilisé pour garder les questions pour lesquelles ont peut afficher tous les indices a la fin !
-
+            // La bonne reponse de l'utilisateur, utilisée pour garder les questions pour lesquelles ont peut afficher tous les indices a la fin !
             var indice = app.entrepreneurs[app.entrepreneurATrouver].Entrepreneur["indices"][this.baliseCourante];
-            $('#reponse_indice').text(indice);
-            this.bonnesReponsesUser.push(indice);
-            //notif indice bonne réponse
-            navigator.notification.confirm(
-                $("#reponse_indice").text(),  // message
-                null,                  // callback to invoke
-                'Indice',            // title
-                ['Merci !']            // buttonLabels
-            );
-
-
+            document.getElementById('reponse_indice').nodeValue = indice;
+            this.goodAnswerUser.push(indice);
+            navigator.notification.confirm(document.getElementById('reponse_indice').textContent, null, 'Indice', ['Merci !']);
         } else {
-            //retrait des points pariés
-            this.score -= $('#form_pari').val() * q.difficulte;
+            // Retrait des points pariés
+            this.score -= document.getElementById('form_pari').value * q.difficulte;
 
-            //disable le bouton d'indice
-            $('#modal_reponse').prop('disabled', true);
-            $("#reponse .errone").show();
-            $("#reponse .correct").hide();
-            $("#reponse .partial").hide();
-            $('#reponse .score .bonus span').text(scoreToAdd);
+            document.getElementById('modal_all_indice').setAttribute('disabled', 'true');
+
+            reponse.getElementsByClassName('errone')[0].style['display'] = 'block';
+            reponse.getElementsByClassName('correct')[0].style['display'] = 'none';
+            reponse.getElementsByClassName('partial')[0].style['display'] = 'none';
+
+            var bonus = reponse.getElementsByClassName('score')[0].getElementsByClassName('bonus')[0];
+            bonus.removeChild(bonus.getElementsByTagName('span')[0]);
+
+            var span = document.createElement('span');
+            span.appendChild(document.createTextNode('' + scoreToAdd));
+            bonus.appendChild(span);
         }
 
-        //mise a jour du score actuel
-        $('#reponse .score .valeur span').text(this.score);
+        // Mise a jour du score actuel
+        var valeur = reponse.getElementsByClassName('score')[0].getElementsByClassName('valeur')[0];
+        valeur.removeChild(valeur.getElementsByTagName('span')[0]);
 
-        //récupération des retours sur les réponses
+        var span = document.createElement('span');
+        span.appendChild(document.createTextNode(this.score));
+        valeur.appendChild(span);
+
+        // Récupération des retours sur les réponses
         var retours = q.retours;
 
-        //affichage des retours
-        $('#reponse .retour .valeur').html("");
+        // Affichage des retours
+        var valeur = reponse.getElementsByClassName('retour')[0].getElementsByClassName('valeur')[0];
+        valeur.nodeValue = '';
+
         for (var i = 0; i < retours.length; i++) {
-            //si l'élément est de type string c'est un paragraphe
+            // Si l'élément est de type string c'est un paragraphe
             if (typeof retours[i] == "string") {
-                $('#reponse .retour .valeur').append(retours[i]);
-                //sinon l'élément est une liste
-            } else {
+                valeur.appendChild(retours[i]);
+            }
+            // Sinon l'élément est une liste
+            else {
                 var liste = "<ul>";
+
                 for (var j = 0; j < retours[i].length; j++) {
                     liste += "<li>" + retours[i][j] + "</li>";
                 }
+
                 liste += "</ul>";
-                $('#reponse .retour .valeur').append(liste);
+
+                valeur.appendChild(liste);
             }
         }
 
         this.baliseCourante++;
     },
 
-    /*
-     * Charge les informations pour la vue de l'entrepreneur mystere
-     */
-    showEntrepreneurMystereView: function showEntrepreneurMystereView() {
+    // Affichage de l'entrepreneur
+    showEntrepeneur: function (idEntrepreneur) {
+        if (this.entrepreneurSelect != "")
+            document.getElementById('' + this.entrepreneurSelect).style['display'] = 'none';
 
-        //si l'utilisateur a choisi le bon entrepreneur
-        if (this.entrepreneurSelect == this.entrepreneurATrouver) {
-            $("#entrepreneur_mystere .correction .correct").show();
-            $("#entrepreneur_mystere .correction .errone").hide();
-            $("#entrepreneur_mystere .score .bonus span").html(app.nbPointsCorrect);
-            $("#entrepreneur_mystere .score .bonus").show();
-            this.score += app.nbPointsCorrect;
-        } else {
-            $("#entrepreneur_mystere .correction .errone").show();
-            $("#entrepreneur_mystere .correction .correct").hide();
-            $("#entrepreneur_mystere .score .bonus").hide();
-        }
-        $("#entrepreneur_mystere .ent_presentation .ent_nom").html(this.entrepreneurs[this.entrepreneurATrouver].nom);
-        $("#entrepreneur_mystere .ent_presentation .ent_prenom").html(this.entrepreneurs[this.entrepreneurATrouver].prenom);
+        document.getElementById('' + idEntrepreneur).style['display'] = 'block';
 
-        $("#entrepreneur_mystere .score .valeur").html(this.score);
+        this.entrepreneurSelect = idEntrepreneur;
     },
 
-    /*
-     * Charge les informations pour la vue de récapitulatif des scores
-     */
-    showScoreView: function showScoreView() {
-        $("#scores .niveau .valeur").html(this.niveau);
-        $("#scores .balises .valeur").html(this.nbBalisesTrouvees);
-        $("#scores .balises .maximum").html(this.infos.length - 1);
+    // Affichage du score
+    showScoreView: function () {
+        var scores = document.getElementById('scores');
 
-        $("#scores .reponses .valeur").html(this.nbReponsesTrouvees);
-        $("#scores .reponses .maximum").html(this.infos.length - 1);
+        var niveau = scores.getElementsByClassName('niveau')[0];
+        niveau.getElementsByClassName('valeur')[0].appendChild(document.createTextNode('' + this.level));
 
-        $("#scores .paris .valeur").html();
+        var balises = scores.getElementsByClassName('balises')[0];
+        balises.getElementsByClassName('valeur')[0].appendChild(document.createTextNode('' + this.nbMarksFind));
+        balises.getElementsByClassName('maximum')[0].appendChild(document.createTextNode('' + (this.infosParcours.length - 1)));
 
-        $("#scores .points .valeur").html(this.score);
+        balises.getElementsByClassName('valeur')[0].appendChild(document.createTextNode('' + this.nbMarksFind));
+        balises.getElementsByClassName('maximum')[0].appendChild(document.createTextNode('' + (this.infosParcours.length - 1)));
+
+        var reponses = scores.getElementsByClassName('reponses')[0];
+        reponses.getElementsByClassName('valeur')[0].appendChild(document.createTextNode('' + this.nbAnswers));
+        reponses.getElementsByClassName('maximum')[0].appendChild(document.createTextNode('' + (this.infosParcours.length - 1)));
+
+        var paris = scores.getElementsByClassName('paris')[0];
+        paris.removeChild(paris.getElementsByClassName('valeur'));
+
+        var points = scores.getElementsByClassName('points')[0];
+        points.getElementsByClassName('valeur')[0].appendChild(document.createTextNode('' + this.score));
 
         stopwatch();
+
         var timeString = formatTime(app.currentTime);
-        $("#timer_final").html(timeString);
-
+        document.getElementById('timer_final').appendChild(document.createTextNode('' + timeString));
     },
 
-    envoyerScore: function envoyerScore() {
-        $.ajax({
-            method: "POST",
-            crossDomain: true,
-            async: true,
-            contentType: "application/json; charset=utf-8",
-            url: this.urlApi + 'api/scores/create/' + app.parcours,
-            data: JSON.stringify({
-                'niveau': this.niveau,
-                'nbBalisesTrouvees': this.nbBalisesTrouvees,
-                'nbReponsesTrouvees': this.nbReponsesTrouvees,
-                'score': this.score,
-                'temps': formatTime(app.currentTime),
-                'nom': app.equipe
-            }),
-            error: function (xhr, textStatus, err) {
-                alert("Erreur lors de l'envoie du score.");
-            },
-            success: function (data) {
-                alert("Le score a été correctement envoyé.");
-                app.showView("#credits");
-            }
-        });
+    // Affiche la vue des entrepreneurs mystères
+    showEntrepreneurMystereView: function () {
+        var balise = document.getElementById('entrepreneur_mystere');
+        var correction = balise.getElementsByClassName('correction')[0];
+        var score = balise.getElementsByClassName('score')[0];
+        var bonus = score.document.getElementsByClassName('bonus')[0];
 
-    },
+        // Bonne réponse trouvée
+        if (this.entrepreneurSelect == this.entrepreneurToFind) {
+            correction.document.getElementsByClassName('correct')[0].style['display'] = 'block';
+            correction.document.getElementsByClassName('errone')[0].style['display'] = 'none';
 
-    /*
-     * Anime l'image de compass pour qu'il indique tous le temps la bonne direction
-     */
-    rotate: function rotate(_angle) {
-        $('#compass_elt').rotate(_angle);
-    },
+            bonus.document.getElementsByTagName('span')[0].appendChild(document.createTextNode('' + app.nbPointsCorrect));
+            bonus.style['display'] = 'block';
 
-    /*
-     * change l'entrepreuneur visible
-     */
-    showEnt: function showEnt(ent) {
-        if (this.entrepreneurSelect != "") {
-            $("#entrepreneurs #ents_presentation #" + this.entrepreneurSelect).hide();
-        }
-
-        $("#entrepreneurs #ents_presentation #" + ent).show();
-
-        this.entrepreneurSelect = ent;
-    },
-    updateDistance: function updateDistance(distance) {
-
-        if (distance < app.distanceMinToShowIndice) {
-            $('#compass .conseil .valeur').show();
-            $('#conseilHide').hide();
+            this.score += app.nbPointsCorrect;
         } else {
-            $('#conseilHide').show();
-            $('#compass .conseil .valeur').hide();
+            correction.document.getElementsByClassName('errone')[0].style['display'] = 'block';
+            correction.document.getElementsByClassName('correct')[0].style['display'] = 'hide';
+
+            bonus.style['display'] = 'none';
         }
-        $('#compass .distance .valeur span').text(distance);
+
+        var entrepreneur = score.document.getElementsByClassName('ent_presentation')[0];
+
+        entrepreneur.getElementsByClassName('ent_nom')[0].appendChild(document.createTextNode(this.entrepreneurs[this.entrepreneurATrouver].nom));
+        entrepreneur.getElementsByClassName('ent_prenom')[0].appendChild(document.createTextNode(this.entrepreneurs[this.entrepreneurATrouver].prenom));
+
+        score.document.getElementsByClassName('valeur')[0].appendChild(document.createTextNode('' + this.score));
     },
-    updatePrecision: function updatePrecision(precision) {
-        $('#compass .precision .valeur span').text(precision);
-    }
 };
+
+// Initialize the app
+app.initialize();
+
+// onLoad
+window.onload = function () {
+
+    // Evenements boutons
+    document.getElementById('btn_connexion').onclick = function (event) {
+        if (checkConnection())
+            app.showViewParcours();
+        else
+            navigator.notification.confirm('Vous devez être connecté à internet pour jouer', null, 'Connexion internet requise', ['OK']);
+
+        event.preventDefault();
+    };
+
+    document.getElementById('form_connexion').onsubmit = function (event) {
+        var nbParcours = document.getElementsByName('form_parcours');
+
+        for (var index = 0; index < nbParcours.length; index++) {
+            if (nbParcours[index].checked)
+                app.numParcours = nbParcours[index].value;
+        }
+
+        app.equipe = document.getElementById('form_equipe').value;
+
+        app.showPtoBQS();
+        app.showPtoES();
+
+        event.preventDefault();
+    };
+
+    document.getElementById('btn_connexion_cgu').onclick = function (event) {
+        app.showView('#connexion');
+
+        event.preventDefault();
+    };
+
+    document.getElementById('btn_cgu').onclick = function (event) {
+        app.showView('#cgu');
+
+        event.preventDefault();
+    };
+
+    document.getElementById('btn_flash').onclick = function (event) {
+        app.showView('#qr_code');
+
+        event.preventDefault();
+    };
+
+    document.getElementById('btn_question').onclick = function (event) {
+        app.showView('#question');
+
+        event.preventDefault();
+    };
+
+    document.getElementById('form_question').onsubmit = function (event) {
+        app.showView('#reponse');
+
+        event.preventDefault();
+    };
+
+    document.getElementById('btn_compass_retour').onclick = function (event) {
+        app.showView('#compass');
+
+        event.preventDefault();
+    };
+
+    document.getElementById('btn_compass').onclick = function (event) {
+        app.showView('#compass');
+
+        event.preventDefault();
+    };
+
+    document.getElementById('btn_entrepreneurs').onclick = function (event) {
+        app.showView('#entrepreneurs');
+
+        event.preventDefault();
+    };
+
+    document.getElementById('btn_entrepreneur_mystere').onclick = function (event) {
+        app.showView('#entrepreneur_mystere');
+
+        event.preventDefault();
+    };
+
+    document.getElementById('btn_scores').onclick = function (event) {
+        app.showView('#scores');
+
+        event.preventDefault();
+    };
+
+    document.getElementById('btn_credits').onclick = function (event) {
+        if (checkConnection())
+            document.getElementById('btn_credits').setAttribute('disabled', 'true');
+        else
+            navigator.notification.confirm('Vous devez être connecté à internet pour envoyer votre score', null, 'Connexion internet requise', ['OK']);
+
+        event.preventDefault();
+    };
+
+    document.getElementById('btn_quitter').onclick = function (event) {
+        window.plugins.insomnia.allowSleepAgain();
+        exitFromApp();
+
+        event.preventDefault();
+    };
+
+    // appelle de onDeviceReady()
+    document.addEventListener('deviceready', onDeviceReady, false);
+};
+
+// onDeviceReady
+function onDeviceReady() {
+    // Evenement boutons Android
+    document.addEventListener('backbutton', onBackKeyDown, false);
+
+    /* TODO
+    document.addEventListener('pause', saveLocalStorage, false);
+    document.addEventListener('resume', loadLocalStorage, false);
+     */
+
+    var modalIndice = document.getElementById('modal_all_indice');
+    modalIndice.onclick = function () {
+        navigator.notification.confirm(modalIndice.textContent, null, 'Indices', ['Merci !']);
+    };
+
+    document.getElementById('btn_pass').onclick = function () {
+        navigator.notification.confirm('Etes-vous certain de vouloir passer cette balise ? \n Vous allez perdre 150 points !', onConfirmPassMark, 'Passer la balise', ['Oui', 'Non']);
+    };
+
+    // Enregistre l'application toutes les minutes
+    /* TODO
+    var isInit = window.localStorage.getItem('isInit');
+    if (isInit != null)
+        navigator.notification.confirm('Une sauvegarde semble exister, voulez-vous continuer ?', onConfirmStorage, 'Confirmation', ['Continuer', 'Recommencer']);
+
+    window.setInterval(function () {
+        saveLocalStorage();
+    }, 60000);
+    */
+}

@@ -17,7 +17,7 @@ var compass = {
     hasMagneticSensor: true,
 
     onSuccessLocation: function(position) {
-        app.updatePrecision(Math.round(position.coords.accuracy));
+        updatePrecision(Math.round(position.coords.accuracy));
 
         compass.data.lastPosition = compass.data.actualPosition;
 
@@ -33,22 +33,21 @@ var compass = {
         if (!compass.hasMagneticSensor)
             compass.updateDirectionWithGPS();
 
-        app.updateDistance(distance);
+        updateDistance(distance);
     },
 
     onErrorLocation: function() {
         compass.countErrorsLocation++;
 
         if (compass.countErrorsLocation == 3)
-            navigator.notification.alert('Localisation non disponible', function () {
-            }, 'Erreur', 'Ok');
+            navigator.notification.alert('Localisation non disponible', null, 'Erreur', ['Ok']);
     },
 
     onSuccessOrientation: function(heading) {
         compass.data.heading = heading;
 
         var angle = compass.data.actualPosition.bearingTo(compass.data.destination) - compass.data.heading.magneticHeading;
-        app.rotate(Math.round(angle));
+        rotate(Math.round(angle));
     },
 
     onErrorOrientation: function() {
@@ -57,8 +56,7 @@ var compass = {
         compass.hasMagneticSensor = false;
 
         if (compass.countErrorsOrientation == 3) {
-            navigator.notification.alert('Orientation non disponible', function () {
-            }, 'Erreur', 'Ok');
+            navigator.notification.alert('Orientation non disponible', null, 'Erreur', ['Ok']);
         }
     },
 
@@ -67,8 +65,7 @@ var compass = {
             var options = {maximumAge: 0, timeout: compass.updateTimer, enableHighAccuracy: true};
             compass.idWatchLocation = navigator.geolocation.watchPosition(compass.onSuccessLocation, compass.onErrorLocation, options);
         } else {
-            navigator.notification.alert('Localisation non disponible', function () {
-            }, 'Erreur', 'Ok');
+            navigator.notification.alert('Localisation non disponible', null, 'Erreur', ['Ok']);
         }
     },
 
@@ -84,8 +81,7 @@ var compass = {
             }; // Update every .5 seconds
             compass.idWatchOrientation = navigator.compass.watchHeading(compass.onSuccessOrientation, compass.onErrorOrientation, options);
         } else {
-            navigator.notification.alert('Orientation non disponible', function () {
-            }, 'Erreur', 'Ok');
+            navigator.notification.alert('Orientation non disponible', null, 'Erreur', ['Ok']);
         }
     },
 
@@ -115,6 +111,6 @@ var compass = {
         var α = Math.atan(ΔEbc/ΔNbc) - Math.atan(ΔEba/ΔNba);
 
         if (!isNaN(α))
-            app.rotate(180 * α / Math.PI);
+            rotate(180 * α / Math.PI);
     }
 }
