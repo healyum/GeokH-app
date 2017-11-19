@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
     <head>
         <meta charset="utf-8"/>
         <meta name="msapplication-tap-highlight" content="no"/>
@@ -136,36 +136,52 @@
             <!-- recherche d'une balise -->
 
             <section class="view" id="compass">
-                <div>
+
+                <div class="entete">
                     <div class="score">
-                        <p>Score :</p>
-                        <p class="valeur"><span></span></p>
+                        <p><img src="img/partie/icone-score.png" alt="score"/></p>
+                        <p>SCORE</p>
+                        <p class="valeur"><strong><span>0</span></strong></p>
+                    </div>
+                    <div class="logo">
+                        <img class="compass_logo" src="img/conditions/conditions_logo.png" alt="logo"/>
                     </div>
                     <div class="temps">
-                        <p>Temps :</p>
-                        <p class="valeur" id="timer"></p>
+                        <p><img src="img/partie/icone-temps.png" alt="temps"/></p>
+                        <p>TEMPS</p>
+                        <p><strong><span class="valeur" id="timer"></span></strong></p>
                     </div>
                     <div class="conseil">
-                        <p>Balise <span id="numero_balise"></span>/<span id="nombre_balise"></span></p>
-                        <p>Conseil : </p>
+                        <p id="banniere_balise">BALISE <span id="numero_balise"></span>/<span id="nombre_balise"></span></p>
                         <strong><p class="valeur" style="color: green">Lorem ipsum sit amet, consectetur adipiscing elit.</p>
                         </strong>
-                        <p id="conseilHide" style="color: red">Indice caché (distance min : 50m.)</p>
+                        <p class="indice_icone"><img src="img/partie/icone-indice.png" alt="indice"/></p>
+                        <p id="conseilHide" class="indice_texte">INDICE CACHÉ <strong>50 m(minimum)</strong></p>
                     </div>
+
+                    <div class="boussole">
+                        <img src="img/partie/boussole.png" alt="boussole" id="compass_elt">
+                    </div>
+
+                    <div class="informations_balise">
+                        <div class="distance">
+                            <p><img src="img/partie/icone-distance.png" alt="distance"/></p>
+                            <p>DISTANCE</p>
+                            <p class="valeur"><strong><span>XXX</span> m</strong></p>
+                        </div>
+                        <div class="precision">
+                            <p><img src="img/partie/icone-precision.png" alt="precision"/></p>
+                            <p>PRÉCISION</p>
+                            <p class="valeur"><strong><span>XXX</span> m</strong></p>
+                        </div>
+                    </div>
+
+                    <button id="btn_pass" class="button">Passer la balise</button>
+                    <button id="btn_flash" class="button">Flasher le code</button>
+
+                    <div id="footer"></div>
                 </div>
-                <div><img src="img/compass.svg" alt="" id="compass_elt"></div>
-                <div>
-                    <div class="distance">
-                        <p>Distance :</p>
-                        <p class="valeur"><span>XXX</span> m</p>
-                    </div>
-                    <div class="precision">
-                        <p>Précision :</p>
-                        <p class="valeur"><span>XXX</span> m</p>
-                    </div>
-                </div>
-                <button id="btn_pass" class="left">Passer la balise</button>
-                <button id="btn_flash" class="right">Flasher le code</button>
+
             </section>
 
             <!-- QR Code Reader -->

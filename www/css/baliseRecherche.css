@@ -1,20 +1,140 @@
-#compass .score,
-#compass .distance
-{
-    float: left;
+#compass {
+    background-image: url("../img/conditions/conditions_logo_transparence_2.png");
+    background-repeat: no-repeat;
+    background-position: top right;
+    background-size: 70%;
+    overflow-y: auto;
 }
 
-#compass .temps,
-#compass .precision
+.compass_logo
 {
-    float: right;
+    width: 50%;
+    padding-top: 5px;
 }
 
-#compass .distance,
-#compass .precision
+.entete
 {
-    margin: 0px 0 45px 0;
+    margin-top: 6px;
 }
+
+#compass .score
+{
+    width: 21%;
+    display: inline-block;
+    vertical-align: bottom;
+}
+#compass .score .valeur
+{
+    color:#f0a424;
+    font-weight:bold;
+}
+
+#compass .logo
+{
+    width: 56%;
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 6px;
+}
+
+#compass .temps
+{
+    width: 21%;
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+#banniere_balise
+{
+    background-image: url("../img/partie/banniere.png");
+    line-height: 50px;
+    color: white;
+    font-weight: bold;
+    font-size: 1.8em;
+}
+
+.indice_icone
+{
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.indice_texte
+{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.boussole
+{
+    width: 90%;
+    margin: 0 auto;
+}
+
+.informations_balise
+{
+    width: 100%;
+    height: 50px;
+    /*background: rebeccapurple;*/
+    position: relative;
+}
+
+.informations_balise .distance
+{
+    position: absolute;
+    left: 45px;
+    top:-45px;
+}
+
+.informations_balise .precision
+{
+    position: absolute;
+    right: 45px;
+    top:-45px;
+}
+
+#btn_pass, #btn_flash
+{
+    width: 40%;
+    border: 0;
+    background-color: #ff3366;
+    color: white;
+    font-size: 1.4em;
+    border-radius: 50px;
+    margin-top: 42px;
+    height: 64px;
+}
+
+#btn_pass
+{
+    background-color: #909090;
+    margin-right:20px;
+}
+
+#btn_flash
+{
+    background-color: #37b34a;
+}
+
+    /*
+    #compass .score,
+    #compass .distance
+    {
+        float: left;
+    }
+
+    #compass .temps,
+    #compass .precision
+    {
+        float: right;
+    }
+
+    #compass .distance,
+    #compass .precision
+    {
+        margin: 0px 0 45px 0;
+    }*/
 
 #compass .conseil
 {
@@ -48,9 +168,4 @@
 {
     clear: both;
     width: 80%;
-}
-
-#btn_flash
-{
-    /*bottom: 0;*/
 }

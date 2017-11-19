@@ -58,6 +58,11 @@
 
 /**/
 
+#connexion
+{
+    overflow-y: scroll;
+}
+
 #logo {
     background-image: url("../img/conditions/conditions_logo.png");
     background-size: 45%;
@@ -83,7 +88,7 @@
 .info h3 {
     margin-top: 0;
     background-color: salmon;
-    background-image: url("../img/partie/fond_equipe.png");
+    background-image: url("../img/partie/banniere.png");
     font-size: 1.8em;
 }
 
