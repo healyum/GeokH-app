@@ -131,7 +131,7 @@
                 <p class="valeur" id="timer"></p>
             </div>
             <div class="conseil">
-                <p>Balise <span id="numero_balise"></span>/<span id="nombre_balise"></span></p>
+                <p>Balise <span id="numero_balise"></span> / <span id="nombre_balise"></span></p>
 
                 <p>Conseil : </p>
 
@@ -178,8 +178,7 @@
     <!--   QR Code Reader           -->
     <!-- -------------------------- -->
     <section class="view" id="qr_code">
-        <div id="qr_code_result">
-        </div>
+        <span id="qr_code_result"></span>
         <button id="btn_question">Confirmer</button>
         <button id="btn_entrepreneurs">J'ai fini !</button>
         <button id="btn_compass_retour">Retour</button>
@@ -391,5 +390,7 @@
 
 <script type="text/javascript" src="js/App.js"></script>
 <script type="text/javascript" src="js/functions.js"></script>
+<script type="text/javascript" src="js/onDeviceReady.js"></script>
+<script type="text/javascript" src="js/onLoad.js"></script>
 </body>
 </html>
