@@ -11,6 +11,9 @@ var app = {
     entrepreneurToFind: null,
     onInit: false,
     currentMark: 0,
+    nbMarksFind: 0,
+    nbAnswers: 0,
+    indiceEntrepreneur: [],
     isTimerLoaded: false,
 
     // Initialisation cache les indices et affiche la vue actuelle
@@ -34,6 +37,14 @@ var app = {
 
             case '#qr_code':
                 this.showQrCodeView();
+                break;
+
+            case '#question':
+                this.showQuestionView();
+                break;
+
+            case '#reponse':
+                this.showReponseView();
                 break;
 
             default:
@@ -203,6 +214,186 @@ var app = {
             }
         );
     },
+
+    // Affiche la question d'une balise
+    showQuestionView: function () {
+        this.nbMarksFind++;
+
+        var q = this.infosParcours[this.currentMark]['Question'];
+
+        // Balise basique
+        if (this.currentMark < this.infosParcours.length - 1) {
+            this.questionBalise(q);
+        }
+        // Dernière balise = question entrepreneur
+        else if (this.currentMark == this.infosParcours.length - 1) {
+            // TODO this.questionEntrepreneur(q);
+        }
+    },
+
+    // Question simple posée lorsque l'on trouve une balise
+    questionBalise: function (q) {
+        var question = document.getElementById('question');
+
+        var score = question.getElementsByClassName('score')[0].getElementsByClassName('valeur')[0];
+        score.appendChild(document.createElement('span').appendChild(document.createTextNode('' + this.score)));
+
+        var difficulte = question.getElementsByClassName('difficulte')[0].getElementsByClassName('valeur')[0];
+        difficulte.appendChild(document.createElement('span').appendChild(document.createTextNode('' + q.difficulte)));
+
+        var libQuestion = question.getElementsByClassName('lib_question')[0].getElementsByClassName('valeur')[0];
+        libQuestion.appendChild(document.createElement('span').appendChild(document.createTextNode('' + q.question)));
+
+        // Ajout des réponses
+        var form = document.getElementById('form_question');
+        var divReponses = form.getElementsByClassName('reponses')[0];
+
+        // Si la question est un QCM, les réponses auront un checkbox
+        for (var i = 0; i < q.propositions.length; i++) {
+            var div = document.createElement('div');
+            var input = document.createElement('input');
+            var label = document.createElement('label');
+
+            div.setAttribute('class', 'form_groupe');
+
+            input.setAttribute('id', 'form_reponse' + (i + 1));
+            label.setAttribute('for', 'form_reponse' + (i + 1));
+            input.setAttribute('value', '' + i + 1);
+            input.setAttribute('name', 'form_reponse[]');
+
+            if (q.type == "QCM") {
+                if (q.propositions[i] != "") {
+                    input.setAttribute('type', 'checkbox');
+
+                    label.appendChild(document.createTextNode(q.propositions[i]));
+                }
+            } else if (q.type == "QCU") {
+                if (q.propositions[i] != "") {
+                    input.setAttribute('type', 'radio');
+
+                    label.appendChild(document.createTextNode(q.propositions[i]));
+                }
+            }
+
+            div.appendChild(input);
+            div.appendChild(label);
+
+            divReponses.appendChild(div);
+        }
+    },
+
+    // Affiche la réponse d'une balise
+    showReponseView: function () {
+        // Recuperation de(s) reponse(s) choisie(s) par l'utilisateur
+        var form = document.getElementById('form_question');
+        var reponses = form.getElementsByClassName('reponses')[0];
+        var inputs = reponses.getElementsByTagName('input');
+
+        var reponsesSel = [];
+
+        for (var index = 0; index < inputs.length; index++) {
+            if (inputs[index].checked)
+                reponsesSel.push(parseInt(index) + 1);
+        }
+
+        var q = this.infosParcours[this.currentMark]["Question"];
+
+        var isAllCorrect = true;
+        var nbOfCorrectAnswers = 0;
+
+        for (var i = 0; i < q.reponses.length; i++) {
+
+            var haveResponse = false;
+
+            for (var j = 0; j < reponsesSel.length; j++) {
+                if (q.reponses[i] == reponsesSel[j]) {
+                    haveResponse = true;
+                    nbOfCorrectAnswers++;
+                }
+            }
+
+            if (haveResponse == false)
+                isAllCorrect = false;
+        }
+
+        var reponse = document.getElementById('reponse');
+        var scoreToAdd = 0;
+
+        var nbResponses = q.reponses.length;
+
+        // Si toutes les réponses sont bonnes
+        if (nbOfCorrectAnswers > 0 && reponsesSel.length > 0) {
+            if (isAllCorrect) {
+                reponse.getElementsByClassName('correct')[0].style['display'] = 'block';
+                reponse.getElementsByClassName('partial')[0].style['display'] = 'none';
+
+                scoreToAdd = Math.round(document.getElementById('form_pari').value * q.difficulte);
+            } else {
+                reponse.getElementsByClassName('correct')[0].style['display'] = 'block';
+                reponse.getElementsByClassName('partial')[0].style['display'] = 'block';
+
+                console.log(nbOfCorrectAnswers);
+                console.log(nbResponses);
+                scoreToAdd = Math.round(document.getElementById('form_pari').value * q.difficulte * (nbOfCorrectAnswers / nbResponses));
+            }
+
+            this.score += scoreToAdd;
+
+            reponse.getElementsByClassName('errone')[0].style['display'] = 'none';
+            var bonus = reponse.getElementsByClassName('score')[0].getElementsByClassName('bonus')[0];
+            bonus.getElementsByTagName('span')[0].textContent = scoreToAdd;
+
+            this.nbAnswers++;
+
+            // Avec la bonne réponse on enregistre un indice pour trouver l'entrepreneur mystère
+            var indice = app.entrepreneurs[app.entrepreneurToFind].Entrepreneur["indices"][this.currentMark];
+            document.getElementById('reponse_indice').textContent = indice;
+            this.indiceEntrepreneur.push(indice);
+            navigator.notification.confirm(document.getElementById('reponse_indice').textContent, null, 'Indice', ['Merci !']);
+        }
+        // Toutes les réponses sont fausses
+        else {
+            this.score -= document.getElementById('form_pari').value * q.difficulte;
+
+            reponse.getElementsByClassName('errone')[0].style['display'] = 'block';
+            reponse.getElementsByClassName('correct')[0].style['display'] = 'none';
+            reponse.getElementsByClassName('partial')[0].style['display'] = 'none';
+
+            var bonus = reponse.getElementsByClassName('score')[0].getElementsByClassName('bonus')[0];
+            bonus.getElementsByTagName('span')[0].textContent = scoreToAdd;
+        }
+
+        // Mise a jour du score actuel
+        var valeur = reponse.getElementsByClassName('score')[0].getElementsByClassName('valeur')[0];
+        valeur.getElementsByTagName('span')[0].textContent = this.score;
+
+        // Affichage des retours
+        var valeur = reponse.getElementsByClassName('retour')[0].getElementsByClassName('valeur')[0];
+        valeur.textContent = '';
+
+        // Récupération des retours sur les réponses
+        var retours = q.retours;
+
+        for (var i = 0; i < retours.length; i++) {
+            // Si l'élément est de type string c'est un paragraphe
+            if (typeof retours[i] == "string") {
+                valeur.textContent = retours[i];
+            }
+            // Sinon l'élément est une liste
+            else {
+                var liste = "<ul>";
+
+                for (var j = 0; j < retours[i].length; j++)
+                    liste += "<li>" + retours[i][j] + "</li>";
+
+                liste += "</ul>";
+
+                valeur.appendChild(liste);
+            }
+        }
+
+        this.currentMark++;
+    },
 };
 
 // Initialize the app
@@ -249,9 +440,27 @@ window.onload = function () {
         event.preventDefault();
     };
 
+    document.getElementById("btn_question").onclick = function (event) {
+        app.showView("#question");
+
+        event.preventDefault();
+    };
+
+    document.getElementById('form_question').onsubmit = function (event) {
+        app.showView('#reponse');
+
+        event.preventDefault();
+    };
+
     document.getElementById('btn_quitter').onclick = function (event) {
         window.plugins.insomnia.allowSleepAgain();
         exitFromApp();
+
+        event.preventDefault();
+    };
+
+    document.getElementById('btn_compass').onclick = function (event) {
+        app.showView('#compass');
 
         event.preventDefault();
     };
