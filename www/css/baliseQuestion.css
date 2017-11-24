@@ -78,7 +78,7 @@ p.banniere_balise
     margin: 20px 0;
 }
 
-#btn_valider_question
+#btn_valider_question, #btn_compass
 {
     width: 40%;
     border: 0;
@@ -90,7 +90,7 @@ p.banniere_balise
     height: 64px;
 }
 
-#btn_valider_question
+#btn_valider_question, #btn_compass
 {
     background-color: #37b34a;
 }

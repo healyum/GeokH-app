@@ -1,69 +1,10 @@
-/*#form_connexion .inpt_text,
-#form_connexion .form_groupe
-{
-    margin: 20px 0px;
-    text-align: left;
-}
-
-#form_connexion .inpt_text
-{
-    border: 1px solid #D0D0D0;
-    padding: 0 7px;
-}
-
-#form_connexion .inpt_text input
-{
-    border: 0;
-    box-shadow: 0 0 0 transparent;
-    height: 33px;
-    line-height: 33px;
-}
-
-#form_connexion .inpt_text input:focus
-{
-    outline: 0;
-}
-
-#form_connexion .inpt_text label
-{
-    display: inline-block;
-    width: 65px;
-}
-
-#form_connexion .form_groupe
-{
-    height: 37px;
-    line-height: 37px;
-}
-
-#form_connexion .form_groupe p
-{
-    margin: 0 0 0 8px;
-    display: inline-block;
-    width: 65px;
-}
-
-#form_connexion .form_groupe label
-{
-    height: 37px;
-    line-height: 37px;
-    display: inline-block;
-    margin: 0 13px 0 5px;
-}
-
-#form_connexion #form_parcours.form_groupe label
-{
-    margin: 0 8px 0 4px;
-}
-
-/**/
-
 #connexion
 {
     overflow-y: scroll;
 }
 
-#logo {
+#logo
+{
     background-image: url("../img/conditions/conditions_logo.png");
     background-size: 45%;
     background-position: center;
@@ -71,7 +12,8 @@
     height: 200px;
 }
 
-.info {
+.info
+{
     background-color: white;
     margin-top: 7%;
     margin-left: auto;
@@ -85,18 +27,21 @@
     padding-bottom: 17px;
 }
 
-.info h3 {
+.info h3
+{
     margin-top: 0;
     background-color: salmon;
     background-image: url("../img/partie/banniere.png");
     font-size: 1.8em;
 }
 
-.info label {
+.info label
+{
     color: black;
 }
 
-#bouton_commencer_partie {
+#bouton_commencer_partie
+{
     background-position-x: center;
     width: 60%;
     border: 0;
@@ -105,14 +50,4 @@
     font-size: 1.4em;
     border-radius: 50px;
     margin-top: 42px;
-}
-
-#footer {
-    background-image: url("../img/conditions/conditions_footer.png");
-    background-repeat: no-repeat;
-    background-size: 100%;
-    height: 1%;
-    position: absolute;
-    bottom: 0px;
-    width: 100%;
 }

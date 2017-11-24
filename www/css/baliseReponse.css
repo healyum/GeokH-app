@@ -1,54 +1,23 @@
-#reponse .score .valeur,
-#reponse .score .valeur + p
-{
-    display: inline-block;
-    margin: 3px;
+#reponse .logo {
+    margin-bottom: 20px;
 }
 
-#reponse .score p:first-child
+.retour .valeur
 {
-    margin: 0;
+    padding: 0 50px;
+    font-size: 1.1em;
+    font-family: sans-serif;
+    text-align: justify;
+    word-wrap: break-word;
+    hyphens: auto;
 }
 
-#reponse .bonus.correct
+.correct.banniere_balise
 {
-    margin: 0;
+    background-color: #38b449;
 }
 
-#reponse .retour
+.partial.banniere_balise
 {
-    text-align: left;
-    margin: 0 0 45px 0;
-}
-
-#reponse .retour .correct,
-#reponse .retour .errone
-{
-    margin: 12px 0 6px;
-}
-
-#reponse .retour .valeur
-{
-    margin: 0;
-}
-
-#reponse .retour ul
-{
-    margin: 5px 0;
-    padding: 0 0 0 18px;
-}
-
-.right
-{
-    width: 50%;
-    left: 50%;
-    border-top-style: none;
-    border-right-style: none;
-    border-bottom-style: none;
-    border-left: solid #2c7f3b;
-}
-
-.left
-{
-    width: 50%;
+    background-color: #ffa717;
 }

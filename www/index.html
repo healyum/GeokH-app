@@ -130,7 +130,7 @@
 
                 </form>
 
-                <div id="footer"></div>
+                <div class="footer"></div>
             </section>
 
             <!-- recherche d'une balise -->
@@ -179,7 +179,7 @@
                     <button id="btn_pass" class="button">Passer la balise</button>
                     <button id="btn_flash" class="button">Flasher le code</button>
 
-                    <div id="footer"></div>
+                    <div class="footer"></div>
                 </div>
 
             </section>
@@ -236,21 +236,27 @@
                     </div>
                 </form>
 
-                <div id="footer"></div>
+                <div class="footer"></div>
             </section>
 
             <!-- reponse à la question d'une balise -->
 
             <section class="view" id="reponse">
-                <div class="correction">
-                    <p class="correct">Bonne réponse.</p>
-                    <p class="partial">Bonne réponse mais incomplète.</p>
-                    <p class="errone">Mauvaise réponse.</p>
+                <div class="entete">
+                    <div class="logo">
+                        <img class="compass_logo" src="img/conditions/conditions_logo.png" alt="logo"/>
+                    </div>
+                    <div class="correction">
+                        <p class="correct banniere_balise">BONNE RÉPONSE</p>
+                        <p class="partial banniere_balise">BONNE RÉPONSE MAIS INCOMPLÈTE</p>
+                        <p class="errone banniere_balise">MAUVAISE RÉPONSE</p>
+                    </div>
                 </div>
+
                 <div class="score">
-                    <p>Score :</p>
-                    <p class="valeur"><span>XXXX</span></p>
-                    <p> points</p>
+                    <p><img src="img/partie/icone-score.png" alt="score"/></p>
+                    <p>SCORE</p>
+                    <p class="valeur"><strong><span>0</span></strong><span>points</span></p>
                     <p class="bonus correct">+<span>XXX</span></p>
                 </div>
                 <div class="retour">
@@ -258,8 +264,12 @@
                     <p class="errone">Réponse :</p>
                     <p class="valeur"></p>
                     <p class="indice" id="reponse_indice"></p>
-                    <button id="btn_compass">Continuer</button>
+                    <p>
+                        <button id="btn_compass">Continuer</button>
+                    </p>
                 </div>
+
+                <div class="footer"></div>
             </section>
 
             <!-- listes des entrepreneurs -->
