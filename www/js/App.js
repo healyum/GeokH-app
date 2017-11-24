@@ -4,6 +4,7 @@ var app = {
     urlApi: 'https://geokh.herokuapp.com/api',
     level: 1,
     numParcours: 0,
+    score: 0,
     infosParcours: null,
     nbAjaxExec: 0,
     entrepreneurs: [],
@@ -148,15 +149,20 @@ var app = {
         // Cache l'indice
         document.getElementById('compass').getElementsByClassName('conseil')[0].getElementsByClassName('valeur')[0].style['display'] = 'none';
 
-        // Affiche le numéro de balise
+        // Affiche le nombre de balises trouvées / nombre de balises totales
         document.getElementById('numero_balise').textContent = '' + (this.currentMark + 1);
-
-        // Affiche le total de balise
         document.getElementById('nombre_balise').textContent = '' + (this.infosParcours.length);
+
+        // Affiche le score
+        document.getElementById('compass').getElementsByClassName('score')[0].getElementsByClassName('valeur')[0].textContent = '' + (this.score);
 
         // Ne pas activer le bouton "Passer la balise" lorsqu'il s'agit de la dernière balise
         if (this.currentMark == this.infosParcours.length - 1)
             document.getElementById('btn_pass').setAttribute('disabled', 'disabled');
+
+        // Mise à jour du point de destination (Balise) pour le Compass
+        this.infosParcours[this.currentMark].latitude
+        compass.data.destination = new LatLon(this.infosParcours[this.currentMark].Balise.latitude, this.infosParcours[this.currentMark].Balise.longitude);
     },
 
     // Affiche le scanner de QRCode

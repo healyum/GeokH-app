@@ -60,16 +60,14 @@ function rotate(angle) {
 
 // Mise à jour de la distance
 function updateDistance(distance) {
-    var distanceMinToShowIndice = 50;
-
     var compass = document.getElementById('compass');
     var conseil = compass.getElementsByClassName('conseil')[0];
     var valeur = conseil.getElementsByClassName('valeur')[0];
 
     var conseilHide = document.getElementById('conseilHide');
 
-    // Affiche ou non l'indice
-    if (distance < distanceMinToShowIndice) {
+    // Affiche ou non l'indice si < 50 mètres
+    if (distance < 50) {
         valeur.style['display'] = 'block';
         conseilHide.style['display'] = 'none';
     }
@@ -82,29 +80,31 @@ function updateDistance(distance) {
     var dist = compass.getElementsByClassName('distance')[0];
     var valeur = dist.getElementsByClassName('valeur')[0];
 
-    valeur.removeChild(valeur.getElementsByTagName('span')[0]);
-
-    var span = document.createElement('span');
-    span.appendChild(document.createTextNode(distance));
-    valeur.appendChild(distance);
+    valeur.textContent = distance;
 }
 
 // Mise à jour de la precision
-function updatePrecision(precision) {
+function updatePrecision(accuracy) {
 
     var compass = document.getElementById('compass');
     var precision = compass.getElementsByClassName('precision')[0];
     var valeur = precision.getElementsByClassName('valeur')[0];
 
     // Met à jour la précision dans l'affichage
-    valeur.removeChild(document.getElementsByTagName('span')[0]);
-
-    var span = document.createElement('span');
-    span.appendChild(document.createTextNode(precision));
-    valeur.appendChild(precision);
+    valeur.textContent = accuracy;
 }
 
-window.plugins.insomnia.keepAwake(function() {console.log('Insomnia up')}, function() {console.log('Insomnia error')});
+function onConfirmPassMark(button) {
+    // Si confirmation de passer la balise
+    if (button == 1) {
+        app.currentMark++;
+        app.score -= 150;
+
+        navigator.notification.confirm('Vous avez passé la ' + app.currentMark + '' + ((app.currentMark == 1) ? 'ere' : 'eme') + ' balise et perdu 150 points !', null, 'Balise passée', ['Ok']);
+
+        app.showView('#compass');
+    }
+}
 
 function onBackKeyDown() {
     navigator.notification.confirm('Êtes-vous certains de vouloir quitter l\'application ?', onConfirmQuit, 'Confirmation', ['Rester', 'Quitter']);
@@ -122,18 +122,7 @@ function exitFromApp() {
     navigator.app.exitApp();
 }
 
-function onConfirmPassMark(button) {
-    // Si confirmation de passer la balise
-    if (button == 1) {
-        app.currentMark++;
-        app.score -= 150;
-
-        navigator.notification.confirm('Vous avez passé la ' + app.currentMark + '' + ((app.currentMark == 1) ? 'ere' : 'eme') + ' balise et perdu 150 points !', null, 'Balise passée', ['Ok']);
-
-        app.showView('#compass');
-    }
-}
-
+// window.plugins.insomnia.keepAwake(function() {console.log('Insomnia up')}, function() {console.log('Insomnia error')});
 /* TODO
 function onConfirmStorage(button) {
 // Si 'Continuer' sur la sauvegarde
