@@ -1,73 +1,96 @@
-#question .score
+.entete .difficulte
 {
-    float: left;
+    width: 21%;
+    display: inline-block;
+    vertical-align: bottom;
 }
 
-#question .difficulte
+p.banniere_balise
 {
-    float: right;
+    margin: 0;
 }
 
-#question .lib_question
+.lib_question
 {
-    clear: both;
+    color: #E7475E;
+    font-size: 1.4em;
+    font-family: sans-serif;
+    font-weight: bold;
+    padding: 0 20px;
+    margin-bottom: 46px;
+}
+
+.reponses input[type="checkbox"], .reponses input[type="radio"]
+{
+}
+
+.reponses label
+{
+    margin-bottom:10px;
+}
+
+.reponses .form_groupe
+{
     text-align: left;
+    padding: 0 20px 10px 20px;
+    font-size:1.3em;
+    font-size:0.9em;
 }
 
-#question .score p,
-#question .difficulte p,
-#question .lib_question p
-{
-    margin: 0 0 7px;
+.styled-select {
+    background: url(http://i62.tinypic.com/15xvbd5.png) no-repeat 96% 0;
+    height: 29px;
+    overflow: hidden;
+    width: 240px;
 }
 
-#question .score p.valeur,
-#question .difficulte p.valeur,
-#question .lib_question p.valeur
-{
-    margin: 5px 0 10px;
-}
-
-#form_question
-{
-    text-align: left;
-    margin: 0 0 50px 0;
-}
-
-#form_question .form_groupe
-{
-    margin: 7px 0;
-}
-
-#form_question .form_groupe input
-{
-    margin: 7px 7px 0 0;
-}
-
-#form_question .pari
-{
-    margin: 14px 0;
+.styled-select select {
+    background: transparent;
+    border: none;
+    font-size: 14px;
+    height: 29px;
+    padding: 5px; /* If you add too much padding here, the options won't show in IE */
+    width: 268px;
     text-align: center;
 }
 
-#form_question .pari label
-{
-    margin: 0 10px 0 0;
+.styled-select.slate {
+    background: url(http://i62.tinypic.com/2e3ybe1.jpg) no-repeat right center;
+    height: 34px;
+    width: 240px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 }
 
-#form_question .pari span
-{
-    margin: 0 0 0 10px;
+.styled-select.slate select {
+    border: 1px solid #ccc;
+    font-size: 16px;
+    height: 34px;
+    width: 268px;
 }
 
-#form_question #form_pari
+.slate   { background-color: #ddd; }
+.slate select   { color: #000; }
+
+.pari
 {
-    width: 75px;
-    height: 36px;
-    padding: 0 10px;
+    margin: 20px 0;
 }
 
-#form_question input[type="submit"]
+#btn_valider_question
 {
-    bottom: 0;
+    width: 40%;
+    border: 0;
+    background-color: #ff3366;
+    color: white;
+    font-size: 1.4em;
+    border-radius: 50px;
+    margin-top: 42px;
+    height: 64px;
+}
+
+#btn_valider_question
+{
+    background-color: #37b34a;
 }

@@ -152,7 +152,7 @@
                         <p><strong><span class="valeur" id="timer"></span></strong></p>
                     </div>
                     <div class="conseil">
-                        <p id="banniere_balise">BALISE <span id="numero_balise"></span>/<span id="nombre_balise"></span></p>
+                        <p class="banniere_balise">BALISE <span id="numero_balise"></span>/<span id="nombre_balise"></span></p>
                         <strong><p class="valeur" style="color: green">Lorem ipsum sit amet, consectetur adipiscing elit.</p>
                         </strong>
                         <p class="indice_icone"><img src="img/partie/icone-indice.png" alt="indice"/></p>
@@ -197,33 +197,46 @@
             <!-- question d'une balise -->
 
             <section class="view" id="question">
-                <div class="score">
-                    <p>Score :</p>
-                    <p class="valeur"><span></span></p>
+
+                <div class="entete">
+                    <div class="score">
+                        <p><img src="img/partie/icone-score.png" alt="score"/></p>
+                        <p>SCORE</p>
+                        <p class="valeur"><strong><span>0</span></strong></p>
+                    </div>
+                    <div class="logo">
+                        <img class="compass_logo" src="img/conditions/conditions_logo.png" alt="logo"/>
+                    </div>
+                    <div class="difficulte">
+                        <p><img src="img/partie/difficulte.png" alt="difficulte"/></p>
+                        <p>DIFFICULTÉ</p>
+                        <p class="valeur"><strong><span>0</span></strong></p>
+                    </div>
+                    <p class="banniere_balise">QUESTION</p>
                 </div>
-                <div class="difficulte">
-                    <p>Difficulté :</p>
-                    <p class="valeur"><span></span></p>
-                </div>
+
                 <div class="lib_question">
-                    <p>Question :</p>
-                    <p class="valeur"><span></span></p>
+                  <p class="valeur"><span></span></p>
                 </div>
+
                 <form method="post" action="" id="form_question">
                     <div class="reponses">
                     </div>
                     <div class="pari">
                         <label for="form_pari">Parier</label>
-                        <select name="form_pari" id="form_pari">
-                            <option value="0">0</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                            <option value="150">150</option>
+                        <select name="form_pari" id="form_pari" class="styled-select slate">
+                            <option value="0">0 points</option>
+                            <option value="50">50 points</option>
+                            <option value="100">100 points</option>
+                            <option value="150">150 points</option>
                         </select>
-                        <span>points</span>
-                        <input type="submit" name="submit" value="Répondre" class="form_submit"/>
+                        <p>
+                            <input type="submit" name="submit" value="Répondre" id="btn_valider_question" class="button"/>
+                        </p>
                     </div>
                 </form>
+
+                <div id="footer"></div>
             </section>
 
             <!-- reponse à la question d'une balise -->

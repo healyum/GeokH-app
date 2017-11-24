@@ -17,19 +17,19 @@
     margin-top: 6px;
 }
 
-#compass .score
+.entete .score
 {
     width: 21%;
     display: inline-block;
     vertical-align: bottom;
 }
-#compass .score .valeur
+.entete .score .valeur
 {
     color:#f0a424;
     font-weight:bold;
 }
 
-#compass .logo
+.entete .logo
 {
     width: 56%;
     display: inline-block;
@@ -37,14 +37,14 @@
     margin-top: 6px;
 }
 
-#compass .temps
+.entete .temps
 {
     width: 21%;
     display: inline-block;
     vertical-align: bottom;
 }
 
-#banniere_balise
+.banniere_balise
 {
     background-image: url("../img/partie/banniere.png");
     line-height: 50px;
