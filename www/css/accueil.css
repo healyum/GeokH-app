@@ -1,0 +1,48 @@
+#accueil {
+    background-image: url('../img/accueil/accueil_background.jpeg');
+    min-height: 100vh;
+    background-size: cover;
+}
+
+.main {
+    width: 75%;
+    margin: 8% auto auto;
+}
+
+.accueil_logo {
+    padding-top: 160px;
+}
+
+.button {
+    border: none;
+    border-radius: 30px;
+    width: 100%;
+    height: 87px;
+    margin-top: 70px;
+}
+
+#btn_connexion {
+    background-position-x: center;
+    border: 0;
+    background-color: #38b24a;
+    color: white;
+    font-size: 1.4em;
+    border-radius: 50px;
+    margin-top: 42px;
+}
+
+.main_button {
+    background-color: #38B349;
+    color: white;
+    height: 60px;
+    font-size: 1.4em;
+}
+
+.main_paragraph {
+    color: white;
+    font-size: small;
+}
+
+.main_paragraph_first {
+    margin-top: 150px;
+}

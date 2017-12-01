@@ -1,0 +1,27 @@
+#entrepreneurs .ent_min {
+    margin: 7px 14px;
+}
+
+#entrepreneurs .ents_miniatures a {
+    display: inline-block;
+}
+
+#entrepreneurs .ent_question {
+    font-weight: bold;
+}
+
+#entrepreneurs #ents_presentation {
+    text-align: left;
+}
+
+#entrepreneurs .ent_nom {
+    text-align: center;
+    font-size: 1.3em;
+    margin: 0;
+}
+
+/* 8. l'entrepreneur mystere  */
+
+#entrepreneur_mystere .ent_img {
+    margin: 7px 50px;
+}
