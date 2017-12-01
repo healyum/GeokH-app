@@ -37,41 +37,48 @@ p.banniere_balise
     font-size:0.9em;
 }
 
-.styled-select {
-    background: url(http://i62.tinypic.com/15xvbd5.png) no-repeat 96% 0;
-    height: 29px;
-    overflow: hidden;
-    width: 240px;
-}
-
-.styled-select select {
-    background: transparent;
-    border: none;
-    font-size: 14px;
-    height: 29px;
-    padding: 5px; /* If you add too much padding here, the options won't show in IE */
-    width: 268px;
-    text-align: center;
-}
-
-.styled-select.slate {
-    background: url(http://i62.tinypic.com/2e3ybe1.jpg) no-repeat right center;
-    height: 34px;
-    width: 240px;
+/* slider */
+input[type=range]
+{
     -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
+    border: 1px solid white;
+    width: 450px;
 }
 
-.styled-select.slate select {
-    border: 1px solid #ccc;
-    font-size: 16px;
-    height: 34px;
-    width: 268px;
+input[type=range]::-webkit-slider-runnable-track
+{
+    width: 450px;
+    height: 15px;
+    background: #ddd;
+    border: none;
+    border-radius: 30px;
 }
 
-.slate   { background-color: #ddd; }
-.slate select   { color: #000; }
+input[type=range]::-webkit-slider-thumb
+{
+    -webkit-appearance: none;
+    border: none;
+    height: 48px;
+    width: 48px;
+    border-radius: 50%;
+    background: red;
+    margin-top: -16px;
+}
+
+input[type=range]:focus
+{
+    outline: none;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track
+{
+    background: #ccc;
+}
+
+#range_valeur
+{
+    font-size: 2em;
+}
 
 .pari
 {
