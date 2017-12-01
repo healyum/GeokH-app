@@ -6,9 +6,10 @@ var app = {
     numParcours: 0,
     score: 0,
     infosParcours: null,
-    nbAjaxExec: 0,
+    nbAjaxExec: null,
     entrepreneurs: [],
     entrepreneurToFind: null,
+    entrepreneurSelect: 0,
     onInit: false,
     currentMark: 0,
     nbMarksFind: 0,
@@ -45,6 +46,10 @@ var app = {
 
             case '#reponse':
                 this.showReponseView();
+                break;
+
+            case '#entrepreneurs':
+                this.showQuestionEntrepreneurView();
                 break;
 
             default:
@@ -105,9 +110,9 @@ var app = {
 
             success: function (data) {
                 app.infosParcours = data;
-                app.nbAjaxExec++;
+                app.nbAjaxExec+= 'a';
 
-                if (app.nbAjaxExec == 2)
+                if (app.nbAjaxExec.match('a') && app.nbAjaxExec.match('b'))
                     app.showView('#compass');
             },
 
@@ -132,9 +137,9 @@ var app = {
                 app.entrepreneurs = data;
                 app.entrepreneurToFind = randomIntFromInterval(0, app.entrepreneurs.length - 1);
 
-                app.nbAjaxExec++;
+                app.nbAjaxExec += 'b';
 
-                if (app.nbAjaxExec == 2)
+                if (app.nbAjaxExec.match('a') && app.nbAjaxExec.match('b'))
                     app.showView('#compass');
             },
 
@@ -188,6 +193,9 @@ var app = {
 
         cordova.plugins.barcodeScanner.scan(
             function (result) {
+                document.getElementById('btn_question').style['display'] = 'none';
+                document.getElementById('btn_compass_retour').style['display'] = 'block';
+
                 // Balise vide
                 if (result.text == '')
                     document.getElementById('qr_code_result').textContent = 'Aucun code flashé...';
@@ -220,19 +228,6 @@ var app = {
         this.nbMarksFind++;
 
         var q = this.infosParcours[this.currentMark]['Question'];
-
-        // Balise basique
-        if (this.currentMark < this.infosParcours.length - 1) {
-            this.questionBalise(q);
-        }
-        // Dernière balise = question entrepreneur
-        else if (this.currentMark == this.infosParcours.length - 1) {
-            // TODO this.questionEntrepreneur(q);
-        }
-    },
-
-    // Question simple posée lorsque l'on trouve une balise
-    questionBalise: function (q) {
         var question = document.getElementById('question');
 
         var score = question.getElementsByClassName('score')[0].getElementsByClassName('valeur')[0];
@@ -332,8 +327,6 @@ var app = {
                 reponse.getElementsByClassName('correct')[0].style['display'] = 'block';
                 reponse.getElementsByClassName('partial')[0].style['display'] = 'block';
 
-                console.log(nbOfCorrectAnswers);
-                console.log(nbResponses);
                 scoreToAdd = Math.round(document.getElementById('form_pari').value * q.difficulte * (nbOfCorrectAnswers / nbResponses));
             }
 
@@ -393,6 +386,79 @@ var app = {
         }
 
         this.currentMark++;
+    },
+
+    // Affichage de l'entrepreneur
+    showEntrepeneur: function (idEntrepreneur) {
+        document.getElementById('ent' + this.entrepreneurSelect).style['display'] = 'none';
+        document.getElementById('ent' + idEntrepreneur).style['display'] = 'block';
+
+        this.entrepreneurSelect = idEntrepreneur;
+    },
+
+    // Question sur l'entrepreneur mystère si on est sur la dernière balise
+    showQuestionEntrepreneurView: function () {
+        console.log(this.entrepreneurs);
+        console.log(this.entrepreneurToFind);
+
+        for (var i = 0; i < this.entrepreneurs.length; i++) {
+            var aMiniature = document.createElement('a');
+
+            var img = document.createElement('img');
+            img.setAttribute('src', 'img/user.svg');
+            img.setAttribute('alt', this.entrepreneurs[i].Entrepreneur.prenom + ' ' + this.entrepreneurs[i].Entrepreneur.nom);
+            img.setAttribute('class', 'ent_min');
+
+            aMiniature.appendChild(img);
+
+            var div = document.createElement('div');
+            div.setAttribute('id', 'ent' + i);
+            div.style['display'] = 'none';
+
+            var p = document.createElement('p');
+            p.setAttribute('class', 'ent_nom');
+
+            p.appendChild(document.createTextNode(this.entrepreneurs[i].Entrepreneur.prenom + ' ' + this.entrepreneurs[i].Entrepreneur.nom));
+
+            var div_question = document.createElement('ent_desc');
+
+            for (var j = 0; j < this.entrepreneurs[i].Entrepreneur.interviewQ.length; j++) {
+                var p_question = document.createElement('p');
+                var p_reponse = document.createElement('p');
+
+                p_question.setAttribute('class', 'ent_question');
+                p_reponse.setAttribute('class', 'ent_reponse');
+
+                p_question.appendChild(document.createTextNode(this.entrepreneurs[i].Entrepreneur.interviewQ[j]));
+                p_reponse.appendChild(document.createTextNode(this.entrepreneurs[i].Entrepreneur.interviewR[j]));
+
+                div_question.appendChild(p_question);
+                div_question.appendChild(p_reponse);
+            }
+
+            div.appendChild(p);
+            div.appendChild(div_question);
+            document.getElementById('ents_presentation').appendChild(div);
+
+            aMiniature.onclick = addEventListener("click", this.showEntrepeneur(i));
+            document.getElementsByClassName('ents_miniatures')[0].appendChild(aMiniature);
+
+            this.showEntrepeneur(0);
+        }
+
+        /* TODO
+
+        document.getElementById('modal_all_indice').setAttribute('disabled', 'false');
+
+        var indices = "";
+
+        for (var index = 0; index < this.indiceEntrepreneur.length; index++) {
+            var indiceBonneRep = this.indiceEntrepreneur[index];
+            indices += (index + 1) + " -> " + indiceBonneRep + "\n";
+        }
+
+        document.getElementById('all_founded_indice').appendChild(document.createTextNode(indices));
+        */
     },
 };
 
@@ -461,6 +527,12 @@ window.onload = function () {
 
     document.getElementById('btn_compass').onclick = function (event) {
         app.showView('#compass');
+
+        event.preventDefault();
+    };
+
+    document.getElementById('btn_entrepreneurs').onclick = function (event) {
+        app.showView('#entrepreneurs');
 
         event.preventDefault();
     };
