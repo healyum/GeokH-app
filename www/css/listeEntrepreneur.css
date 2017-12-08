@@ -1,5 +1,6 @@
 #entrepreneurs .ent_min {
     margin: 7px 14px;
+    width: 10rem;
 }
 
 #entrepreneurs .ents_miniatures a {
@@ -25,3 +26,15 @@
 #entrepreneur_mystere .ent_img {
     margin: 7px 50px;
 }
+
+.ent_reponse{
+    padding: 0 20px 10px 20px;
+    font-size: 1.2em;
+    text-align: justify;
+}
+
+.entrepreneur_bouton_conteneur{
+    margin-bottom:1.5rem;
+}
+
+.ents_miniatures
