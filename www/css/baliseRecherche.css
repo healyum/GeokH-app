@@ -37,7 +37,7 @@
     vertical-align: bottom;
 }
 
-.banniere_balise {
+.banniere_balise, .ent_nom {
     background-image: url("../img/partie/banniere.png");
     line-height: 50px;
     color: white;
@@ -84,7 +84,7 @@
     top: -45px;
 }
 
-#btn_pass, #btn_flash {
+#btn_pass, #btn_flash, #modal_all_indice {
     width: 40%;
     border: 0;
     background-color: #ff3366;
@@ -95,7 +95,7 @@
     height: 64px;
 }
 
-#btn_pass {
+#btn_pass, #modal_all_indice {
     background-color: #909090;
     margin-right: 20px;
 }
