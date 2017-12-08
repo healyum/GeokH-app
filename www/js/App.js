@@ -14,6 +14,8 @@ var app = {
     currentMark: 0,
     nbMarksFind: 0,
     nbAnswers: 0,
+    bonusEntrepreneur: 500,
+    currentTime: 0,
     indiceEntrepreneur: [],
     isTimerLoaded: false,
 
@@ -52,6 +54,14 @@ var app = {
                 this.showQuestionEntrepreneurView();
                 break;
 
+            case '#entrepreneur_mystere':
+                this.showEntrepreneurMystereView();
+                break;
+
+            case '#scores':
+                this.showScoreView();
+                break;
+
             default:
                 break;
         }
@@ -85,8 +95,9 @@ var app = {
                     label.setAttribute('for', 'form_parcours' + indexParcours);
 
                     label.appendChild(document.createTextNode('Parcours numéro ' + parseInt(indexParcours + 1)));
-                    document.getElementById('form_parcours').appendChild(label);
                     document.getElementById('form_parcours').appendChild(input);
+                    document.getElementById('form_parcours').appendChild(label);
+                    document.getElementById('form_parcours').appendChild(document.createElement('br'));
                 }
 
                 app.showView('#connexion');
@@ -110,7 +121,7 @@ var app = {
 
             success: function (data) {
                 app.infosParcours = data;
-                app.nbAjaxExec+= 'a';
+                app.nbAjaxExec += 'a';
 
                 if (app.nbAjaxExec.match('a') && app.nbAjaxExec.match('b'))
                     app.showView('#compass');
@@ -394,22 +405,20 @@ var app = {
         document.getElementById('ent' + idEntrepreneur).style['display'] = 'block';
 
         this.entrepreneurSelect = idEntrepreneur;
+
+        return false;
     },
 
     // Question sur l'entrepreneur mystère si on est sur la dernière balise
     showQuestionEntrepreneurView: function () {
-        console.log(this.entrepreneurs);
-        console.log(this.entrepreneurToFind);
-
         for (var i = 0; i < this.entrepreneurs.length; i++) {
-            var aMiniature = document.createElement('a');
-
             var img = document.createElement('img');
             img.setAttribute('src', 'img/user.svg');
             img.setAttribute('alt', this.entrepreneurs[i].Entrepreneur.prenom + ' ' + this.entrepreneurs[i].Entrepreneur.nom);
             img.setAttribute('class', 'ent_min');
+            img.setAttribute('onclick', 'app.showEntrepeneur(' + i + ')');
 
-            aMiniature.appendChild(img);
+            document.getElementsByClassName('ents_miniatures')[0].appendChild(img);
 
             var div = document.createElement('div');
             div.setAttribute('id', 'ent' + i);
@@ -440,15 +449,8 @@ var app = {
             div.appendChild(div_question);
             document.getElementById('ents_presentation').appendChild(div);
 
-            aMiniature.onclick = addEventListener("click", this.showEntrepeneur(i));
-            document.getElementsByClassName('ents_miniatures')[0].appendChild(aMiniature);
-
             this.showEntrepeneur(0);
         }
-
-        /* TODO
-
-        document.getElementById('modal_all_indice').setAttribute('disabled', 'false');
 
         var indices = "";
 
@@ -457,8 +459,69 @@ var app = {
             indices += (index + 1) + " -> " + indiceBonneRep + "\n";
         }
 
+        if (this.indiceEntrepreneur.length == 0)
+            indices = "Aucun indice trouvé";
+
         document.getElementById('all_founded_indice').appendChild(document.createTextNode(indices));
-        */
+    },
+
+    // Affiche la vue des entrepreneurs mystères
+    showEntrepreneurMystereView: function () {
+        var balise = document.getElementById('entrepreneur_mystere');
+        var correction = balise.getElementsByClassName('correction')[0];
+        var score = balise.getElementsByClassName('score')[0];
+        var bonus = score.getElementsByClassName('bonus')[0];
+
+        console.log(bonus);
+        // Bonne réponse trouvée
+        if (this.entrepreneurSelect == this.entrepreneurToFind) {
+            correction.getElementsByClassName('correct')[0].style['display'] = 'block';
+            correction.getElementsByClassName('errone')[0].style['display'] = 'none';
+
+            bonus.appendChild(document.createTextNode('+' + this.bonusEntrepreneur));
+            bonus.style['display'] = 'block';
+
+            this.score += this.bonusEntrepreneur;
+        } else {
+            correction.getElementsByClassName('errone')[0].style['display'] = 'block';
+            correction.getElementsByClassName('correct')[0].style['display'] = 'none';
+
+            bonus.style['display'] = 'none';
+        }
+
+        var entrepreneur = balise.getElementsByClassName('ent_presentation')[0];
+
+        entrepreneur.getElementsByClassName('ent_nom')[0].appendChild(document.createTextNode(this.entrepreneurs[this.entrepreneurToFind].Entrepreneur.nom));
+        entrepreneur.getElementsByClassName('ent_prenom')[0].appendChild(document.createTextNode(this.entrepreneurs[this.entrepreneurToFind].Entrepreneur.prenom));
+
+        score.getElementsByClassName('valeur')[0].appendChild(document.createTextNode('' + this.score));
+    },
+
+    // Affichage du score
+    showScoreView: function () {
+        var scores = document.getElementById('scores');
+
+        var niveau = scores.getElementsByClassName('niveau')[0];
+        niveau.getElementsByClassName('valeur')[0].appendChild(document.createTextNode('' + this.level));
+
+        var balises = scores.getElementsByClassName('balises')[0];
+        balises.getElementsByClassName('valeur')[0].appendChild(document.createTextNode('' + this.nbMarksFind));
+        balises.getElementsByClassName('maximum')[0].appendChild(document.createTextNode('' + (this.infosParcours.length - 1)));
+
+        balises.getElementsByClassName('valeur')[0].appendChild(document.createTextNode('' + this.nbMarksFind));
+        balises.getElementsByClassName('maximum')[0].appendChild(document.createTextNode('' + (this.infosParcours.length - 1)));
+
+        var reponses = scores.getElementsByClassName('reponses')[0];
+        reponses.getElementsByClassName('valeur')[0].appendChild(document.createTextNode('' + this.nbAnswers));
+        reponses.getElementsByClassName('maximum')[0].appendChild(document.createTextNode('' + (this.infosParcours.length - 1)));
+
+        var points = scores.getElementsByClassName('points')[0];
+        points.getElementsByClassName('valeur')[0].appendChild(document.createTextNode('' + this.score));
+
+        stopwatch();
+
+        var timeString = formatTime(app.currentTime);
+        document.getElementById('timer_final').appendChild(document.createTextNode('' + timeString));
     },
 };
 
@@ -537,19 +600,31 @@ window.onload = function () {
         event.preventDefault();
     };
 
+    var modalIndice = document.getElementById('modal_all_indice');
+    modalIndice.onclick = function () {
+        navigator.notification.confirm(document.getElementById("all_founded_indice").textContent, null, 'Indices', ['Merci !']);
+    };
+
     // appelle de onDeviceReady()
     document.addEventListener('deviceready', onDeviceReady, false);
+
+    document.getElementById('btn_entrepreneur_mystere').onclick = function (event) {
+        app.showView("#entrepreneur_mystere");
+
+        event.preventDefault();
+    };
+
+    document.getElementById('btn_scores').onclick = function (event) {
+        app.showView('#scores');
+
+        event.preventDefault();
+    };
 };
 
 // onDeviceReady
 function onDeviceReady() {
     // Evenement boutons Android
     document.addEventListener('backbutton', onBackKeyDown, false);
-
-    var modalIndice = document.getElementById('modal_all_indice');
-    modalIndice.onclick = function () {
-        navigator.notification.confirm(modalIndice.textContent, null, 'Indices', ['Merci !']);
-    };
 
     document.getElementById('btn_pass').onclick = function () {
         navigator.notification.confirm('Etes-vous certain de vouloir passer cette balise ? \n Vous allez perdre 150 points !', onConfirmPassMark, 'Passer la balise', ['Oui', 'Non']);
