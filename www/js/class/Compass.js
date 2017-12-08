@@ -12,7 +12,7 @@ var compass = {
 
     updateTimer: 500,
 
-    progressBar: new ProgressBar(),
+    //progressBar: new ProgressBar(),
     
     hasMagneticSensor: true,
 
@@ -26,11 +26,13 @@ var compass = {
 
         updateDistance(distance);
 
+        /*
         if (!compass.progressBar.isInitialized)
             compass.progressBar.initialize(distance, compass.data.destination);
 
         if (compass.data.destination != compass.progressBar.destination)
             compass.progressBar.initialize(distance, compass.data.destination);
+        */
     },
 
     activateLocation: function() {
@@ -48,8 +50,10 @@ var compass = {
     onSuccessOrientation: function(heading) {
         compass.data.heading = heading;
 
-        var angle = compass.data.actualPosition.bearingTo(compass.data.destination) - compass.data.heading.magneticHeading;
-        rotate(Math.round(angle));
+        if (compass.data.actualPosition != null) {
+            var angle = compass.data.actualPosition.bearingTo(compass.data.destination) - compass.data.heading.magneticHeading;
+            rotate(Math.round(angle));
+        }
     },
 
     activateOrientation: function() {
