@@ -43,6 +43,8 @@
     color: white;
     font-weight: bold;
     font-size: 1.8em;
+    background-repeat: no-repeat;
+    background-size: 100%;
 }
 
 .indice_icone {
