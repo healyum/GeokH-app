@@ -1,23 +1,33 @@
 language: android
 
-node_js:
-  - 7
-
-notifications:
-  email: false
-
 sudo: false
 
-branches:
-  only:
-  - master
-  - travis
+jdk:
+    - oraclejdk8
+
+env:
+    global:
+      - ANDROID_TOOLS=${ANDROID_HOME}/tools
+
+before_install:
+    - nvm install 7
+    # ensure at least gradle 3.3 is in place.
+    - wget http://services.gradle.org/distributions/gradle-4.2.1-bin.zip
+    - unzip gradle-4.2.1-bin.zip
+    - export GRADLE_HOME=$PWD/gradle-4.2.1
+    - export PATH=${GRADLE_HOME}/bin:${ANDROID_HOME}:${ANDROID_HOME}/emulator:${ANDROID_TOOLS}:${ANDROID_TOOLS}/bin:${ANDROID_HOME}/platform-tools:$PATH
+    - node --version
+    - gradle --version
+    - echo y | android update sdk -u --filter android-25
+
+android:
+    components:
+      - tools
 
 install:
   - npm cache clean
   - npm install
   - npm install -g cordova
-  - echo y | android update sdk -u --filter android-25
 
 before_script:
   - cordova platform rm android
