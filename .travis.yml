@@ -13,6 +13,9 @@ branches:
   - master
   - travis
 
+before_install:
+  - npm i -g npm@5.4.2
+
 install:
   - npm cache clean
   - npm install
