@@ -175,6 +175,7 @@ var app = {
         document.getElementById('conseilHide').style['display'] = 'block';
         // Cache l'indice
         document.getElementById('compass').getElementsByClassName('conseil')[0].getElementsByClassName('valeur')[0].style['display'] = 'none';
+        document.getElementById('compass').getElementsByClassName('conseil')[0].getElementsByClassName('valeur')[0].textContent = '' + this.infosParcours[this.currentMark].Balise.indice;
 
         // Affiche le nombre de balises trouvées / nombre de balises totales
         document.getElementById('numero_balise').textContent = '' + (this.currentMark + 1);
