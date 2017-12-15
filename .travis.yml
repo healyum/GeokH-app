@@ -38,7 +38,7 @@ before_script:
 
 script:
   - cordova prepare
-  - cordova build android --release -- --ant
+  - cordova build android --release
 
 release:
   - exit 0
