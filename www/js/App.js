@@ -473,7 +473,6 @@ var app = {
         var score = balise.getElementsByClassName('score')[0];
         var bonus = score.getElementsByClassName('bonus')[0];
 
-        console.log(bonus);
         // Bonne réponse trouvée
         if (this.entrepreneurSelect == this.entrepreneurToFind) {
             correction.getElementsByClassName('correct')[0].style['display'] = 'block';
@@ -561,6 +560,10 @@ window.onload = function () {
         event.preventDefault();
     };
 
+    document.getElementById('btn_pass').onclick = function () {
+        navigator.notification.confirm('Etes-vous certain de vouloir passer cette balise ? \n Vous allez perdre 150 points !', onConfirmPassMark, 'Passer la balise', ['Oui', 'Non']);
+    };
+
     document.getElementById('btn_compass_retour').onclick = function (event) {
         app.showView('#compass');
 
@@ -598,18 +601,15 @@ window.onload = function () {
         event.preventDefault();
     };
 
-    var modalIndice = document.getElementById('modal_all_indice');
-    modalIndice.onclick = function () {
-        navigator.notification.confirm(document.getElementById("all_founded_indice").textContent, null, 'Indices', ['Merci !']);
-    };
-
-    // appelle de onDeviceReady()
-    document.addEventListener('deviceready', onDeviceReady, false);
-
     document.getElementById('btn_entrepreneur_mystere').onclick = function (event) {
         app.showView("#entrepreneur_mystere");
 
         event.preventDefault();
+    };
+
+    var modalIndice = document.getElementById('modal_all_indice');
+    modalIndice.onclick = function () {
+        navigator.notification.confirm(document.getElementById("all_founded_indice").textContent, null, 'Indices', ['Merci !']);
     };
 
     document.getElementById('btn_scores').onclick = function (event) {
@@ -617,6 +617,9 @@ window.onload = function () {
 
         event.preventDefault();
     };
+
+    // appelle de onDeviceReady()
+    document.addEventListener('deviceready', onDeviceReady, false);
 };
 
 // onDeviceReady
@@ -624,7 +627,6 @@ function onDeviceReady() {
     // Evenement boutons Android
     document.addEventListener('backbutton', onBackKeyDown, false);
 
-    document.getElementById('btn_pass').onclick = function () {
-        navigator.notification.confirm('Etes-vous certain de vouloir passer cette balise ? \n Vous allez perdre 150 points !', onConfirmPassMark, 'Passer la balise', ['Oui', 'Non']);
-    };
+    window.plugins.insomnia.keepAwake();
+
 }

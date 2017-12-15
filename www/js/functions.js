@@ -122,7 +122,6 @@ function exitFromApp() {
     navigator.app.exitApp();
 }
 
-// window.plugins.insomnia.keepAwake(function() {console.log('Insomnia up')}, function() {console.log('Insomnia error')});
 /* TODO
 function onConfirmStorage(button) {
 // Si 'Continuer' sur la sauvegarde
