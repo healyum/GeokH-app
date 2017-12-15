@@ -508,9 +508,6 @@ var app = {
         balises.getElementsByClassName('valeur')[0].appendChild(document.createTextNode('' + this.nbMarksFind));
         balises.getElementsByClassName('maximum')[0].appendChild(document.createTextNode('' + (this.infosParcours.length - 1)));
 
-        balises.getElementsByClassName('valeur')[0].appendChild(document.createTextNode('' + this.nbMarksFind));
-        balises.getElementsByClassName('maximum')[0].appendChild(document.createTextNode('' + (this.infosParcours.length - 1)));
-
         var reponses = scores.getElementsByClassName('reponses')[0];
         reponses.getElementsByClassName('valeur')[0].appendChild(document.createTextNode('' + this.nbAnswers));
         reponses.getElementsByClassName('maximum')[0].appendChild(document.createTextNode('' + (this.infosParcours.length - 1)));

@@ -29,7 +29,7 @@ function formatTime(time) {
 }
 
 function stopwatch() {
-    timer.stop().once();
+    $.timer.isActive = false;
 }
 
 function startTimer() {
