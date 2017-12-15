@@ -1,7 +1,7 @@
 language: android
 
 node_js:
-  - 5.4
+  - 7
 
 notifications:
   email: false
@@ -12,9 +12,6 @@ branches:
   only:
   - master
   - travis
-
-before_install:
-  - npm i -g npm@5.4.2
 
 install:
   - npm cache clean
