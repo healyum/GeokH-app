@@ -5,7 +5,6 @@ jdk:
 env:
   global:
   - ANDROID_TOOLS=${ANDROID_HOME}/tools
-  - secure: VZFpVhGYyoPIxEabWoEQSv/DstXWMNVB/jASPpLWi3TyT4eqPF2E6b3NqJwgu3+uo52aTarUIdMvVQE47+/lFCXRaKFc04v6L9iL0uVBptoeT0/ZFX+iE/6h0On5prgjhLhA1/MKSk+AdvTj5LcgMjLPo2jLD4+ydd8OJVveYdlwlk6POnJPPXWarFsNaEw6RRgQ8p1qqMAV2Bn3iPIdayVUPCcZWA9VcXQFDQWfpC90M3uT9wXJ+TCGsbC5wWFAPmnuGDw4ApD44+tE8kNkup5oWWRS8cVsAcKrM2Dz5qYGG+WX+JiEg548+92LitnFgFYz9uBGM7tIV1gB11ik+7HZnkFH+SR/UFc7anM2JVXv11u+s8xTOU6qYXwWjs2Q4tbpjWJUMgOPeaXUWaWXX3svYB2NMPwgGJW2rZ9WyHXE3jr6q0QNRqIZunBXABpnrcSrsm8MSokOLfPi1yg4tinHRSOeA6L8XluLGxdOKI8KLiSiFBwbLrRD3Res1htlILfNuHBgDciQpxDwcDP7HgHU01VmEifjk4qxs7qlZUDXiFsQpLTxwdERaN122/sY06wOEdJHiZY2TI3Ls1BB1Ik1iAIV/D9hZueVv9NpJAmo6kChuV9cuzpgpEYgfgfYOq057+jC9hCpRYWtRboKTwVg9SpCUkY8jdUaOqOh3f0=
 notifications:
   email: false
 before_install:
@@ -34,7 +33,7 @@ release:
 - exit 0
 deploy:
   provider: releases
-  api_key: "VZFpVhGYyoPIxEabWoEQSv/DstXWMNVB/jASPpLWi3TyT4eqPF2E6b3NqJwgu3+uo52aTarUIdMvVQE47+/lFCXRaKFc04v6L9iL0uVBptoeT0/ZFX+iE/6h0On5prgjhLhA1/MKSk+AdvTj5LcgMjLPo2jLD4+ydd8OJVveYdlwlk6POnJPPXWarFsNaEw6RRgQ8p1qqMAV2Bn3iPIdayVUPCcZWA9VcXQFDQWfpC90M3uT9wXJ+TCGsbC5wWFAPmnuGDw4ApD44+tE8kNkup5oWWRS8cVsAcKrM2Dz5qYGG+WX+JiEg548+92LitnFgFYz9uBGM7tIV1gB11ik+7HZnkFH+SR/UFc7anM2JVXv11u+s8xTOU6qYXwWjs2Q4tbpjWJUMgOPeaXUWaWXX3svYB2NMPwgGJW2rZ9WyHXE3jr6q0QNRqIZunBXABpnrcSrsm8MSokOLfPi1yg4tinHRSOeA6L8XluLGxdOKI8KLiSiFBwbLrRD3Res1htlILfNuHBgDciQpxDwcDP7HgHU01VmEifjk4qxs7qlZUDXiFsQpLTxwdERaN122/sY06wOEdJHiZY2TI3Ls1BB1Ik1iAIV/D9hZueVv9NpJAmo6kChuV9cuzpgpEYgfgfYOq057+jC9hCpRYWtRboKTwVg9SpCUkY8jdUaOqOh3f0="
+  api_key: ${GH_TOKEN}
   file: "/home/travis/build/healyum/GeokH-app/platforms/android/build/outputs/apk/android-release-unsigned.apk"
   skip_cleanup: true
   on:
