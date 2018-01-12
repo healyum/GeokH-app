@@ -23,9 +23,6 @@
 
 /* 8. l'entrepreneur mystere  */
 
-#entrepreneur_mystere .ent_img {
-    margin: 7px 50px;
-}
 
 .ent_reponse{
     padding: 0 20px 10px 20px;
@@ -37,4 +34,21 @@
     margin-bottom:1.5rem;
 }
 
-.ents_miniatures
+#entrepreneur_mystere{
+    overflow-y: scroll;
+}
+
+.uppercase{
+    text-transform: uppercase;
+}
+
+.couleur_entrepreneur{
+    color:#E81D1D;
+}
+
+.ent_presentation .ent_img{
+    width: 14rem;
+    border-radius: 50rem;
+    border: solid 1rem #E7E7E7;
+    margin-top: 2rem;
+}

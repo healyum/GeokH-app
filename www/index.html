@@ -80,29 +80,8 @@
 
     <section class="view" id="connexion">
 
-        <div id="logo">
+        <div class="logo_entete">
         </div>
-        <!--
-                        <form method="post" action="" id="form_connexion">
-                            <div class="inpt_text info">
-                                <label for="form_equipe">Equipe : </label>
-                                <input type="text" name="form_equipe" id="form_equipe" required>
-                            </div>
-                            <div id="form_niveau" class="form_groupe info">
-                                <p>Niveau :</p>
-                                <input type="radio" name="form_niveau" id="form_niveau1" value="1" checked="checked"/><label
-                                    for="form_niveau1">Débutant</label>
-                                <!--
-                                <input type="radio" name="form_niveau" id="form_niveau2" value="2" /><label for="form_niveau2">Avancé</label>
-                                -->
-        <!--   </div>
-           <div id="form_parcours" class="form_groupe">
-               <p>Parcours :</p>
-           </div>
-           <input type="submit" name="submit" value="Lancer la partie" class="form_submit"/>
-       </form>
-
-       -->
         <form method="post" action="" id="form_connexion">
 
             <div class="info">
@@ -127,7 +106,6 @@
             </div>
 
             <input type="submit" name="submit" value="Lancer la partie" class="button" id="bouton_commencer_partie"/>
-
         </form>
 
         <div class="footer"></div>
@@ -162,15 +140,6 @@
             <div class="boussole">
                 <img src="img/partie/boussole-aiguille.png" alt="boussole" id="compass_elt">
             </div>
-
-            <!--<p class="balise-progress">Progression :</p>
-            <div id="progress-bar" style="display:none">
-                <div class="progress-content">
-                    <div class="progress-filling">-->
-                        <!-- Remplissage du thermometer en fonction de la distance restante -->
-                    <!--</div>
-                </div>
-            </div>-->
 
             <div class="informations_balise">
                 <div class="distance">
@@ -267,8 +236,8 @@
         <div class="score">
             <p><img src="img/partie/icone-score.png" alt="score"/></p>
             <p>SCORE</p>
-            <p class="valeur"><strong><span></span></strong><span>points</span></p>
-            <p class="bonus correct">+<span>XXX</span></p>
+            <p class="valeur"><strong><span></span></strong><span> points</span></p>
+            <p class="bonus correct">+<span>XXX</span> (points)</p>
         </div>
         <div class="retour">
             <p class="correct">Complément :</p>
@@ -305,23 +274,26 @@
     <!-- l'entrepreneur mystere -->
 
     <section class="view" id="entrepreneur_mystere">
-        <div class="correction">
-            <p class="correct">Bonne réponse.</p>
-            <p class="errone">Mauvaise réponse.</p>
+        <div class="logo_entete">
         </div>
-        <p>L'entrepreneur mystère est : </p>
+
+        <div class="correction">
+            <p class="correct banniere_balise">Bonne réponse</p>
+            <p class="errone banniere_balise">Mauvaise réponse</p>
+        </div>
         <div class="ent_presentation">
             <img src="img/user.svg" alt="" class="ent_img"/>
-            <p class="ent_nom"></p>
-            <p class="ent_prenom"></p>
+            <p class="uppercase">L'entrepreneur mystère est <span class="couleur_entrepreneur"><span class="ent_nom"></span> <span class="ent_prenom"></span></span></p>
         </div>
         <div class="score">
-            <p>Score :</p>
-            <p class="bonus"></p>
-            <p class="valeur"></p>
-            <p> points</p>
+            <p><img src="img/partie/icone-score.png" alt="score"/></p>
+            <p>SCORE</p>
+            <span class="bonus"></span>
+            <span class="valeur"></span>
         </div>
-        <button id="btn_scores">Voir les scores</button>
+        <button id="btn_scores" class="button">Voir les scores</button>
+
+        <div class="footer"></div>
     </section>
 
     <!-- Scores finaux -->
@@ -350,28 +322,7 @@
             <span>Points </span>
             <span class="valeur"></span>
         </p>
-        <button id="btn_credits">Finir la partie</button>
-    </section>
-
-    <!--  Credits -->
-
-    <section class="view" id="credits">
-        <h2>Crédits :</h2>
-        <div class="credits">
-            <img class="img_credits" src="img/ipm_logo.jpg" alt="IPM Logo">
-            <img class="img_credits" src="img/lille1_logo.jpg" alt="Lille1 Logo">
-        </div>
-        <h3>Développeurs</h3>
-        <div class="dev">
-            Antoine Durigneux <br>
-            Quentin Coët<br>
-            Pauline Goblot<br>
-            Raphael Bauduin<br>
-            Benjamin Bermont<br>
-            Mickaël Matuchak<br>
-        </div>
-        <br><br>
-        <button id="btn_quitter">Quitter l'application</button>
+        <button id="btn_quitter">Finir la partie</button>
     </section>
 </section>
 
