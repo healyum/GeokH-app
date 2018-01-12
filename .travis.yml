@@ -25,7 +25,7 @@ install:
 - npm install -g cordova
 before_script:
 - cordova platform rm android
-- cordova platform add android@6.2.3
+- cordova platform add android@6.3.0
 script:
 - cordova prepare
 - cordova build android --release

@@ -22,7 +22,7 @@ Lister les plateformes disponibles :
 
 Ajouter une plateforme (android pour l'exemple) : 
 
-    $ cordova platform add android@6.2.3
+    $ cordova platform add android@6.3.0
     
 Compiler l'application pour toutes les plateformes:
 
