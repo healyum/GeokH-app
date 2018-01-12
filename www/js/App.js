@@ -1,13 +1,12 @@
 // Object app
 var app = {
     actualView: '#accueil',
-    urlApi: 'https://geokh.herokuapp.com/api',
     level: 1,
+    parcours: null,
     numParcours: 0,
     score: 0,
     infosParcours: null,
-    nbAjaxExec: null,
-    entrepreneurs: [],
+    entrepreneurs: null,
     entrepreneurToFind: null,
     entrepreneurSelect: 0,
     onInit: false,
@@ -69,96 +68,62 @@ var app = {
 
     // Récupère les parcours sur l'API
     showViewParcours: function () {
-        $.ajax({
-            url: app.urlApi + '/parcours',
-            type: 'GET',
-            dataType: 'json',
-            contentType: 'application/json; charset=utf-8',
-            crossDomain: true,
-            data: {},
+        this.parcours = jQuery.parseJSON((window.localStorage.getItem('parcours')));
 
-            success: function (data) {
-                if (data.length == 0)
-                    navigator.notification.confirm('Il n\'y a aucun parcours actif', null, 'Erreur', ['Ok']);
+        if (this.parcours === null) {
+            navigator.notification.confirm('Aucun parcours enregistré. Mettez à jour les parcours !', null, 'Erreur', ['Ok']);
+        }
 
-                for (var indexParcours = 0; indexParcours < data.length; indexParcours++) {
-                    var input = document.createElement('input');
-                    input.value = data[indexParcours]['id'];
-                    input.setAttribute('type', 'radio');
-                    input.setAttribute('name', 'form_parcours');
-                    input.setAttribute('id', 'form_parcours' + indexParcours);
+        else {
+            console.log("Utilisation du LocalStorage pour récupérer la liste des parcours");
 
-                    if (indexParcours == 0)
-                        input.setAttribute('checked', 'checked');
+            if (this.parcours !== null) {
+                for (var indexParcours = 0; indexParcours < this.parcours.length; indexParcours++) {
+                    var divForm = document.getElementById('form_parcours');
 
-                    var label = document.createElement('label');
-                    label.setAttribute('for', 'form_parcours' + indexParcours);
+                    if (document.getElementById('form_parcours' + indexParcours) === null || document.getElementById('form_parcours' + indexParcours) === undefined) {
+                        var input = document.createElement('input');
+                        input.value = this.parcours[indexParcours]['id'];
+                        input.setAttribute('type', 'radio');
+                        input.setAttribute('name', 'form_parcours');
+                        input.setAttribute('id', 'form_parcours' + indexParcours);
 
-                    label.appendChild(document.createTextNode('Parcours numéro ' + parseInt(indexParcours + 1)));
-                    document.getElementById('form_parcours').appendChild(input);
-                    document.getElementById('form_parcours').appendChild(label);
-                    document.getElementById('form_parcours').appendChild(document.createElement('br'));
+                        if (indexParcours == 0)
+                            input.setAttribute('checked', 'checked');
+
+                        var label = document.createElement('label');
+                        label.setAttribute('for', 'form_parcours' + indexParcours);
+
+                        label.appendChild(document.createTextNode('Parcours numéro ' + parseInt(indexParcours + 1)));
+                        divForm.appendChild(input);
+                        divForm.appendChild(label);
+                        divForm.appendChild(document.createElement('br'));
+                    }
                 }
-
-                app.showView('#connexion');
-            },
-
-            error: function () {
-                navigator.notification.confirm('Probleme de communication avec le serveur', null, 'Erreur', ['Ok']);
             }
-        });
+
+            app.showView('#connexion');
+        }
     },
 
-    // Récupère les balises et les question d'un parcours
-    showPtoBQS: function () {
-        $.ajax({
-            url: app.urlApi + '/ptobqs/parcour/' + app.numParcours,
-            type: 'GET',
-            dataType: 'json',
-            contentType: 'application/json; charset=utf-8',
-            crossDomain: true,
-            data: {},
+    // Récupère les balises et les questions d'un parcours
+    fetchInformationParcours: function () {
+        this.infosParcours = jQuery.parseJSON((window.localStorage.getItem('infoParcours' + app.numParcours)));
+        this.entrepreneurs = jQuery.parseJSON((window.localStorage.getItem('infoEntrepreneurs' + app.numParcours)));
 
-            success: function (data) {
-                app.infosParcours = data;
-                app.nbAjaxExec += 'a';
+        if (this.infosParcours === null || this.entrepreneurs === null) {
+            navigator.notification.confirm('Les informations du parcours sont manquantes. Mettez à jour les parcours !', null, 'Erreur', ['Ok']);
+        }
 
-                if (app.nbAjaxExec.match('a') && app.nbAjaxExec.match('b'))
-                    app.showView('#compass');
-            },
+        else {
+            console.log("Utilisation du LocalStorage pour récupérer la liste des balises / questions");
+            console.log("Utilisation du LocalStorage pour récupérer la liste des entrepreneurs");
 
-            error: function () {
-                navigator.notification.confirm('Probleme de communication avec le serveur', null, 'Erreur', ['Ok']);
-                app.showView('#connexion');
-            }
-        });
-    },
+            this.entrepreneurToFind = randomIntFromInterval(0, this.entrepreneurs.length - 1);
 
-    // Récupère les entrepreneurs d'un parcours
-    showPtoES: function () {
-        $.ajax({
-            url: app.urlApi + '/ptoes/parcour/' + app.numParcours,
-            type: 'GET',
-            dataType: 'json',
-            contentType: 'application/json; charset=utf-8',
-            crossDomain: true,
-            data: {},
-
-            success: function (data) {
-                app.entrepreneurs = data;
-                app.entrepreneurToFind = randomIntFromInterval(0, app.entrepreneurs.length - 1);
-
-                app.nbAjaxExec += 'b';
-
-                if (app.nbAjaxExec.match('a') && app.nbAjaxExec.match('b'))
-                    app.showView('#compass');
-            },
-
-            error: function () {
-                navigator.notification.confirm('Problème lors de la récupération des entrepreneurs', null, 'Erreur', ['OK']);
-                app.showView('#connexion');
-            }
-        });
+            // Si les informations des questions et des entrepreneurs sont présents
+            app.showView('#compass');
+        }
     },
 
     // Affiche le compass avec les informations nécessaires de la balise
@@ -530,10 +495,17 @@ window.onload = function () {
 
     // Evenements boutons
     document.getElementById('btn_connexion').onclick = function (event) {
-        if (checkConnection())
-            app.showViewParcours();
+        app.showViewParcours();
+    };
+
+    document.getElementById('btn_maj').onclick = function (event) {
+        if (checkConnection()) {
+            window.localStorage.clear();
+
+            AjaxRequest.fetchAllParcours();
+        }
         else
-            navigator.notification.confirm('Vous devez être connecté à internet pour jouer', null, 'Connexion internet requise', ['OK']);
+            navigator.notification.confirm('Vous devez être connecté pour mettre à jour les parcours.', null, 'Connexion internet requise', ['OK']);
 
         event.preventDefault();
     };
@@ -548,8 +520,7 @@ window.onload = function () {
 
         app.equipe = document.getElementById('form_equipe').value;
 
-        app.showPtoBQS();
-        app.showPtoES();
+        app.fetchInformationParcours();
 
         event.preventDefault();
     };
