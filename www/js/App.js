@@ -2,6 +2,7 @@
 var app = {
     actualView: '#accueil',
     equipe: null,
+    urlApi: 'https://geokh.herokuapp.com/api',
     level: 1,
     parcours: null,
     numParcours: 0,

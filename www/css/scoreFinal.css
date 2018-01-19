@@ -1,18 +1,19 @@
-#scores {
-    text-align: left;
-}
-
-#scores p:first-child {
-    text-align: center;
+#scores span {
+    font-size: 1.5rem;
     font-weight: bold;
 }
 
-#scores .valeur {
-    text-align: right;
-    display: inline-block;
+.banniere_jaune {
+    background-image: url(../img/partie/banniere_jaune.png);
+    line-height: 96px;
+    color: white;
+    font-weight: bold;
+    font-size: 2.8rem;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    margin-bottom: 0;
 }
 
-#scores p span:first-child {
-    display: inline-block;
-    width: 250px;
+p.niveau {
+    margin: 0;
 }

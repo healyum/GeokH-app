@@ -2,7 +2,7 @@
     overflow-y: scroll;
 }
 
-#logo {
+.logo_entete {
     background-size: 45%;
     background: url("../img/conditions/conditions_logo.png") no-repeat center;
     height: 200px;
