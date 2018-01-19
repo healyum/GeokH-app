@@ -208,17 +208,22 @@ var app = {
         var question = document.getElementById('question');
 
         var score = question.getElementsByClassName('score')[0].getElementsByClassName('valeur')[0];
-        score.appendChild(document.createElement('span').appendChild(document.createTextNode('' + this.score)));
+        score.getElementsByTagName('span')[0].textContent = '' + this.score;
 
         var difficulte = question.getElementsByClassName('difficulte')[0].getElementsByClassName('valeur')[0];
-        difficulte.appendChild(document.createElement('span').appendChild(document.createTextNode('' + q.difficulte)));
+        difficulte.getElementsByTagName('span')[0].textContent = '' + q.difficulte;
 
         var libQuestion = question.getElementsByClassName('lib_question')[0].getElementsByClassName('valeur')[0];
-        libQuestion.appendChild(document.createElement('span').appendChild(document.createTextNode('' + q.question)));
+        libQuestion.getElementsByTagName('span')[0].textContent = '' + q.question;
 
         // Ajout des réponses
         var form = document.getElementById('form_question');
         var divReponses = form.getElementsByClassName('reponses')[0];
+        var newDivReponses = document.createElement('div');
+        newDivReponses.setAttribute('class', 'reponses');
+
+        form.insertBefore(newDivReponses, divReponses);
+        form.removeChild(form.getElementsByClassName('reponses')[1]);
 
         // Si la question est un QCM, les réponses auront un checkbox
         for (var i = 0; i < q.propositions.length; i++) {
@@ -232,6 +237,7 @@ var app = {
             label.setAttribute('for', 'form_reponse' + (i + 1));
             input.setAttribute('value', '' + i + 1);
             input.setAttribute('name', 'form_reponse[]');
+            input.setAttribute('selected', 'false');
 
             if (q.type == "QCM") {
                 if (q.propositions[i] != "") {
@@ -250,7 +256,7 @@ var app = {
             div.appendChild(input);
             div.appendChild(label);
 
-            divReponses.appendChild(div);
+            newDivReponses.appendChild(div);
         }
     },
 
@@ -301,7 +307,7 @@ var app = {
 
                 scoreToAdd = Math.round(document.getElementById('form_pari').value * q.difficulte);
             } else {
-                reponse.getElementsByClassName('correct')[0].style['display'] = 'block';
+                reponse.getElementsByClassName('correct')[0].style['display'] = 'none';
                 reponse.getElementsByClassName('partial')[0].style['display'] = 'block';
 
                 scoreToAdd = Math.round(document.getElementById('form_pari').value * q.difficulte * (nbOfCorrectAnswers / nbResponses));
@@ -377,6 +383,8 @@ var app = {
 
     // Question sur l'entrepreneur mystère si on est sur la dernière balise
     showQuestionEntrepreneurView: function () {
+        this.nbMarksFind++;
+
         for (var i = 0; i < this.entrepreneurs.length; i++) {
             var img = document.createElement('img');
             img.setAttribute('src', 'img/user.svg');
@@ -440,6 +448,8 @@ var app = {
 
         // Bonne réponse trouvée
         if (this.entrepreneurSelect == this.entrepreneurToFind) {
+            this.nbAnswers++;
+
             correction.getElementsByClassName('correct')[0].style['display'] = 'block';
             correction.getElementsByClassName('errone')[0].style['display'] = 'none';
 
@@ -471,11 +481,11 @@ var app = {
 
         var balises = scores.getElementsByClassName('balises')[0];
         balises.getElementsByClassName('valeur')[0].appendChild(document.createTextNode('' + this.nbMarksFind));
-        balises.getElementsByClassName('maximum')[0].appendChild(document.createTextNode('' + (this.infosParcours.length - 1)));
+        balises.getElementsByClassName('maximum')[0].appendChild(document.createTextNode('' + (this.infosParcours.length)));
 
         var reponses = scores.getElementsByClassName('reponses')[0];
         reponses.getElementsByClassName('valeur')[0].appendChild(document.createTextNode('' + this.nbAnswers));
-        reponses.getElementsByClassName('maximum')[0].appendChild(document.createTextNode('' + (this.infosParcours.length - 1)));
+        reponses.getElementsByClassName('maximum')[0].appendChild(document.createTextNode('' + (this.infosParcours.length)));
 
         var points = scores.getElementsByClassName('points')[0];
         points.getElementsByClassName('valeur')[0].appendChild(document.createTextNode('' + this.score));
@@ -532,7 +542,7 @@ window.onload = function () {
     };
 
     document.getElementById('btn_pass').onclick = function () {
-        navigator.notification.confirm('Etes-vous certain de vouloir passer cette balise ? \n Vous allez perdre 150 points !', onConfirmPassMark, 'Passer la balise', ['Oui', 'Non']);
+        navigator.notification.confirm('Etes-vous certain de vouloir passer cette balise ? \n Vous allez perdre 150 points !', onConfirmPassMark, 'Passer la balise', ['Non', 'Oui']);
     };
 
     document.getElementById('btn_compass_retour').onclick = function (event) {
