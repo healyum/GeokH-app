@@ -1,6 +1,6 @@
 // Object app
 var app = {
-    actualView: '#accueil',
+    actualView: '#scores',
     urlApi: 'https://geokh.herokuapp.com/api',
     level: 1,
     numParcours: 0,
