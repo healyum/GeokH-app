@@ -121,3 +121,7 @@ function exitFromApp() {
     compass.stopOrientation();
     navigator.app.exitApp();
 }
+
+function modifierValeurSlider(valeur) {
+    document.getElementById("range_valeur").textContent = valeur;
+}

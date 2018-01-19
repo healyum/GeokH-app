@@ -1,3 +1,5 @@
+/* liste des entrepreneurs */
+
 #entrepreneurs .ent_min {
     margin: 7px 14px;
     width: 10rem;
@@ -21,8 +23,7 @@
     margin: 0;
 }
 
-/* 8. l'entrepreneur mystere  */
-
+/* affichage réponse entrepreneur mystère */
 
 .ent_reponse{
     padding: 0 20px 10px 20px;
@@ -51,4 +52,19 @@
     border-radius: 50rem;
     border: solid 1rem #E7E7E7;
     margin-top: 2rem;
+}
+
+/* réponse entrepreneur mystère */
+
+#reponse .logo {
+    margin-bottom: 20px;
+}
+
+.retour .valeur {
+    padding: 0 50px;
+    font-size: 1.1em;
+    font-family: sans-serif;
+    text-align: justify;
+    word-wrap: break-word;
+    hyphens: auto;
 }

@@ -70,18 +70,3 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 .pari {
     margin: 20px 0;
 }
-
-#btn_valider_question, #btn_compass, #btn_entrepreneur_mystere, #btn_scores, #btn_quitter {
-    width: 40%;
-    border: 0;
-    background-color: #ff3366;
-    color: white;
-    font-size: 1.4em;
-    border-radius: 50px;
-    margin-top: 42px;
-    height: 64px;
-}
-
-#btn_valider_question, #btn_compass, #btn_entrepreneur_mystere, #btn_entrepreneur_mystere, #btn_scores, #btn_quitter {
-    background-color: #37b34a;
-}

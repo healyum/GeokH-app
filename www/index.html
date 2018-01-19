@@ -4,15 +4,12 @@
     <meta charset="utf-8"/>
     <meta name="msapplication-tap-highlight" content="no"/>
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1"/>
-    <link rel="stylesheet" type="text/css" href="css/index.css"/>
+    <link rel="stylesheet" type="text/css" href="css/component.css"/>
     <link rel="stylesheet" type="text/css" href="css/accueil.css"/>
     <link rel="stylesheet" type="text/css" href="css/partie.css"/>
-    <link rel="stylesheet" type="text/css" href="css/baliseRecherche.css"/>
-    <link rel="stylesheet" type="text/css" href="css/baliseQuestion.css"/>
-    <link rel="stylesheet" type="text/css" href="css/baliseReponse.css"/>
-    <link rel="stylesheet" type="text/css" href="css/listeEntrepreneur.css"/>
-    <link rel="stylesheet" type="text/css" href="css/scoreFinal.css"/>
-    <link rel="stylesheet" type="text/css" href="css/footer.css"/>
+    <link rel="stylesheet" type="text/css" href="css/boussole.css"/>
+    <link rel="stylesheet" type="text/css" href="css/question.css"/>
+    <link rel="stylesheet" type="text/css" href="css/entrepreneur.css"/>
     <title>GeoK'H</title>
     <script type="text/javascript" src="js/lib/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
@@ -26,10 +23,10 @@
     <section class="view" id="accueil">
         <div class="main">
             <div class="logo accueil_logo">
-                <img src="img/accueil/accueil_logo.png">
+                <img src="img/partie/logo-geokh-petit.png">
             </div>
             <div>
-                <button class="button main_button" id="btn_connexion">
+                <button class="button" id="btn_connexion">
                     JOUER
                 </button>
             </div>
@@ -42,12 +39,12 @@
             </div>
 
             <button class="button" id="btn_maj">
-                Mise à jour des parcours
+                MAJ
             </button>
-        </div> <!-- main -->
+        </div>
         <div class="footer">
         </div>
-    </section> <!-- view -->
+    </section>
 
     <!--  CGU  -->
 
@@ -76,7 +73,6 @@
             Concernant le nom d’équipe, vous acceptez de ne pas choisir de contenu abusif, obscène, vulgaire,
             diffamatoire, choquant, menaçant, a caractère sexuel ou autre qui peut transgresser les lois en vigueur.
         </p>
-        <br><br>
         <button id="btn_connexion_cgu">Compris !</button>
     </section>
 
@@ -85,6 +81,7 @@
     <section class="view" id="connexion">
 
         <div class="logo_entete">
+            <img src="img/partie/logo-geokh.png" alt="logo_entete"/>
         </div>
         <form method="post" action="" id="form_connexion">
 
@@ -126,7 +123,7 @@
                 <p class="valeur"><strong><span></span></strong></p>
             </div>
             <div class="logo">
-                <img class="compass_logo" src="img/conditions/conditions_logo.png" alt="logo"/>
+                <img class="compass_logo" src="img/partie/logo-geokh.png" alt="logo"/>
             </div>
             <div class="temps">
                 <p><img src="img/partie/icone-temps.png" alt="temps"/></p>
@@ -187,7 +184,7 @@
                 <p class="valeur"><strong><span></span></strong></p>
             </div>
             <div class="logo">
-                <img class="compass_logo" src="img/conditions/conditions_logo.png" alt="logo"/>
+                <img class="compass_logo" src="img/partie/logo-geokh.png" alt="logo"/>
             </div>
             <div class="difficulte">
                 <p><img src="img/partie/difficulte.png" alt="difficulte"/></p>
@@ -228,7 +225,7 @@
     <section class="view" id="reponse">
         <div class="entete">
             <div class="logo">
-                <img class="compass_logo" src="img/conditions/conditions_logo.png" alt="logo"/>
+                <img class="compass_logo" src="img/partie/logo-geokh.png" alt="logo"/>
             </div>
             <div class="correction">
                 <p class="correct banniere_balise">Bonne réponse</p>
@@ -279,6 +276,7 @@
 
     <section class="view" id="entrepreneur_mystere">
         <div class="logo_entete">
+            <img src="img/partie/logo-geokh.png" alt="logo_entete"/>
         </div>
 
         <div class="correction">
@@ -286,7 +284,7 @@
             <p class="errone banniere_balise">Mauvaise réponse</p>
         </div>
         <div class="ent_presentation">
-            <img src="img/user.svg" alt="" class="ent_img"/>
+            <img src="img/partie/user.svg" alt="" class="ent_img"/>
             <p class="uppercase">L'entrepreneur mystère est <span class="couleur_entrepreneur"><span class="ent_myst_nom"></span> <span class="ent_myst_prenom"></span></span></p>
         </div>
         <div class="score">
@@ -304,6 +302,7 @@
 
     <section class="view" id="scores">
         <div class="logo_entete">
+            <img src="img/partie/logo-geokh.png" alt="logo_entete"/>
         </div>
 
         <p class="banniere_jaune">Félicitations <span class="team"></span></p>
@@ -345,10 +344,5 @@
 
 <script type="text/javascript" src="js/App.js"></script>
 <script type="text/javascript" src="js/functions.js"></script>
-<script>
-    function modifierValeurSlider(valeur) {
-        document.getElementById("range_valeur").textContent = valeur;
-    }
-</script>
 </body>
 </html>

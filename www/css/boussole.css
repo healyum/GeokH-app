@@ -1,7 +1,6 @@
 #compass, #entrepreneur_mystere, #scores {
-    background: url("../img/conditions/conditions_logo_transparence_2.png") no-repeat top right;
+    background: url("../img/partie/background-transparent.png") no-repeat top right;
     background-size: 70%;
-    overflow-y: auto;
 }
 
 .compass_logo {
@@ -37,16 +36,6 @@
     vertical-align: bottom;
 }
 
-.banniere_balise, .ent_nom {
-    background-image: url("../img/partie/banniere.png");
-    line-height: 50px;
-    color: white;
-    font-weight: bold;
-    font-size: 1.8em;
-    background-repeat: no-repeat;
-    background-size: 100%;
-}
-
 .indice_icone {
     display: inline-block;
     vertical-align: middle;
@@ -68,7 +57,6 @@
 .informations_balise {
     width: 100%;
     height: 50px;
-    /*background: rebeccapurple;*/
     position: relative;
 }
 
@@ -82,26 +70,6 @@
     position: absolute;
     right: 45px;
     top: -45px;
-}
-
-#btn_pass, #btn_flash, #modal_all_indice {
-    width: 40%;
-    border: 0;
-    background-color: #ff3366;
-    color: white;
-    font-size: 1.4em;
-    border-radius: 50px;
-    margin-top: 42px;
-    height: 64px;
-}
-
-#btn_pass, #modal_all_indice {
-    background-color: #909090;
-    margin-right: 20px;
-}
-
-#btn_flash {
-    background-color: #37b34a;
 }
 
 #compass .conseil {
