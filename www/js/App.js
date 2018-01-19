@@ -507,6 +507,14 @@ window.onload = function () {
         app.showViewParcours();
     };
 
+    document.getElementById('btn_cgu').onclick = function (event) {
+        app.showView('#cgu');
+    };
+
+    document.getElementById('btn_connexion_cgu').onclick = function (event) {
+        app.showView('#accueil');
+    };
+
     document.getElementById('btn_maj').onclick = function (event) {
         if (checkConnection()) {
             var scores = JSON.parse(window.localStorage.getItem('scores'));
@@ -617,5 +625,4 @@ function onDeviceReady() {
     document.addEventListener('backbutton', onBackKeyDown, false);
 
     window.plugins.insomnia.keepAwake();
-
 }
