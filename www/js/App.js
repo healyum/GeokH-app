@@ -468,35 +468,37 @@ var app = {
 
         var entrepreneur = balise.getElementsByClassName('ent_presentation')[0];
 
-        entrepreneur.getElementsByClassName('ent_nom')[0].appendChild(document.createTextNode(this.entrepreneurs[this.entrepreneurToFind].Entrepreneur.nom));
-        entrepreneur.getElementsByClassName('ent_prenom')[0].appendChild(document.createTextNode(this.entrepreneurs[this.entrepreneurToFind].Entrepreneur.prenom));
+        entrepreneur.getElementsByClassName('ent_myst_nom')[0].appendChild(document.createTextNode(this.entrepreneurs[this.entrepreneurToFind].Entrepreneur.nom));
+        entrepreneur.getElementsByClassName('ent_myst_prenom')[0].appendChild(document.createTextNode(this.entrepreneurs[this.entrepreneurToFind].Entrepreneur.prenom));
 
         score.getElementsByClassName('valeur')[0].appendChild(document.createTextNode('' + this.score));
     },
 
     // Affichage du score
     showScoreView: function () {
-        var scores = document.getElementById('scores');
+        document.getElementsByClassName("team")[0].textContent = '' + this.equipe;
 
-        var niveau = scores.getElementsByClassName('niveau')[0];
-        niveau.getElementsByClassName('valeur')[0].appendChild(document.createTextNode('' + this.level));
+        var displayLevel = "Débutant";
 
-        var balises = scores.getElementsByClassName('balises')[0];
-        balises.getElementsByClassName('valeur')[0].appendChild(document.createTextNode('' + this.nbMarksFind));
-        balises.getElementsByClassName('maximum')[0].appendChild(document.createTextNode('' + (this.infosParcours.length)));
+        if (displayLevel == 2)
+            displayLevel = "Intermédiaire";
+        else if (displayLevel == 3)
+            displayLevel = "Difficile";
 
-        var reponses = scores.getElementsByClassName('reponses')[0];
-        reponses.getElementsByClassName('valeur')[0].appendChild(document.createTextNode('' + this.nbAnswers));
-        reponses.getElementsByClassName('maximum')[0].appendChild(document.createTextNode('' + (this.infosParcours.length)));
+        document.getElementsByClassName("niveau-valeur")[0].textContent = '' + displayLevel;
 
-        var points = scores.getElementsByClassName('points')[0];
-        points.getElementsByClassName('valeur')[0].appendChild(document.createTextNode('' + this.score));
-
-        scores.getElementsByClassName("team")[0].textContent = '' + this.equipe;
         stopwatch();
 
-        var timeString = formatTime(app.currentTime);
+        var timeString = formatTime(this.currentTime);
         document.getElementById('timer_final').appendChild(document.createTextNode('' + timeString));
+
+        document.getElementsByClassName("balise-valeur")[0].textContent = '' + this.nbMarksFind;
+        document.getElementsByClassName("balise-maximum")[0].textContent = '' + this.infosParcours.length;
+
+        document.getElementsByClassName("reponse-valeur")[0].textContent = '' + this.nbAnswers;
+        document.getElementsByClassName("reponse-maximum")[0].textContent = '' + this.infosParcours.length;
+
+        document.getElementsByClassName("point-valeur")[0].textContent = '' + this.score;
     },
 };
 
