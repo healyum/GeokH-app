@@ -1,22 +1,16 @@
 // Object app
 var app = {
     actualView: '#accueil',
-    equipe: null,
     urlApi: 'https://geokh.herokuapp.com/api',
-    level: 1,
+    team: new Team(),
     parcours: null,
-    numParcours: 0,
-    score: 0,
     infosParcours: null,
     entrepreneurs: null,
     entrepreneurToFind: null,
     entrepreneurSelect: 0,
     onInit: false,
     currentMark: 0,
-    nbMarksFind: 0,
-    nbAnswers: 0,
     bonusEntrepreneur: 500,
-    currentTime: 0,
     indiceEntrepreneur: [],
     isTimerLoaded: false,
 
@@ -110,8 +104,8 @@ var app = {
 
     // Récupère les balises et les questions d'un parcours
     fetchInformationParcours: function () {
-        this.infosParcours = jQuery.parseJSON((window.localStorage.getItem('infoParcours' + app.numParcours)));
-        this.entrepreneurs = jQuery.parseJSON((window.localStorage.getItem('infoEntrepreneurs' + app.numParcours)));
+        this.infosParcours = jQuery.parseJSON((window.localStorage.getItem('infoParcours' + this.team.numParcours)));
+        this.entrepreneurs = jQuery.parseJSON((window.localStorage.getItem('infoEntrepreneurs' + this.team.numParcours)));
 
         if (this.infosParcours === null || this.entrepreneurs === null) {
             navigator.notification.confirm('Les informations du parcours sont manquantes. Mettez à jour les parcours !', null, 'Erreur', ['Ok']);
@@ -149,7 +143,7 @@ var app = {
         document.getElementById('nombre_balise').textContent = '' + (this.infosParcours.length);
 
         // Affiche le score
-        document.getElementById('compass').getElementsByClassName('score')[0].getElementsByClassName('valeur')[0].textContent = '' + (this.score);
+        document.getElementById('compass').getElementsByClassName('score')[0].getElementsByClassName('valeur')[0].textContent = '' + (this.team.score);
 
         // Ne pas activer le bouton "Passer la balise" lorsqu'il s'agit de la dernière balise
         if (this.currentMark == this.infosParcours.length - 1)
@@ -204,13 +198,13 @@ var app = {
 
     // Affiche la question d'une balise
     showQuestionView: function () {
-        this.nbMarksFind++;
+        this.team.nbMarksFind++;
 
         var q = this.infosParcours[this.currentMark]['Question'];
         var question = document.getElementById('question');
 
         var score = question.getElementsByClassName('score')[0].getElementsByClassName('valeur')[0];
-        score.getElementsByTagName('span')[0].textContent = '' + this.score;
+        score.getElementsByTagName('span')[0].textContent = '' + this.team.score;
 
         var difficulte = question.getElementsByClassName('difficulte')[0].getElementsByClassName('valeur')[0];
         difficulte.getElementsByTagName('span')[0].textContent = '' + q.difficulte;
@@ -315,13 +309,13 @@ var app = {
                 scoreToAdd = Math.round(document.getElementById('form_pari').value * q.difficulte * (nbOfCorrectAnswers / nbResponses));
             }
 
-            this.score += scoreToAdd;
+            this.team.score += scoreToAdd;
 
             reponse.getElementsByClassName('errone')[0].style['display'] = 'none';
             var bonus = reponse.getElementsByClassName('score')[0].getElementsByClassName('bonus')[0];
             bonus.getElementsByTagName('span')[0].textContent = scoreToAdd;
 
-            this.nbAnswers++;
+            this.team.nbAnswers++;
 
             // Avec la bonne réponse on enregistre un indice pour trouver l'entrepreneur mystère
             var indice = app.entrepreneurs[app.entrepreneurToFind].Entrepreneur["indices"][this.currentMark];
@@ -331,7 +325,7 @@ var app = {
         }
         // Toutes les réponses sont fausses
         else {
-            this.score -= document.getElementById('form_pari').value * q.difficulte;
+            this.team.score -= document.getElementById('form_pari').value * q.difficulte;
 
             reponse.getElementsByClassName('errone')[0].style['display'] = 'block';
             reponse.getElementsByClassName('correct')[0].style['display'] = 'none';
@@ -343,7 +337,7 @@ var app = {
 
         // Mise a jour du score actuel
         var valeur = reponse.getElementsByClassName('score')[0].getElementsByClassName('valeur')[0];
-        valeur.getElementsByTagName('span')[0].textContent = this.score;
+        valeur.getElementsByTagName('span')[0].textContent = this.team.score;
 
         // Affichage des retours
         var valeur = reponse.getElementsByClassName('retour')[0].getElementsByClassName('valeur')[0];
@@ -385,7 +379,7 @@ var app = {
 
     // Question sur l'entrepreneur mystère si on est sur la dernière balise
     showQuestionEntrepreneurView: function () {
-        this.nbMarksFind++;
+        this.team.nbMarksFind++;
 
         for (var i = 0; i < this.entrepreneurs.length; i++) {
             var img = document.createElement('img');
@@ -450,7 +444,7 @@ var app = {
 
         // Bonne réponse trouvée
         if (this.entrepreneurSelect == this.entrepreneurToFind) {
-            this.nbAnswers++;
+            this.team.nbAnswers++;
 
             correction.getElementsByClassName('correct')[0].style['display'] = 'block';
             correction.getElementsByClassName('errone')[0].style['display'] = 'none';
@@ -458,7 +452,7 @@ var app = {
             bonus.appendChild(document.createTextNode('+' + this.bonusEntrepreneur));
             bonus.style['display'] = 'block';
 
-            this.score += this.bonusEntrepreneur;
+            this.team.score += this.bonusEntrepreneur;
         } else {
             correction.getElementsByClassName('errone')[0].style['display'] = 'block';
             correction.getElementsByClassName('correct')[0].style['display'] = 'none';
@@ -471,34 +465,34 @@ var app = {
         entrepreneur.getElementsByClassName('ent_myst_nom')[0].appendChild(document.createTextNode(this.entrepreneurs[this.entrepreneurToFind].Entrepreneur.nom));
         entrepreneur.getElementsByClassName('ent_myst_prenom')[0].appendChild(document.createTextNode(this.entrepreneurs[this.entrepreneurToFind].Entrepreneur.prenom));
 
-        score.getElementsByClassName('valeur')[0].appendChild(document.createTextNode('' + this.score));
+        score.getElementsByClassName('valeur')[0].appendChild(document.createTextNode('' + this.team.score));
     },
 
     // Affichage du score
     showScoreView: function () {
-        document.getElementsByClassName("team")[0].textContent = '' + this.equipe;
+        document.getElementsByClassName("team")[0].textContent = '' + this.team.name;
 
         var displayLevel = "Débutant";
 
-        if (displayLevel == 2)
+        if (displayLevel == this.team.level)
             displayLevel = "Intermédiaire";
-        else if (displayLevel == 3)
+        else if (displayLevel == this.team.level)
             displayLevel = "Difficile";
 
         document.getElementsByClassName("niveau-valeur")[0].textContent = '' + displayLevel;
 
         stopwatch();
 
-        var timeString = formatTime(this.currentTime);
+        var timeString = formatTime(this.team.currentTime);
         document.getElementById('timer_final').appendChild(document.createTextNode('' + timeString));
 
-        document.getElementsByClassName("balise-valeur")[0].textContent = '' + this.nbMarksFind;
+        document.getElementsByClassName("balise-valeur")[0].textContent = '' + this.team.nbMarksFind;
         document.getElementsByClassName("balise-maximum")[0].textContent = '' + this.infosParcours.length;
 
-        document.getElementsByClassName("reponse-valeur")[0].textContent = '' + this.nbAnswers;
+        document.getElementsByClassName("reponse-valeur")[0].textContent = '' + this.team.nbAnswers;
         document.getElementsByClassName("reponse-maximum")[0].textContent = '' + this.infosParcours.length;
 
-        document.getElementsByClassName("point-valeur")[0].textContent = '' + this.score;
+        document.getElementsByClassName("point-valeur")[0].textContent = '' + this.team.score;
     },
 };
 
@@ -515,6 +509,14 @@ window.onload = function () {
 
     document.getElementById('btn_maj').onclick = function (event) {
         if (checkConnection()) {
+            var scores = JSON.parse(window.localStorage.getItem('scores'));
+
+            if (scores !== null) {
+                scores.forEach(function (element) {
+                    AjaxRequest.sendScore(element);
+                });
+            }
+
             window.localStorage.clear();
 
             AjaxRequest.fetchAllParcours();
@@ -530,10 +532,10 @@ window.onload = function () {
 
         for (var index = 0; index < nbParcours.length; index++) {
             if (nbParcours[index].checked)
-                app.numParcours = nbParcours[index].value;
+                app.team.numParcours = nbParcours[index].value;
         }
 
-        app.equipe = document.getElementById('form_equipe').value;
+        app.team.name = document.getElementById('form_equipe').value;
 
         app.fetchInformationParcours();
 
@@ -569,8 +571,9 @@ window.onload = function () {
     };
 
     document.getElementById('btn_quitter').onclick = function (event) {
+        app.team.saveLocalStorage();
         window.plugins.insomnia.allowSleepAgain();
-        exitFromApp();
+        navigator.notification.confirm('Votre score a été sauvegardé.', exitFromApp, 'Féliciatations', ['Ok']);
 
         event.preventDefault();
     };

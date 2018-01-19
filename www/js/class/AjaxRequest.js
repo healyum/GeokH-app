@@ -16,7 +16,7 @@ var AjaxRequest = {
                 app.parcours = data;
                 window.localStorage.setItem('parcours', JSON.stringify(data));
 
-                app.parcours.forEach(function(element) {
+                app.parcours.forEach(function (element) {
                     AjaxRequest.fetchMarksAndQuestions(element['id']);
                     AjaxRequest.fetchEntrepreneurs(element['id']);
                 });
@@ -69,7 +69,38 @@ var AjaxRequest = {
             },
 
             error: function () {
-                navigator.notification.confirm('Problème lors de la récupération des entrepreneurs', null, 'Erreur', ['OK']);
+                navigator.notification.confirm('Probleme de communication avec le serveur', null, 'Erreur', ['Ok']);
+            }
+        });
+    },
+
+    sendScore: function (infoTeam) {
+        console.log("Requete AJAX pour envoyer les scores des parties précédentes");
+
+        $.ajax({
+            url: AjaxRequest.urlApi + '/scores/create/' + infoTeam.numParcours,
+            type: "POST",
+            method: "POST",
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            crossDomain: true,
+            data: JSON.stringify({
+                'niveau': infoTeam.level,
+                'nb_balises_trouvees': infoTeam.nbMarksFind,
+                'nb_reponses_trouvees': infoTeam.nbAnswers,
+                'score': infoTeam.score,
+                'temps': formatTime(infoTeam.currentTime),
+                'nom': infoTeam.name
+            }),
+
+            success: function () {
+                window.localStorage.clear();
+
+                AjaxRequest.fetchAllParcours();
+            },
+
+            error: function () {
+                navigator.notification.confirm('Probleme de communication avec le serveur', null, 'Erreur', ['Ok']);
             }
         });
     },

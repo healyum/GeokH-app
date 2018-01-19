@@ -39,14 +39,14 @@ function startTimer() {
     var incrementTime = 70;
 
     var uptdateTimer = function updateTimer() {
-        var timeString = formatTime(app.currentTime);
+        var timeString = formatTime(app.team.currentTime);
         $stopwatch.html(timeString);
-        app.currentTime += incrementTime;
+        app.team.currentTime += incrementTime;
     };
 
     // Start the timer
     if (!this.isTimerLoaded) {
-        app.currentTime = 0;
+        app.team.currentTime = 0;
         this.isTimerLoaded = true;
         $stopwatch = $('#timer');
         $.timer(uptdateTimer, incrementTime, true);
@@ -98,7 +98,7 @@ function onConfirmPassMark(button) {
     // Si confirmation de passer la balise
     if (button == 1) {
         app.currentMark++;
-        app.score -= 150;
+        app.team.score -= 150;
 
         navigator.notification.confirm('Vous avez passé la ' + app.currentMark + '' + ((app.currentMark == 1) ? 'ere' : 'eme') + ' balise et perdu 150 points !', null, 'Balise passée', ['Ok']);
 
