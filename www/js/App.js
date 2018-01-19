@@ -1,6 +1,7 @@
 // Object app
 var app = {
     actualView: '#accueil',
+    equipe: null,
     level: 1,
     parcours: null,
     numParcours: 0,
@@ -490,6 +491,7 @@ var app = {
         var points = scores.getElementsByClassName('points')[0];
         points.getElementsByClassName('valeur')[0].appendChild(document.createTextNode('' + this.score));
 
+        scores.getElementsByClassName("team")[0].textContent = '' + this.equipe;
         stopwatch();
 
         var timeString = formatTime(app.currentTime);
@@ -542,7 +544,7 @@ window.onload = function () {
     };
 
     document.getElementById('btn_pass').onclick = function () {
-        navigator.notification.confirm('Etes-vous certain de vouloir passer cette balise ? \n Vous allez perdre 150 points !', onConfirmPassMark, 'Passer la balise', ['Non', 'Oui']);
+        navigator.notification.confirm('Etes-vous certain de vouloir passer cette balise ? \n Vous allez perdre 150 points !', onConfirmPassMark, 'Passer la balise', ['Oui', 'Non']);
     };
 
     document.getElementById('btn_compass_retour').onclick = function (event) {
