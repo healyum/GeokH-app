@@ -15,17 +15,18 @@ before_install:
 - export PATH=${GRADLE_HOME}/bin:${ANDROID_HOME}:${ANDROID_HOME}/emulator:${ANDROID_TOOLS}:${ANDROID_TOOLS}/bin:${ANDROID_HOME}/platform-tools:$PATH
 - node --version
 - gradle --version
-- echo y | android update sdk -u --filter android-25
+- echo y | android update sdk -u --filter android-26
 android:
   components:
-  - tools
+    - build-tools-26.0.2
+    - android-26
 install:
 - npm cache clean
 - npm install
 - npm install -g cordova
 before_script:
 - cordova platform rm android
-- cordova platform add android@6.3.0
+- cordova platform add android
 script:
 - cordova prepare
 - cordova build android --release
