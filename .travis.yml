@@ -19,6 +19,7 @@ before_install:
 android:
   components:
   - tools
+  - android-26
 install:
 - npm cache clean
 - npm install
