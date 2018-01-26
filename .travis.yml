@@ -9,24 +9,23 @@ notifications:
   email: false
 before_install:
 - nvm install 7
-- wget https://services.gradle.org/distributions/gradle-4.5-bin.zip
-- unzip gradle-4.5-bin.zip
-- export GRADLE_HOME=$PWD/gradle-4.5
+- wget http://services.gradle.org/distributions/gradle-4.2.1-bin.zip
+- unzip gradle-4.2.1-bin.zip
+- export GRADLE_HOME=$PWD/gradle-4.2.1
 - export PATH=${GRADLE_HOME}/bin:${ANDROID_HOME}:${ANDROID_HOME}/emulator:${ANDROID_TOOLS}:${ANDROID_TOOLS}/bin:${ANDROID_HOME}/platform-tools:$PATH
 - node --version
 - gradle --version
-- echo y | android update sdk -u --filter android-26
+- echo y | android update sdk -u --filter android-25
 android:
   components:
-    - build-tools-26.0.2
-    - android-26
+  - tools
 install:
 - npm cache clean
 - npm install
 - npm install -g cordova
 before_script:
 - cordova platform rm android
-- cordova platform add android
+- cordova platform add android@6.3.0
 script:
 - cordova prepare
 - cordova build android --release
