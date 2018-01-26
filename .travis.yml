@@ -19,6 +19,10 @@ before_install:
 android:
   components:
   - tools
+  licenses:
+    - 'android-sdk-preview-license-52d11cd2'
+    - 'android-sdk-license-.+'
+    - 'google-gdk-license-.+'
 install:
 - npm cache clean
 - npm install
