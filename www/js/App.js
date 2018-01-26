@@ -397,7 +397,7 @@ var app = {
 
         for (var i = 0; i < this.entrepreneurs.length; i++) {
             var img = document.createElement('img');
-            img.setAttribute('src', 'img/user.svg');
+            img.setAttribute('src', 'img/partie/mystery-entrepreneur.png');
             img.setAttribute('alt', this.entrepreneurs[i].Entrepreneur.prenom + ' ' + this.entrepreneurs[i].Entrepreneur.nom);
             img.setAttribute('class', 'ent_min');
             img.setAttribute('onclick', 'app.showEntrepeneur(' + i + ')');
@@ -463,7 +463,7 @@ var app = {
             correction.getElementsByClassName('correct')[0].style['display'] = 'block';
             correction.getElementsByClassName('errone')[0].style['display'] = 'none';
 
-            bonus.appendChild(document.createTextNode('+' + this.bonusEntrepreneur));
+            bonus.appendChild(document.createTextNode('+' + this.bonusEntrepreneur + ' Points'));
             bonus.style['display'] = 'block';
 
             this.score += this.bonusEntrepreneur;

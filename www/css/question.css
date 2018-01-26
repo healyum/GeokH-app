@@ -30,6 +30,17 @@ p.banniere_balise {
     font-size: 0.9em;
 }
 
+.bonus.correct,#entrepreneur_mystere .score .bonus, #entrepreneur_mystere .score .valeur, .color_gold{
+    font-size: 2rem;
+    color: gold;
+    font-weight: bold;
+}
+
+.title_reponse{
+    font-size: 2rem;
+    text-transform: uppercase;
+}
+
 /* slider */
 input[type=range] {
     -webkit-appearance: none;
