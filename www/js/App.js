@@ -41,6 +41,8 @@ var app = {
 
             case '#qr_code':
                 this.showQrCodeView();
+                $('.view').hide();
+                $('#compass').show();
                 break;
 
             case '#question':
@@ -163,41 +165,47 @@ var app = {
     // Affiche le scanner de QRCode
     showQrCodeView: function () {
         // Cache les boutons
-        document.getElementById('btn_question').style['display'] = 'none';
-        document.getElementById('btn_entrepreneurs').style['display'] = 'none';
+        //document.getElementById('btn_question').style['display'] = 'none';
+        //document.getElementById('btn_entrepreneurs').style['display'] = 'none';
 
-        document.getElementById('qr_code_result').textContent = 'Flash du QR Code...';
+        //document.getElementById('qr_code_result').textContent = 'Flash du QR Code...';
 
         var markToFind = 'codeBalise:' + this.infosParcours[this.currentMark]['Balise'].id;
 
         cordova.plugins.barcodeScanner.scan(
             function (result) {
-                document.getElementById('btn_question').style['display'] = 'none';
-                document.getElementById('btn_compass_retour').style['display'] = 'block';
+                //document.getElementById('btn_question').style['display'] = 'none';
+                //document.getElementById('btn_compass_retour').style['display'] = 'block';
 
                 // Balise vide
                 if (result.text == '')
-                    document.getElementById('qr_code_result').textContent = 'Aucun code flashé...';
+                    //document.getElementById('qr_code_result').textContent = 'Aucun code flashé...';
+                    navigator.notification.confirm('Aucun code flashé', null, 'Resultat QR Code', ['OK']);
 
                 // Bonne balise
                 else if (result.text == markToFind) {
-                    document.getElementById('qr_code_result').textContent = 'Félicitations vous avez trouvé la bonne balise !';
-                    document.getElementById('btn_question').style['display'] = 'block';
-                    document.getElementById('btn_compass_retour').style['display'] = 'none';
+                    //document.getElementById('qr_code_result').textContent = 'Félicitations vous avez trouvé la bonne balise !';
+                    //document.getElementById('btn_question').style['display'] = 'block';
+                    //document.getElementById('btn_compass_retour').style['display'] = 'none';
 
                     // Si dernière question on affiche l'entrepreneur à trouver
                     if (app.currentMark == app.infosParcours.length - 1) {
-                        document.getElementById('btn_entrepreneurs').style['display'] = 'block';
-                        document.getElementById('btn_question').style['display'] = 'none';
+                        navigator.notification.confirm('Félicitations vous avez trouvé la dernière balise !', app.showView("#entrepreneurs"), 'Resultat QR Code', ['OK']);
+                        //document.getElementById('btn_entrepreneurs').style['display'] = 'block';
+                        //document.getElementById('btn_question').style['display'] = 'none';
+                    } else{
+                        navigator.notification.confirm('Félicitations vous avez trouvé la bonne balise !', app.showView("#question"), 'Resultat QR Code', ['OK']);
                     }
                 }
                 // Mauvaise balise
                 else
-                    document.getElementById('qr_code_result').textContent = 'Mauvaise balise...';
+                    //document.getElementById('qr_code_result').textContent = 'Mauvaise balise...';
+                    navigator.notification.confirm('Mauvaise balise', null, 'Resultat QR Code', ['OK']);
             },
 
             function (error) {
-                document.getElementById('qr_code_result').textContent = 'Erreur du scanner: ' + error;
+                //document.getElementById('qr_code_result').textContent = 'Erreur du scanner: ' + error;
+                navigator.notification.confirm('Erreur du scanner: ' + error, null, 'Resultat QR Code', ['OK']);
             }
         );
     },
@@ -556,7 +564,7 @@ window.onload = function () {
         event.preventDefault();
     };
 
-    document.getElementById("btn_question").onclick = function (event) {
+   document.getElementById("btn_question").onclick = function (event) {
         app.showView("#question");
 
         event.preventDefault();
