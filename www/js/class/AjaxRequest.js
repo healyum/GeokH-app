@@ -1,6 +1,7 @@
 var AjaxRequest = {
     urlApi: 'https://geokh.herokuapp.com/api',
 
+    // Récupére les parcours via l'url API
     fetchAllParcours: function () {
         console.log("Requete AJAX pour récupérer la liste des parcours");
 
@@ -30,6 +31,8 @@ var AjaxRequest = {
         });
     },
 
+    // Récupére les balises et questions d'un parcours
+    // Requiert le numéro du parcours
     fetchMarksAndQuestions: function (numParcours) {
         console.log("Requete AJAX pour récupérer les questions et les balises d'un parcours");
 
@@ -52,6 +55,8 @@ var AjaxRequest = {
         });
     },
 
+    // Récupére les entrepreneurs d'un parcours
+    // Requiert le numéro du parcours
     fetchEntrepreneurs: function (numParcours) {
         console.log("Requete AJAX pour récupérer les entrepreneurs d'un parcours");
 

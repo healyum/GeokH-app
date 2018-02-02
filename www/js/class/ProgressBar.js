@@ -1,3 +1,4 @@
+// Barre de progression entre le point de départ de l'utilisateur et la balise en cours
 function ProgressBar() {
     this.destination = null;
     this.distanceAtDepart = 0;

@@ -1,3 +1,4 @@
+// Contient les informations d'une équipe en train de jouer
 function Team() {
     this.name =  null;
     this.level =  1;

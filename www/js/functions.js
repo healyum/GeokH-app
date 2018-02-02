@@ -1,3 +1,4 @@
+// Vérifie si l'utilisateur à une connexion internet
 function checkConnection() {
     if (!navigator.network)
         navigator.network = window.top.navigator.network;
@@ -5,10 +6,12 @@ function checkConnection() {
     return ((navigator.network.connection.type === "none" || navigator.network.connection.type === null || navigator.network.connection.type === "unknown" ) ? false : true );
 }
 
+// Retourne un nombre aléatoire pour tirer au sort l'entrepreneur mystère
 function randomIntFromInterval(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
+// Affiche le chronomètre au format : 08:01 au lieu de 8:1
 function pad(number, length) {
     var str = '' + number;
 
@@ -18,6 +21,7 @@ function pad(number, length) {
     return str;
 }
 
+// Formate le chronomètre au mm : ss
 function formatTime(time) {
     time = time / 10;
 
@@ -28,10 +32,12 @@ function formatTime(time) {
     return (hours > 0 ? pad(hours, 2) : "00") + ":" + (min > 0 ? pad(min, 2) : "00") + ":" + pad(sec, 2);
 }
 
+// Stop le chronomètre
 function stopwatch() {
     $.timer.isActive = false;
 }
 
+// Active le chronomètre
 function startTimer() {
     var $stopwatch;
 
@@ -53,7 +59,7 @@ function startTimer() {
     }
 }
 
-// Rotate compass
+// Rotate boussole
 function rotate(angle) {
     $('#compass_elt').rotate(angle);
 }
@@ -94,6 +100,7 @@ function updatePrecision(accuracy) {
     valeur.textContent = accuracy;
 }
 
+// Passe une balise
 function onConfirmPassMark(button) {
     // Si confirmation de passer la balise
     if (button == 1) {
@@ -106,22 +113,26 @@ function onConfirmPassMark(button) {
     }
 }
 
+// Lorsque que l'utilisateur clique sur retour
 function onBackKeyDown() {
     navigator.notification.confirm('Êtes-vous certains de vouloir quitter l\'application ?', onConfirmQuit, 'Confirmation', ['Rester', 'Quitter']);
 }
 
+// L'utilisateur quitte l'application
 function onConfirmQuit(button) {
     // Si le bouton 'Quitter'
     if (button == 2)
         exitFromApp();
 }
 
+// Lors de la déconnexion on arrête les écoutes de la boussole
 function exitFromApp() {
     compass.stopLocation();
     compass.stopOrientation();
     navigator.app.exitApp();
 }
 
+// Gestion slider dans une réponse
 function modifierValeurSlider(valeur) {
     document.getElementById("range_valeur").textContent = valeur;
 }

@@ -1,3 +1,4 @@
+// Cherche les informations sur une balise et la position actuelle de l'utilisateur
 var compass = {
     data: {
         lastPosition: null,
