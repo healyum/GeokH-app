@@ -59,13 +59,30 @@ function startTimer() {
     }
 }
 
+var ancienAngle = null;
+
 // Rotate boussole
 function rotate(angle) {
-    $('#compass_elt').rotate(angle);
+    if (ancienAngle == null) {
+        ancienAngle = angle
+    }
+
+    var newAngle = 0.5 * ancienAngle + 0.5 * angle;
+
+    $('#compass_elt').rotate(newAngle);
+
+    ancienAngle = newAngle;
 }
+
+var ancienneDistance = null;
 
 // Mise à jour de la distance
 function updateDistance(distance) {
+
+    if (ancienneDistance == null) {
+        ancienneDistance = distance;
+    }
+
     var compass = document.getElementById('compass');
     var conseil = compass.getElementsByClassName('conseil')[0];
     var valeur = conseil.getElementsByClassName('valeur')[0];
@@ -86,7 +103,10 @@ function updateDistance(distance) {
     var dist = compass.getElementsByClassName('distance')[0];
     var valeur = dist.getElementsByClassName('valeur')[0];
 
-    valeur.textContent = distance;
+    var newDistance = 0.5 * ancienneDistance + 0.5 * distance;
+    valeur.textContent = newDistance;
+
+    ancienneDistance = newDistance;
 }
 
 // Mise à jour de la precision
