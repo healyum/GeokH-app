@@ -14,7 +14,7 @@ var app = {
     indiceEntrepreneur: [],
     isTimerLoaded: false,
 
-    // Initialisation cache les indices et affiche la vue actuelle
+// Initialisation cache les indices et affiche la vue actuelle
     initialize: function () {
         $('.indice').hide();
 
@@ -256,15 +256,15 @@ var app = {
 
         var reponsesSel = [];
 
+        var nbOfCorrectAnswers = 0;
+        var isAllCorrect = true;
+
         for (var index = 0; index < inputs.length; index++) {
             if (inputs[index].checked)
                 reponsesSel.push(parseInt(index) + 1);
         }
 
         var q = this.infosParcours[this.currentMark]["Question"];
-
-        var isAllCorrect = true;
-        var nbOfCorrectAnswers = 0;
 
         for (var i = 0; i < q.reponses.length; i++) {
 
@@ -273,7 +273,7 @@ var app = {
             for (var j = 0; j < reponsesSel.length; j++) {
                 if (q.reponses[i] == reponsesSel[j]) {
                     haveResponse = true;
-                    nbOfCorrectAnswers++;
+                    nbOfCorrectAnswers += 1;
                 }
             }
 
@@ -286,6 +286,14 @@ var app = {
 
         var nbResponses = q.reponses.length;
 
+        var nbOfIncorrectAnswers = nbResponses - nbOfCorrectAnswers;
+
+        if (reponsesSel.length > nbResponses) {
+            nbOfIncorrectAnswers = reponsesSel.length - nbResponses;
+
+            isAllCorrect = false;
+        }
+
         // Si toutes les réponses sont bonnes
         if (nbOfCorrectAnswers > 0 && reponsesSel.length > 0) {
             if (isAllCorrect) {
@@ -297,14 +305,14 @@ var app = {
                 reponse.getElementsByClassName('correct')[0].style['display'] = 'none';
                 reponse.getElementsByClassName('partial')[0].style['display'] = 'block';
 
-                scoreToAdd = Math.round(document.getElementById('form_pari').value * q.difficulte * (nbOfCorrectAnswers / nbResponses));
+                scoreToAdd = Math.round(document.getElementById('form_pari').value * q.difficulte * ((nbOfCorrectAnswers - nbOfIncorrectAnswers) / nbResponses));
             }
 
             this.team.score += scoreToAdd;
 
             reponse.getElementsByClassName('errone')[0].style['display'] = 'none';
             var bonus = reponse.getElementsByClassName('score')[0].getElementsByClassName('bonus')[0];
-            bonus.getElementsByTagName('span')[0].textContent = scoreToAdd;
+            bonus.getElementsByTagName('span')[0].textContent = ' + ' + scoreToAdd;
 
             this.team.nbAnswers++;
 
@@ -316,14 +324,15 @@ var app = {
         }
         // Toutes les réponses sont fausses
         else {
-            this.team.score -= document.getElementById('form_pari').value * q.difficulte;
+            var score = document.getElementById('form_pari').value * q.difficulte;
+            this.team.score -= score;
 
             reponse.getElementsByClassName('errone')[0].style['display'] = 'block';
             reponse.getElementsByClassName('correct')[0].style['display'] = 'none';
             reponse.getElementsByClassName('partial')[0].style['display'] = 'none';
 
             var bonus = reponse.getElementsByClassName('score')[0].getElementsByClassName('bonus')[0];
-            bonus.getElementsByTagName('span')[0].textContent = scoreToAdd;
+            bonus.getElementsByTagName('span')[0].textContent = ' - ' + score;
         }
 
         // Mise a jour du score actuel
