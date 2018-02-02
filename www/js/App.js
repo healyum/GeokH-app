@@ -257,7 +257,8 @@ var app = {
         var reponsesSel = [];
 
         var nbOfCorrectAnswers = 0;
-        var isAllCorrect = true;
+        var isAllCorrect = false;
+        var incorrectAnswer = 0;
 
         for (var index = 0; index < inputs.length; index++) {
             if (inputs[index].checked)
@@ -266,36 +267,35 @@ var app = {
 
         var q = this.infosParcours[this.currentMark]["Question"];
 
-        for (var i = 0; i < q.reponses.length; i++) {
+        // Parcours toutes les réponses séléctionnées par l'utilisateur
+        for (var i = 0; i < reponsesSel.length; i++) {
 
-            var haveResponse = false;
+            var isIncorrect = true;
 
-            for (var j = 0; j < reponsesSel.length; j++) {
-                if (q.reponses[i] == reponsesSel[j]) {
-                    haveResponse = true;
+            // Parcours toutes les bonnes réponses
+            for (var j = 0; j < q.reponses.length; j++) {
+                if (q.reponses[j] == reponsesSel[i]) {
+                    isIncorrect = false;
                     nbOfCorrectAnswers += 1;
                 }
             }
 
-            if (haveResponse == false)
-                isAllCorrect = false;
+            // Augmente le compteur de réponse incorrecte
+            if (isIncorrect)
+                incorrectAnswer += 1;
         }
+
+        // Vérifie si toutes les réponses ont été trouvée
+        if (q.reponses.length == nbOfCorrectAnswers && incorrectAnswer == 0)
+            isAllCorrect = true;
 
         var reponse = document.getElementById('reponse');
         var scoreToAdd = 0;
 
         var nbResponses = q.reponses.length;
 
-        var nbOfIncorrectAnswers = nbResponses - nbOfCorrectAnswers;
-
-        if (reponsesSel.length > nbResponses) {
-            nbOfIncorrectAnswers = reponsesSel.length - nbResponses;
-
-            isAllCorrect = false;
-        }
-
         // Si toutes les réponses sont bonnes
-        if (nbOfCorrectAnswers > 0 && reponsesSel.length > 0) {
+        if (nbOfCorrectAnswers > 0 && reponsesSel.length > 0 && incorrectAnswer == 0) {
             if (isAllCorrect) {
                 reponse.getElementsByClassName('correct')[0].style['display'] = 'block';
                 reponse.getElementsByClassName('partial')[0].style['display'] = 'none';
@@ -305,7 +305,7 @@ var app = {
                 reponse.getElementsByClassName('correct')[0].style['display'] = 'none';
                 reponse.getElementsByClassName('partial')[0].style['display'] = 'block';
 
-                scoreToAdd = Math.round(document.getElementById('form_pari').value * q.difficulte * ((nbOfCorrectAnswers - nbOfIncorrectAnswers) / nbResponses));
+                scoreToAdd = Math.round(document.getElementById('form_pari').value * q.difficulte * (nbOfCorrectAnswers / nbResponses));
             }
 
             this.team.score += scoreToAdd;
@@ -322,7 +322,7 @@ var app = {
             this.indiceEntrepreneur.push(indice);
             navigator.notification.confirm(document.getElementById('reponse_indice').textContent, null, 'Indice', ['Merci !']);
         }
-        // Toutes les réponses sont fausses
+        // Une réponse est fausse
         else {
             var score = document.getElementById('form_pari').value * q.difficulte;
             this.team.score -= score;
