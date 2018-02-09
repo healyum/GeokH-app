@@ -36,7 +36,7 @@ release:
 - exit 0
 before_deploy:
 - openssl aes-256-cbc -K $encrypted_7c5537c9925c_key -iv $encrypted_7c5537c9925c_iv -in keystore.jks.enc -out keystore.jks -d
-- jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ${TRAVIS_BUILD_DIR}/keystore.jks
+- jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore /home/travis/build/healyum/GeokH-app/keystore.jks
     -storepass $KEY_PASS -keypass $KEY_PASS app-release-unsigned.apk geokh
 - jarsigner -verify app-release-unsigned.apk
 deploy:
