@@ -60,10 +60,15 @@ function startTimer() {
 }
 
 var ancienAngle = null;
+var ancienneAngleBalise = null;
 
 // Rotate boussole
 function rotate(angle) {
-    if (ancienAngle == null) {
+    if (ancienneAngleBalise == null) {
+        ancienneAngleBalise = app.currentMark;
+    }
+
+    if (ancienAngle == null || ancienneAngleBalise != app.currentMark) {
         ancienAngle = angle
     }
 
@@ -75,11 +80,15 @@ function rotate(angle) {
 }
 
 var ancienneDistance = null;
+var ancienneDistanceBalise = null;
 
 // Mise à jour de la distance
 function updateDistance(distance) {
+    if (ancienneDistanceBalise == null) {
+        ancienneDistanceBalise = app.currentMark;
+    }
 
-    if (ancienneDistance == null) {
+    if (ancienneDistance == null || ancienneDistanceBalise != app.currentMark) {
         ancienneDistance = distance;
     }
 
