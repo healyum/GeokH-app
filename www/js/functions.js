@@ -103,7 +103,7 @@ function updateDistance(distance) {
     var dist = compass.getElementsByClassName('distance')[0];
     var valeur = dist.getElementsByClassName('valeur')[0];
 
-    var newDistance = 0.5 * ancienneDistance + 0.5 * distance;
+    var newDistance = Math.ceil(0.5 * ancienneDistance + 0.5 * distance);
     valeur.textContent = newDistance;
 
     ancienneDistance = newDistance;
@@ -117,7 +117,7 @@ function updatePrecision(accuracy) {
     var valeur = precision.getElementsByClassName('valeur')[0];
 
     // Met à jour la précision dans l'affichage
-    valeur.textContent = accuracy;
+    valeur.textContent = Math.ceil(accuracy);
 }
 
 // Passe une balise

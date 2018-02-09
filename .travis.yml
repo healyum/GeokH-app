@@ -40,10 +40,11 @@ before_deploy:
 - jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ${TRAVIS_BUILD_DIR}/keystore.jks
     -storepass $KEY_PASS -keypass $KEY_PASS android-release-unsigned.apk geokh
 - jarsigner -verify android-release-unsigned.apk
+- mv android-release-unsigned.apk geokh.apk
 deploy:
   provider: releases
   api_key: $TOKEN
-  file: android-release-unsigned.apk
+  file: geokh.apk
   skip_cleanup: true
   on:
     tags: true
