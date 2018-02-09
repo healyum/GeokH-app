@@ -10,3 +10,4 @@ node_modules
 plugins
 package-lock.json
 package.json
+keystore.jks
